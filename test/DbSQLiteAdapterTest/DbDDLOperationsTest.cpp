@@ -1,7 +1,7 @@
 #include "stdafx.h"
 
 #include "Utilities.h"
-#include "TestUtilities/DbAdapter/Mocks/MockConnectionConfiguration.h"
+#include "TestUtilities/DbSQLiteAdapter/Mocks/MockConnectionConfiguration.h"
 
 #include "DbAdapterInterface/IConnection.h"
 #include "DbSQLiteAdapter/Connection.h"

@@ -4,7 +4,7 @@
 #include "DbAdapterInterface/IConnection.h"
 #include "DbSQLiteAdapter/Connection.h"
 
-#include "TestUtilities/DbAdapter/Mocks/MockConnectionConfiguration.h"
+#include "TestUtilities/DbSQLiteAdapter/Mocks/MockConnectionConfiguration.h"
 
 
 namespace db { namespace unit_test {
