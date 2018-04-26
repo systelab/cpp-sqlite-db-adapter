@@ -50,7 +50,7 @@ Download and build the following packages (notice that this process may take som
 Pack the generated binaries and includes in a folder:
 
 ```bash
-.\vcpkg export ssqlite3:x64-windows boost-date-time:x64-windows gtest:x64-windows --raw
+.\vcpkg export sqlite3:x64-windows boost-date-time:x64-windows gtest:x64-windows --raw
 ```
 
 Move the packed folder generated on the previous step into the `cpp-sqlite-db-adapter` cloned repository.
