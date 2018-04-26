@@ -69,7 +69,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)..\lib\$(Configuration);$(SolutionDir)..\lib\gmock\$(Configuration);$(SolutionDir)..\lib\boost\$(Configuration);$(SolutionDir)..\lib\sqlite\$(Configuration)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib\$(Configuration);$(SolutionDir)vcpkg\debug\lib;$(SolutionDir)vcpkg\debug\lib\manual-link</AdditionalLibraryDirectories>
       <AdditionalDependencies>gmockd.lib;sqlite3.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
@@ -95,7 +95,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(SolutionDir)..\lib\$(Configuration);$(SolutionDir)..\lib\gmock\$(Configuration);$(SolutionDir)..\lib\boost\$(Configuration);$(SolutionDir)..\lib\sqlite\$(Configuration)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib\$(Configuration);$(SolutionDir)vcpkg\lib;$(SolutionDir)vcpkg\lib\manual-link</AdditionalLibraryDirectories>
       <AdditionalDependencies>gmock.lib;sqlite3.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
