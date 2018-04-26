@@ -1,11 +1,11 @@
 # cpp-sqlite-adapter — Adapter for SQLite databases for C++ Systelab projects
 
 This C++ library provides an adapter for SQLite databases.
-It implements the interface for DB adapters of C++ Systelab projects (`cpp-db-adapter`)
+It implements the interface for DB adapters of C++ Systelab projects ([cpp-db-adapter](https://github.com/systelab/cpp-db-adapter))
 
 You can use it to quickly add a persistance to your projects without coupling them to an specific DB engine.
 
-The main features of the library:
+The main features of this library are:
 * No need to write SQL
 * Authentication / encryption (not yet)
 
