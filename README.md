@@ -7,8 +7,8 @@ It implements the interface for DB adapters of C++ Systelab projects ([cpp-db-ad
 You can use it to quickly add a persistance to your projects without coupling them to an specific DB engine.
 
 The main features of this library are:
-* No need to use SQL in your libraries
-* Basic queries
+* Built-in basic queries (no need to use SQL)
+* Modelization of database schema
 * Transactions
 * Authentication / encryption (not yet)
 
