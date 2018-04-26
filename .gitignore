@@ -1,0 +1,17 @@
+# VS files
+*.suo
+*.user
+*.obj
+*.pdb
+*.log
+*.tlog
+*.pch
+
+# Visual Studio 2017 cache/options directory
+.vs/
+
+# Intermediate and binaries directories
+int
+lib
+bin
+x64
