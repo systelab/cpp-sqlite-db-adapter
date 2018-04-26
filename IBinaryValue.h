@@ -1,5 +1,4 @@
-#ifndef _DBADAPTERINTERFACE_IBINARYVALUE_JOSEP_VILA_1712150930_H
-#define _DBADAPTERINTERFACE_IBINARYVALUE_JOSEP_VILA_1712150930_H
+#pragma once
 
 #include <ostream>
 #include <istream>
@@ -14,5 +13,3 @@ namespace systelab { namespace db {
 		virtual std::istream getInputStream() const = 0;
 	};
 }}
-
-#endif //_DBADAPTERINTERFACE_IBINARYVALUE_JOSEP_VILA_1712150930_H
