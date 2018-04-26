@@ -9,22 +9,40 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTestProjects", "UnitTes
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DbSQLiteAdapter", "src\DbSQLiteAdapter\DbSQLiteAdapter.vcxproj", "{8B89F870-1554-4945-905F-AFAAD17CBA63}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DbSQLiteAdapterTest", "test\DbSQLiteAdapterTest\DbSQLiteAdapterTest.vcxproj", "{3AB962A1-4C29-4F41-B3B8-1A73E35D6378}"
+	ProjectSection(ProjectDependencies) = postProject
+		{8B89F870-1554-4945-905F-AFAAD17CBA63} = {8B89F870-1554-4945-905F-AFAAD17CBA63}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
 		Release|x64 = Release|x64
+		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{8B89F870-1554-4945-905F-AFAAD17CBA63}.Debug|x64.ActiveCfg = Debug|x64
 		{8B89F870-1554-4945-905F-AFAAD17CBA63}.Debug|x64.Build.0 = Debug|x64
+		{8B89F870-1554-4945-905F-AFAAD17CBA63}.Debug|x86.ActiveCfg = Debug|x64
 		{8B89F870-1554-4945-905F-AFAAD17CBA63}.Release|x64.ActiveCfg = Release|x64
 		{8B89F870-1554-4945-905F-AFAAD17CBA63}.Release|x64.Build.0 = Release|x64
+		{8B89F870-1554-4945-905F-AFAAD17CBA63}.Release|x86.ActiveCfg = Release|x64
+		{3AB962A1-4C29-4F41-B3B8-1A73E35D6378}.Debug|x64.ActiveCfg = Debug|x64
+		{3AB962A1-4C29-4F41-B3B8-1A73E35D6378}.Debug|x64.Build.0 = Debug|x64
+		{3AB962A1-4C29-4F41-B3B8-1A73E35D6378}.Debug|x64.Deploy.0 = Debug|x64
+		{3AB962A1-4C29-4F41-B3B8-1A73E35D6378}.Debug|x86.ActiveCfg = Debug|x64
+		{3AB962A1-4C29-4F41-B3B8-1A73E35D6378}.Release|x64.ActiveCfg = Release|x64
+		{3AB962A1-4C29-4F41-B3B8-1A73E35D6378}.Release|x64.Build.0 = Release|x64
+		{3AB962A1-4C29-4F41-B3B8-1A73E35D6378}.Release|x64.Deploy.0 = Release|x64
+		{3AB962A1-4C29-4F41-B3B8-1A73E35D6378}.Release|x86.ActiveCfg = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{8B89F870-1554-4945-905F-AFAAD17CBA63} = {5FDF158A-91F7-48D5-BD1E-404C0499C001}
+		{3AB962A1-4C29-4F41-B3B8-1A73E35D6378} = {A48CF478-555D-4516-A81D-D843F57825AD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5499FE41-9847-414F-B20F-A1D7FA467AAC}
