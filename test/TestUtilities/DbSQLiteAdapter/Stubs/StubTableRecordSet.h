@@ -1,51 +1,54 @@
-#ifndef _DBADAPTERTESTUTILITIES_STUBTABLERECORDSET_DMC_1310161816_H
-#define _DBADAPTERTESTUTILITIES_STUBTABLERECORDSET_DMC_1310161816_H
+#ifndef CPP_SQLITE_DB_ADAPTER_TEST_UTILITIES_STUBS_STUBTABLERECORDSET_H_
+#define CPP_SQLITE_DB_ADAPTER_TEST_UTILITIES_STUBS_STUBTABLERECORDSET_H_
 
-#include "TestUtilities/DbAdapter/Mocks/MockTableRecordSet.h"
+#include "../Mocks/MockTableRecordSet.h"
 
-#include "DbAdapterInterface/ITableRecordSet.h"
-#include "DbAdapterInterface/ITableRecord.h"
-#include "DbAdapterInterface/Types.h"
+#include "cpp-db-adapter//ITableRecord.h"
+#include "cpp-db-adapter/ITableRecordSet.h"
+#include "cpp-db-adapter/Types.h"
 
 #include "StubTableRecord.h"
 
 #include <memory>
 #include <vector>
 
-namespace systelab { namespace db {
-	class IField;
-	class ITable;
-}}
+namespace systelab {
+namespace db {
+class IField;
+class ITable;
+} // namespace db
+} // namespace systelab
 
 using namespace systelab::db;
 
-namespace systelab { namespace test_utility {
-	
-	class StubTableRecordSet : public MockTableRecordSet
-	{
-	public:
-		StubTableRecordSet(ITable& table, std::vector< StubTableRecord >& records);
-		virtual ~StubTableRecordSet();
+namespace systelab {
+namespace test_utility {
 
-		ITable& getTable() const;
+class StubTableRecordSet : public MockTableRecordSet {
+public:
+  StubTableRecordSet(ITable &table, std::vector<StubTableRecord> &records);
+  virtual ~StubTableRecordSet();
 
-		unsigned int getFieldsCount() const;
-		const IField& getField(unsigned int index) const;
-		const IField& getField(const std::string& fieldName) const;
+  ITable &getTable() const;
 
-		unsigned int getRecordsCount() const;
+  unsigned int getFieldsCount() const;
+  const IField &getField(unsigned int index) const;
+  const IField &getField(const std::string &fieldName) const;
 
-		const ITableRecord& getCurrentRecord() const;
-		std::unique_ptr<ITableRecord> copyCurrentRecord() const;
-		bool isCurrentRecordValid() const;
-		void nextRecord();
+  unsigned int getRecordsCount() const;
 
-	private:
-		ITable& m_table;
-		std::vector< std::unique_ptr<StubTableRecord> > m_records;
-		std::vector< std::unique_ptr<StubTableRecord> >::iterator m_iterator;
-	};
+  const ITableRecord &getCurrentRecord() const;
+  std::unique_ptr<ITableRecord> copyCurrentRecord() const;
+  bool isCurrentRecordValid() const;
+  void nextRecord();
 
-}}
+private:
+  ITable &m_table;
+  std::vector<std::unique_ptr<StubTableRecord>> m_records;
+  std::vector<std::unique_ptr<StubTableRecord>>::iterator m_iterator;
+};
 
-#endif //_DBADAPTERTESTUTILITIES_STUBTABLERECORDSET_DMC_1310161816_H
+} // namespace test_utility
+} // namespace systelab
+
+#endif // CPP_SQLITE_DB_ADAPTER_TEST_UTILITIES_STUBS_STUBTABLERECORDSET_H_

@@ -1,11 +1,18 @@
-#include "stdafx.h"
+// TODO: reference additional headers your program requires here
 
-int _tmain(int argc, _TCHAR* argv[])
-{
-	::testing::InitGoogleTest(&argc, argv);
+#include <stdio.h>
+//#include <tchar.h>
+#include <memory>
+#include <string>
 
-	int res = RUN_ALL_TESTS();
+#include "gmock/gmock.h"
+#include "gtest/gtest.h"
 
-	return res;
+int main(int argc, char *argv[]) {
+  //    ::testing::GTEST_FLAG(output) = "xml:./report.xml";
+  ::testing::InitGoogleTest(&argc, argv);
+
+  int res = RUN_ALL_TESTS();
+
+  return res;
 }
-

@@ -1,16 +1,20 @@
-#ifndef _DBADAPTERTESTUTILITIES_MOCKCONNECTIONCONFIGURATION_QV_2202161819_H
-#define _DBADAPTERTESTUTILITIES_MOCKCONNECTIONCONFIGURATION_QV_2202161819_H
+#ifndef CPPSQLITEDBADAPTER_TEST_UTILITIES_MOCKS_MOCKCONNECTIONCONFIGURATION_H_
+#define CPPSQLITEDBADAPTER_TEST_UTILITIES_MOCKS_MOCKCONNECTIONCONFIGURATION_H_
 
-#include "DbAdapterInterface/IConnectionConfiguration.h"
+#include "cpp-db-adapter/IConnectionConfiguration.h"
 
-namespace systelab { namespace test_utility {
+#include "gmock/gmock.h"
 
-	class MockConnectionConfiguration: public db::IConnectionConfiguration
-	{
-	public:
-		MOCK_CONST_METHOD1(getParameter, std::string (const std::string& parameterName));
-	};
+namespace systelab {
+namespace test_utility {
 
-}}
+class MockConnectionConfiguration : public db::IConnectionConfiguration {
+public:
+  MOCK_CONST_METHOD1(getParameter,
+                     std::string(const std::string &parameterName));
+};
 
-#endif //_DBADAPTERTESTUTILITIES_MOCKCONNECTIONCONFIGURATION_QV_2202161819_H
+} // namespace test_utility
+} // namespace systelab
+
+#endif // CPP_SQLITE_DB_ADAPTER_TEST_UTILITIES_MOCKS_MOCKCONNECTIONCONFIGURATION_H_
