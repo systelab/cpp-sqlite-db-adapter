@@ -1,4 +1,4 @@
-# CppSqlLiteDbAdapter #
+# cpp-sqlite-db-adapter #
 
 # Download #
 
@@ -6,11 +6,11 @@ Remember to clone the repository with "--recursive" flag, otherwise the 'cpp-db-
 
 # Build #
 
-The easiest way to deal with the CppSqlLiteDbAdapter is just open the "CMakeLists.txt" with your QtCreator. However, since it is a CMake project, you don't really need an "IDE" to work with. 
+The easiest way to deal with the cpp-sqlite-db-adapter is just open the "CMakeLists.txt" with your QtCreator. However, since it is a CMake project, you don't really need an "IDE" to work with. 
 
 You can build the project from source directly from command line following these steps:  
 
-(In CppSqlLiteDbAdapter folder)  
+(In cpp-sqlite-db-adapter folder)  
 
 	$mkdir build  
 	$cd build  
