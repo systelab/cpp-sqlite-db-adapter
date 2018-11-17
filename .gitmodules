@@ -1,0 +1,3 @@
+[submodule "interface/cpp-db-adapter"]
+	path = interface/cpp-db-adapter
+	url = https://github.com/systelab/cpp-db-adapter.git

@@ -1,16 +1,19 @@
-#ifndef _DBADAPTERTESTUTILITIES_MOCKBINARYVALUE_QV_2202161903_H
-#define _DBADAPTERTESTUTILITIES_MOCKBINARYVALUE_QV_2202161903_H
+#ifndef CPPSQLITEDBADAPTER_TEST_UTILITIES_MOCKS_MOCKBINARYVALUE_H_
+#define CPPSQLITEDBADAPTER_TEST_UTILITIES_MOCKS_MOCKBINARYVALUE_H_
 
-#include "DbAdapterInterface/IBinaryValue.h"
+#include "gmock/gmock.h"
 
-namespace systelab { namespace test_utility {
+#include "cpp-db-adapter/IBinaryValue.h"
 
-	class MockBinaryValue : public IBinaryValue
-	{
-	public:
-		MOCK_CONST_METHOD0(getOutputStream, std::ostream());
-		MOCK_CONST_METHOD0(getInputStream, std::istream());
-	};
-}}
+namespace systelab {
+namespace test_utility {
 
-#endif //_DBADAPTERTESTUTILITIES_MOCKBINARYVALUE_QV_2202161903_H
+class MockBinaryValue : public IBinaryValue {
+public:
+  MOCK_CONST_METHOD0(getOutputStream, std::ostream());
+  MOCK_CONST_METHOD0(getInputStream, std::istream());
+};
+} // namespace test_utility
+} // namespace systelab
+
+#endif // CPP_SQLITE_DB_ADAPTER_TEST_UTILITIES_MOCKS_MOCKBINARYVALUE_H_

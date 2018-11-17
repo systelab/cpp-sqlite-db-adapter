@@ -1,62 +1,27 @@
-# cpp-sqlite-adapter — Adapter for SQLite databases
+# cpp-sqlite-db-adapter #
 
-This C++ library provides an adapter for SQLite databases.
+# Download #
 
-It implements the interface for DB adapters of C++ Systelab projects ([cpp-db-adapter](https://github.com/systelab/cpp-db-adapter))
+Remember to clone the repository with "--recursive" flag, otherwise the 'cpp-db-adapter' will not be downloaded.
 
-You can use it to quickly add a persistance to your projects without coupling them to an specific DB engine.
+# Build #
 
-The main features of this library are:
-* Built-in basic queries (no need to use SQL)
-* Modelization of database schema
-* Transactions
-* Authentication / encryption (not yet)
+The easiest way to deal with the cpp-sqlite-db-adapter is just open the "CMakeLists.txt" with your QtCreator. However, since it is a CMake project, you don't really need an "IDE" to work with. 
 
+You can build the project from source directly from command line following these steps:  
 
-## Build the library
+(In cpp-sqlite-db-adapter folder)  
 
-To build the library you can simply clone the `cpp-sqlite-db-adapter` repository, install the external libraries and build the Visual Studio solution.
+	$mkdir build  
+	$cd build  
+	$cmake ..
 
-### Clone `cpp-sqlite-db-adapter`
+Windows:  
 
-Clone the `cpp-sqlite-db-adapter` repository using git:
+	-	CMake will create a Visual Studio Solution from where you can easily modify and compile your project.  
 
-```bash
-git clone https://github.com/systelab/cpp-sqlite-db-adapter.git
-cd cpp-sqlite-db-adapter
-```
+POSIX:  
 
-### Build external libraries
+	-	CMake will create a Makefile from where you can build your binaries by simply calling "$make" command.  
 
-Clone the `vcpkg` repository using git:
-
-```bash
-git clone https://github.com/Microsoft/vcpkg.git
-cd vcpkg
-```
-
-Then run vcpkg bootstrap batch file:
-
-```bash
-.\bootstrap-vcpkg.bat
-```
-
-Download and build the following packages (notice that this process may take some minutes):
-
-```bash
-.\vcpkg install sqlite3:x64-windows boost-date-time:x64-windows gtest:x64-windows
-```
-
-Pack the generated binaries and includes in a folder:
-
-```bash
-.\vcpkg export sqlite3:x64-windows boost-date-time:x64-windows gtest:x64-windows --raw
-```
-
-Move the packed folder generated on the previous step into the `cpp-sqlite-db-adapter` cloned repository.
-Moreover, copy the contents of the subfolder `vcpkg-export-XXXXXXXX-XXXXXX/installed/x64-windows` into `cpp-sqlite-db-adapter/vcpkg` folder.
-
-
-### Build the Visual Studio solution
-
-TBD
+NOTES: Take into account that the first time the build is made can take some time because it has to compile some dependencies such as boost, googletest, etc. To do so, maybe you need to add execution rights to "include/boost_1_67_0/bootstrap.sh" and "include/boost_1_67_0/tools/build/src/engine/build.sh" files.

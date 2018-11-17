@@ -1,172 +1,173 @@
-#include "stdafx.h"
-#include "Utilities.h"
+////#include "stdafx.h"
+//#include "Utilities.h"
 
-#include "DbAdapterInterface/IConnection.h"
-#include "DbSQLiteAdapter/Connection.h"
+//#include "Connection.h"
+//#include "cpp-db-adapter/IConnection.h"
 
-#include "TestUtilities/DbSQLiteAdapter/Mocks/MockConnectionConfiguration.h"
+//#include
+//"../TestUtilities/DbSQLiteAdapter/Mocks/MockConnectionConfiguration.h"
 
+// namespace db {
+// namespace unit_test {
 
-namespace db { namespace unit_test {
+// using namespace systelab::db;
+// using namespace testing;
+// using namespace utilities;
 
-	using namespace systelab::db;
-	using namespace testing;
-	using namespace utilities;
+// static const std::string MAIN_TABLE = "MAIN_TABLE";
+// static const std::string DUMMY_TABLE = "DUMMY_TABLE";
 
-	static const std::string MAIN_TABLE = "MAIN_TABLE";
-	static const std::string DUMMY_TABLE = "DUMMY_TABLE";
+// class DbTransactionsTest : public testing::Test {
+// public:
+//  void SetUp() {
+//    configureConnection(m_connection);
+//    m_db = m_connection.loadDatabase(m_configuration);
 
-	class DbTransactionsTest: public testing::Test
-	{
-	public:
-		void SetUp()
-		{
-			configureConnection(m_connection);
-			m_db = m_connection.loadDatabase(m_configuration);
+//    IDatabase &db = *(m_db.get());
 
-			IDatabase& db = *(m_db.get());
-			
-			dropTable(db, DUMMY_TABLE);
-			dropTable(db, MAIN_TABLE);
-			m_db->executeOperation("CREATE TABLE "+DUMMY_TABLE+" (ID INT PRIMARY KEY NOT NULL, FIELD_INT INT, FIELD_STR CHAR(255), FIELD_DATE DATETIME DEFAULT '20150503T100045')");
-		}
+//    dropTable(db, DUMMY_TABLE);
+//    dropTable(db, MAIN_TABLE);
+//    m_db->executeOperation(
+//        "CREATE TABLE " + DUMMY_TABLE +
+//        " (ID INT PRIMARY KEY NOT NULL, FIELD_INT INT, FIELD_STR CHAR(255), "
+//        "FIELD_DATE DATETIME DEFAULT '20150503T100045')");
+//  }
 
-		void TearDown()
-		{
-			IDatabase& db = *(m_db.get());
-			dropTable(db, DUMMY_TABLE);
-			dropTable(db, MAIN_TABLE);
-		}
+//  void TearDown() {
+//    IDatabase &db = *(m_db.get());
+//    dropTable(db, DUMMY_TABLE);
+//    dropTable(db, MAIN_TABLE);
+//  }
 
-	public:
-		std::unique_ptr<IDatabase> m_db;
+// public:
+//  std::unique_ptr<IDatabase> m_db;
 
-	protected:
-		systelab::db::sqlite::Connection m_connection;
-		systelab::test_utility::MockConnectionConfiguration m_configuration;
+// protected:
+//  systelab::db::sqlite::Connection m_connection;
+//  systelab::test_utility::MockConnectionConfiguration m_configuration;
 
-		void configureConnection(const systelab::db::sqlite::Connection& connection)
-		{
-			EXPECT_CALL(m_configuration, getParameter("filepath")).WillRepeatedly(Return("sqlite-test.db"));
-		}
-		
-	};
-	
-	// INTENDED USE 7: Transactions.
+//  void configureConnection(const systelab::db::sqlite::Connection &connection)
+//  {
+//    EXPECT_CALL(m_configuration, getParameter("filepath"))
+//        .WillRepeatedly(Return("sqlite-test.db"));
+//  }
+//};
 
-	TEST_F(DbTransactionsTest, testSQLOperationsInsertFieldsWithTransactionCommit)
-	{
-		std::unique_ptr<ITransaction> transaction = m_db->startTransaction();
+//// INTENDED USE 7: Transactions.
 
-		ITable& table = m_db->getTable(DUMMY_TABLE);
-		
-		for (unsigned int i = 0; i<4; i++)
-		{
-			// Create the record to insert
-			std::unique_ptr<ITableRecord> record = table.createRecord();
-			record->getFieldValue("ID").setIntValue(i+1);
-			record->getFieldValue("FIELD_INT").setIntValue(2552);
-			record->getFieldValue("FIELD_STR").setStringValue("hola");
+// TEST_F(DbTransactionsTest,
+// testSQLOperationsInsertFieldsWithTransactionCommit) {
+//  std::unique_ptr<ITransaction> transaction = m_db->startTransaction();
 
-			// Add the record to the table:
-			table.insertRecord(*record.get());
-		}
-		transaction->commit();
-		transaction.reset();
+//  ITable &table = m_db->getTable(DUMMY_TABLE);
 
-		// Check table contains inserted fields;
-		std::unique_ptr<ITableRecordSet> recordSet = table.getAllRecords();
-		
+//  for (unsigned int i = 0; i < 4; i++) {
+//    // Create the record to insert
+//    std::unique_ptr<ITableRecord> record = table.createRecord();
+//    record->getFieldValue("ID").setIntValue(i + 1);
+//    record->getFieldValue("FIELD_INT").setIntValue(2552);
+//    record->getFieldValue("FIELD_STR").setStringValue("hola");
 
-		ASSERT_EQ(recordSet->getRecordsCount(), 4);
-	}	
+//    // Add the record to the table:
+//    table.insertRecord(*record.get());
+//  }
+//  transaction->commit();
+//  transaction.reset();
 
-	TEST_F(DbTransactionsTest, testSQLOperationsInsertFieldsWithTransactionRollback)
-	{
-		std::unique_ptr<ITransaction> transaction = m_db->startTransaction();
+//  // Check table contains inserted fields;
+//  std::unique_ptr<ITableRecordSet> recordSet = table.getAllRecords();
 
-		ITable& table = m_db->getTable(DUMMY_TABLE);
-		
-		for (unsigned int i = 0; i<4; i++)
-		{
-			// Create the record to insert
-			std::unique_ptr<ITableRecord> record = table.createRecord();
-			record->getFieldValue("ID").setIntValue(i+1);
-			record->getFieldValue("FIELD_INT").setIntValue(2552);
-			record->getFieldValue("FIELD_STR").setStringValue("hola");
+//  ASSERT_EQ(recordSet->getRecordsCount(), 4);
+//}
 
-			// Add the record to the table:
-			table.insertRecord(*record.get());
-		}
+// TEST_F(DbTransactionsTest,
+//       testSQLOperationsInsertFieldsWithTransactionRollback) {
+//  std::unique_ptr<ITransaction> transaction = m_db->startTransaction();
 
-		transaction->rollback();
-		transaction.reset();
+//  ITable &table = m_db->getTable(DUMMY_TABLE);
 
-		// Check table contains inserted fields;
-		std::unique_ptr<ITableRecordSet> recordSet = table.getAllRecords();
+//  for (unsigned int i = 0; i < 4; i++) {
+//    // Create the record to insert
+//    std::unique_ptr<ITableRecord> record = table.createRecord();
+//    record->getFieldValue("ID").setIntValue(i + 1);
+//    record->getFieldValue("FIELD_INT").setIntValue(2552);
+//    record->getFieldValue("FIELD_STR").setStringValue("hola");
 
-		ASSERT_EQ(recordSet->getRecordsCount(), 0);
-	}
+//    // Add the record to the table:
+//    table.insertRecord(*record.get());
+//  }
 
-	// Delete with transaction commit
-	TEST_F(DbTransactionsTest, testSQLOperationsDeleteRecordWithTransactionCommit)
-	{
-		IDatabase& db = *(m_db.get());
+//  transaction->rollback();
+//  transaction.reset();
 
-		createTable(db, MAIN_TABLE, 25);
+//  // Check table contains inserted fields;
+//  std::unique_ptr<ITableRecordSet> recordSet = table.getAllRecords();
 
-		ITable& table = m_db->getTable(MAIN_TABLE);
-		
-		std::unique_ptr<ITransaction> transaction = db.startTransaction();
+//  ASSERT_EQ(recordSet->getRecordsCount(), 0);
+//}
 
-		// Now check there is no record on the table with ID = 3;
-		std::unique_ptr<ITableRecordSet> recordSet = table.filterRecordsByCondition("ID = 3");
-		
-		std::unique_ptr<ITableRecord> record = table.createRecord();
-		record->getFieldValue("ID").setIntValue(3);
+//// Delete with transaction commit
+// TEST_F(DbTransactionsTest,
+// testSQLOperationsDeleteRecordWithTransactionCommit) {
+//  IDatabase &db = *(m_db.get());
 
-		std::vector<IFieldValue*> fieldValues;
-		fieldValues.push_back(&record->getFieldValue("ID"));
+//  createTable(db, MAIN_TABLE, 25);
 
-		int result = table.deleteRecordsByCondition(fieldValues);
+//  ITable &table = m_db->getTable(MAIN_TABLE);
 
-		transaction->commit();
-		transaction.reset();
-		
-		// Now check there is no record on the table with ID = 3;
-		recordSet = table.filterRecordsByCondition("ID = 3");
-		
-		ASSERT_EQ(recordSet->getRecordsCount(), 0);
-	}
+//  std::unique_ptr<ITransaction> transaction = db.startTransaction();
 
-	// Delete with transaction rollback
-	TEST_F(DbTransactionsTest, testSQLOperationsDeleteRecordWithTransactionRollback)
-	{
-		IDatabase& db = *(m_db.get());
+//  // Now check there is no record on the table with ID = 3;
+//  std::unique_ptr<ITableRecordSet> recordSet =
+//      table.filterRecordsByCondition("ID = 3");
 
-		createTable(db, MAIN_TABLE, 25);
+//  std::unique_ptr<ITableRecord> record = table.createRecord();
+//  record->getFieldValue("ID").setIntValue(3);
 
-		ITable& table = m_db->getTable(MAIN_TABLE);
-		
-		std::unique_ptr<ITransaction> transaction = db.startTransaction();
+//  std::vector<IFieldValue *> fieldValues;
+//  fieldValues.push_back(&record->getFieldValue("ID"));
 
-		// Now check there is no record on the table with ID = 3;
-		std::unique_ptr<ITableRecordSet> recordSet = table.filterRecordsByCondition("ID = 3");
-		
-		std::unique_ptr<ITableRecord> record = table.createRecord();
-		record->getFieldValue("ID").setIntValue(3);
+//  int result = table.deleteRecordsByCondition(fieldValues);
 
-		std::vector<IFieldValue*> fieldValues;
-		fieldValues.push_back(&record->getFieldValue("ID"));
+//  transaction->commit();
+//  transaction.reset();
 
-		int result = table.deleteRecordsByCondition(fieldValues);
+//  // Now check there is no record on the table with ID = 3;
+//  recordSet = table.filterRecordsByCondition("ID = 3");
 
-		transaction->rollback();
-		transaction.reset();
+//  ASSERT_EQ(recordSet->getRecordsCount(), 0);
+//}
 
-		// Now check there is no record on the table with ID = 3;
-		recordSet = table.filterRecordsByCondition("ID = 3");
-		
-		ASSERT_EQ(recordSet->getRecordsCount(), 1);
-	}
-}}
+//// Delete with transaction rollback
+// TEST_F(DbTransactionsTest,
+//       testSQLOperationsDeleteRecordWithTransactionRollback) {
+//  IDatabase &db = *(m_db.get());
+
+//  createTable(db, MAIN_TABLE, 25);
+
+//  ITable &table = m_db->getTable(MAIN_TABLE);
+
+//  std::unique_ptr<ITransaction> transaction = db.startTransaction();
+
+//  // Now check there is no record on the table with ID = 3;
+//  std::unique_ptr<ITableRecordSet> recordSet =
+//      table.filterRecordsByCondition("ID = 3");
+
+//  std::unique_ptr<ITableRecord> record = table.createRecord();
+//  record->getFieldValue("ID").setIntValue(3);
+
+//  std::vector<IFieldValue *> fieldValues;
+//  fieldValues.push_back(&record->getFieldValue("ID"));
+
+//  int result = table.deleteRecordsByCondition(fieldValues);
+
+//  transaction->rollback();
+//  transaction.reset();
+
+//  // Now check there is no record on the table with ID = 3;
+//  recordSet = table.filterRecordsByCondition("ID = 3");
+
+//  ASSERT_EQ(recordSet->getRecordsCount(), 1);
+//}
+//} // namespace unit_test
+//} // namespace db
