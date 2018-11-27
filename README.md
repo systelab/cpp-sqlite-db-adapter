@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/systelab/cpp-sqlite-db-adapter.svg?branch=master)](https://travis-ci.org/systelab/cpp-sqlite-db-adapter)
 
-# cpp-sqlite-db-adapter #
+# C++ SQL Lite DB Adapter
 
 # Download #
 
