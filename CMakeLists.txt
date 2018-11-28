@@ -250,6 +250,8 @@ set(CMAKE_PDB_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
+set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/.travis/cmake)
+
 
 if(CMAKE_CXX_COMPILER_ID MATCHES GNU)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fprofile-arcs -ftest-coverage")
@@ -275,7 +277,6 @@ include_directories(${CMAKE_SOURCE_DIR}/src/${PROJECT_SQLITE_ADAPTER})    # -I c
 add_subdirectory(${CMAKE_SOURCE_DIR}/src)
 
 # Add test
-enable_testing()
 add_subdirectory(${CMAKE_SOURCE_DIR}/test)
 
 

@@ -1,3 +1,5 @@
+enable_testing()
+
 include_directories("${gtest_SOURCE_DIR}/include")
 include_directories("${gmock_SOURCE_DIR}/include")
 message(STATUS "*** gtest Include: ${gtest_SOURCE_DIR}/include")
@@ -12,5 +14,13 @@ target_link_libraries(DbSQLiteAdapterTest ${Boost_LIBRARIES} cpp-sqlite-db-adapt
 # google_mock
 target_link_libraries(DbSQLiteAdapterTest gmock_main)
 
-add_test(NAME DbSQLiteAdapterTest_test COMMAND DbSQLiteAdapterTest)
+add_test(NAME DbSQLiteAdapterTest COMMAND DbSQLiteAdapterTest)
 
+
+if (CMAKE_BUILD_TYPE STREQUAL "Coverage")
+  include(CodeCoverage)
+  setup_target_for_coverage(${CPP_SQLITE_ADAPTER}_coverage DbSQLiteAdapterTest coverage)
+
+  SET(CMAKE_CXX_FLAGS "-g -O0 -fprofile-arcs -ftest-coverage")
+  SET(CMAKE_C_FLAGS "-g -O0 -fprofile-arcs -ftest-coverage")
+endif() #CMAKE_BUILD_TYPE STREQUAL "Coverage"
