@@ -21,7 +21,7 @@ ITable &Database::getTable(std::string tableName)
   std::map<std::string, std::unique_ptr<ITable>>::iterator itr = m_tables.find(tableName);
   if (itr == m_tables.end()) 
   {
-    m_tables.insert(std::make_pair(tableName, std::make_unique<Table>(*this, tableName)));
+    m_tables.insert(std::make_pair(tableName, std::unique_ptr<Table>(new Table(*this, tableName))));
   }
 
   ITable *table = m_tables[tableName].get();
