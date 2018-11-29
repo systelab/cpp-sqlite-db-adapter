@@ -21,6 +21,6 @@ if (CMAKE_BUILD_TYPE STREQUAL "Coverage")
   include(CodeCoverage)
   setup_target_for_coverage(${CPP_SQLITE_ADAPTER}_coverage DbSQLiteAdapterTest coverage)
 
-  SET(CMAKE_CXX_FLAGS "-g -O0 -fprofile-arcs -ftest-coverage")
+  SET(CMAKE_CXX_FLAGS "-std=c++11 -g -O0 -fprofile-arcs -ftest-coverage")
   SET(CMAKE_C_FLAGS "-g -O0 -fprofile-arcs -ftest-coverage")
 endif() #CMAKE_BUILD_TYPE STREQUAL "Coverage"
