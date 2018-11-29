@@ -250,6 +250,12 @@ set(CMAKE_PDB_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
+set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/.travis/cmake)
+
+
+if(CMAKE_CXX_COMPILER_ID MATCHES GNU)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fprofile-arcs -ftest-coverage")
+endif()
 
 # target
 set(PROJECT_SQLITE_ADAPTER cpp-sqlite-db-adapter)
@@ -272,6 +278,7 @@ add_subdirectory(${CMAKE_SOURCE_DIR}/src)
 
 # Add test
 add_subdirectory(${CMAKE_SOURCE_DIR}/test)
+
 
 # Looking for files
 #file(GLOB_RECURSE SRC "src/*.cpp" "src/*.h")
