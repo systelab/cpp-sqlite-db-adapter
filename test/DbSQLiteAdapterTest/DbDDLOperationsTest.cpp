@@ -227,8 +227,7 @@ TEST_F(DbDDLOperationsTest, testDDLDropInvalidIndex) {
   ASSERT_EQ(3, recordSet->getRecordsCount());
 
   // Drop an index from the table
-  ASSERT_THROW(m_db->executeOperation("DROP INDEX " + indexName),
-               std::exception);
+  ASSERT_ANY_THROW(m_db->executeOperation("DROP INDEX " + indexName));
 
   recordSet = m_db->executeQuery("SELECT name FROM sqlite_master WHERE type "
                                  "== 'index' AND tbl_name == '" +
