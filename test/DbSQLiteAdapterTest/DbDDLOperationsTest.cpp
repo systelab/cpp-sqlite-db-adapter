@@ -77,13 +77,12 @@ TEST_F(DbDDLOperationsTest, testDDLCreateInvalidTable) {
   ASSERT_EQ(1, recordSet->getRecordsCount());
 
   // Attempts to create a table tha already exists in the database.
-  ASSERT_THROW(
+  ASSERT_ANY_THROW(
       m_db->executeOperation("CREATE TABLE " + MAIN_TABLE +
                              " (ID INT PRIMARY KEY NOT NULL, FIELD_INT_INDEX"
                              " INT, FIELD_INT_NO_INDEX INT, FIELD_STR_INDEX"
                              " CHAR(255), FIELD_STR_NO_INDEX CHAR(255),"
-                             " FIELD_DATE DATETIME DEFAULT '2016-05-05')"),
-      std::exception);
+                             " FIELD_DATE DATETIME DEFAULT '2016-05-05')"));
   recordSet = m_db->executeQuery(
       "SELECT name FROM sqlite_master WHERE type='table' AND name='" +
       MAIN_TABLE + "';");
@@ -121,8 +120,7 @@ TEST_F(DbDDLOperationsTest, testDDLDropInvalidTable) {
 
   // Attempts to drop a non-existing table from the database.
   IDatabase &db = *(m_db.get());
-  ASSERT_THROW(m_db->executeOperation("DROP TABLE " + DUMMY_TABLE),
-               std::exception);
+  ASSERT_ANY_THROW(m_db->executeOperation("DROP TABLE " + DUMMY_TABLE));
 
   recordSet = m_db->executeQuery(
       "SELECT name FROM sqlite_master WHERE type='table' AND name='" +
@@ -182,9 +180,9 @@ TEST_F(DbDDLOperationsTest, testDDLCreateInvalidIndex) {
   ASSERT_EQ(1, recordSet->getRecordsCount());
 
   // Create an index already existent in current DB (in MAIN_TABLE)
-  ASSERT_THROW(m_db->executeOperation("CREATE INDEX " + indexName + " ON " +
-                                      DUMMY_TABLE + "(" + indexFieldName + ")"),
-               std::exception);
+  ASSERT_ANY_THROW(m_db->executeOperation("CREATE INDEX " + indexName + " ON " +
+                                      DUMMY_TABLE + "(" + indexFieldName + ")"));
+
   // Create the index, whose name has to be unique in the whole database.
   // Check we still have 1 index after attempting to create the index:
   recordSet = m_db->executeQuery("SELECT name FROM sqlite_master WHERE "
