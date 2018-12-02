@@ -1,3 +1,6 @@
 ignore:
     - "include/.*"
+    - "build/.*"
+    - "/usr/include/.*"
+    - "test/.*"
 
