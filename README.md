@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/joaquimvila/cpp-sqlite-db-adapter.svg?branch=master)](https://travis-ci.org/joaquimvila/cpp-sqlite-db-adapter)
+[![Build status](https://ci.appveyor.com/api/projects/status/3skyerb10ds9xqyg?svg=true)](https://ci.appveyor.com/project/joaquimvila/cpp-sqlite-db-adapter)
 [![codecov](https://codecov.io/gh/joaquimvila/cpp-sqlite-db-adapter/branch/master/graph/badge.svg)](https://codecov.io/gh/joaquimvila/cpp-sqlite-db-adapter)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/8249c022a30d4843a819d604eec5ec3f)](https://app.codacy.com/app/joaquimvila/cpp-sqlite-db-adapter?utm_source=github.com&utm_medium=referral&utm_content=joaquimvila/cpp-sqlite-db-adapter&utm_campaign=Badge_Grade_Dashboard)
 
