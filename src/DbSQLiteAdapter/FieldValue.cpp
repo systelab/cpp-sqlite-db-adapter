@@ -1,5 +1,5 @@
-#include "stdafx.h"
 #include "FieldValue.h"
+
 #include "BinaryValue.h"
 
 

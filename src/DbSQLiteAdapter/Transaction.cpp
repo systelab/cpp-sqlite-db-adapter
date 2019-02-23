@@ -1,7 +1,6 @@
-#include "stdafx.h"
 #include "Transaction.h"
 
-#include "../DbAdapterInterface/IDatabase.h"
+#include "DbAdapterInterface/IDatabase.h"
 
 
 namespace systelab { namespace db { namespace sqlite {

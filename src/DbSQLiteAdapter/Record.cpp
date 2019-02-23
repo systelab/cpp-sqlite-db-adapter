@@ -1,10 +1,9 @@
-#include "stdafx.h"
 #include "Record.h"
 
 #include "Field.h"
 #include "FieldValue.h"
 
-#include "../DbAdapterInterface/IRecordSet.h"
+#include "DbAdapterInterface/IRecordSet.h"
 
 #include <sqlite/sqlite3.h>
 

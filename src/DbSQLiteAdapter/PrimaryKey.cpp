@@ -1,7 +1,7 @@
-#include "stdafx.h"
 #include "PrimaryKey.h"
 
 #include "DbAdapterInterface/ITable.h"
+
 
 namespace systelab { namespace db { namespace sqlite {
 

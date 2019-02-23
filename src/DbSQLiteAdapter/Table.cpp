@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include "Table.h"
 
 #include "Field.h"
@@ -10,6 +9,7 @@
 #include "DbAdapterInterface/IDatabase.h"
 
 #include "sqlite/sqlite3.h"
+
 
 namespace systelab { namespace db { namespace sqlite {
 

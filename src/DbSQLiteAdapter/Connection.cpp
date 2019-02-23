@@ -1,5 +1,5 @@
-#include "stdafx.h"
 #include "Connection.h"
+
 #include "Database.h"
 
 #include <sqlite/sqlite3.h>
