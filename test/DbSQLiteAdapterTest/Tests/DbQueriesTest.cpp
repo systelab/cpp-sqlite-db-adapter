@@ -59,7 +59,7 @@ namespace systelab { namespace db { namespace sqlite { namespace unit_test {
 
 		void createTable(const systelab::db::sqlite::Connection& connection)
 		{
-			m_db->executeOperation("CREATE TABLE TESTS(ID INT PRIMARY KEY NOT NULL, FIELD_INT_INDEX INT, FIELD_INT_NO_INDEX INT, FIELD_STR_INDEX CHAR(255), FIELD_STR_NO_INDEX CHAR(255), FIELD_DATE DATETIME DEFAULT '2016-05-05')");
+			m_db->executeOperation("CREATE TABLE TESTS(ID INT PRIMARY KEY NOT NULL, FIELD_INT_INDEX INT, FIELD_INT_NO_INDEX INT, FIELD_STR_INDEX CHAR(255), FIELD_STR_NO_INDEX CHAR(255), FIELD_DATE DATETIME DEFAULT NULL)");
 			m_db->executeOperation("CREATE INDEX INT_INDEX ON TESTS(FIELD_INT_INDEX)");
 			m_db->executeOperation("CREATE INDEX STR_INDEX ON TESTS(FIELD_STR_INDEX)");
 
