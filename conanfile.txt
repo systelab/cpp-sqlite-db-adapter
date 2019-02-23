@@ -1,4 +1,5 @@
 [requires]
+sqlite3/3.27.1@bincrafters/stable
 boost/1.67.0@conan/stable
 gtest/1.8.1@bincrafters/stable
 
