@@ -1,20 +1,22 @@
-#pragma once
-#include "cpp-db-adapter/IConnectionConfiguration.h"
+#ifndef _DBSQLITEADAPTER_CONNECTIONCONFIGURATION_QV_2302160917_H
+#define _DBSQLITEADAPTER_CONNECTIONCONFIGURATION_QV_2302160917_H
 
-namespace systelab {
-namespace db {
-namespace sqlite {
+#include "DbAdapterInterface/IConnectionConfiguration.h"
 
-class ConnectionConfiguration : public IConnectionConfiguration {
-public:
-  ConnectionConfiguration(const std::string &filepath);
-  ~ConnectionConfiguration();
+namespace systelab { namespace db { namespace sqlite {
 
-  std::string getParameter(const std::string &parameterName) const;
+	class ConnectionConfiguration : public IConnectionConfiguration
+	{
+	public:
+		ConnectionConfiguration(const std::string& filepath);
+		~ConnectionConfiguration();
 
-private:
-  std::string m_filepath;
-};
-}
-}
-}
+		std::string getParameter(const std::string& parameterName) const;
+
+	private:
+		std::string m_filepath;
+	};
+
+}}}
+
+#endif //_DBSQLITEADAPTER_CONNECTIONCONFIGURATION_QV_2302160917_H

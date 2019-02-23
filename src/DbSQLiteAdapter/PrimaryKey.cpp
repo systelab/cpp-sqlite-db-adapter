@@ -1,47 +1,62 @@
-//#include "stdafx.h"
+#include "stdafx.h"
 #include "PrimaryKey.h"
-#include "cpp-db-adapter/ITable.h"
 
-namespace systelab {
-namespace db {
-namespace sqlite {
+#include "DbAdapterInterface/ITable.h"
 
-PrimaryKey::PrimaryKey(ITable &table) : m_table(table) {
-  unsigned int nTableFields = m_table.getFieldsCount();
-  for (unsigned int i = 0; i < nTableFields; i++) {
-    const IField &tableField = m_table.getField(i);
-    if (tableField.isPrimaryKey()) {
-      m_fields.push_back(&tableField);
-    }
-  }
-}
+namespace systelab { namespace db { namespace sqlite {
 
-PrimaryKey::~PrimaryKey() {}
+	PrimaryKey::PrimaryKey(ITable& table)
+		:m_table(table)
+	{
+		unsigned int nTableFields = m_table.getFieldsCount();
+		for (unsigned int i = 0; i < nTableFields; i++)
+		{
+			const IField& tableField = m_table.getField(i);
+			if (tableField.isPrimaryKey())
+			{
+				m_fields.push_back(&tableField);
+			}
+		}
+	}
 
-ITable &PrimaryKey::getTable() const { return m_table; }
+	PrimaryKey::~PrimaryKey()
+	{
+	}
 
-unsigned int PrimaryKey::getFieldsCount() const {
-  return (unsigned int)m_fields.size();
-}
+	ITable& PrimaryKey::getTable() const
+	{
+		return m_table;
+	}
 
-const IField &PrimaryKey::getField(unsigned int index) const {
-  if (index < m_fields.size()) {
-    return *(m_fields[index]);
-  } else {
-    throw std::string("Invalid primary key field index");
-  }
-}
+	unsigned int PrimaryKey::getFieldsCount() const
+	{
+		return m_fields.size();
+	}
 
-const IField &PrimaryKey::getField(const std::string &fieldName) const {
-  unsigned int nFields = (unsigned int)m_fields.size();
-  for (unsigned int i = 0; i < nFields; i++) {
-    if (m_fields[i]->getName() == fieldName) {
-      return *(m_fields[i]);
-    }
-  }
+	const IField& PrimaryKey::getField(unsigned int index) const
+	{
+		if (index < m_fields.size())
+		{
+			return *(m_fields[index]);
+		}
+		else
+		{
+			throw std::runtime_error( "Invalid primary key field index" );
+		}
+	}
 
-  throw std::string("The requested primary key field doesn't exist");
-}
-}
-}
-}
+	const IField& PrimaryKey::getField(const std::string& fieldName) const
+	{
+		unsigned int nFields = m_fields.size();
+		for (unsigned int i = 0; i < nFields; i++)
+		{
+			if (m_fields[i]->getName() == fieldName)
+			{
+				return *(m_fields[i]);
+			}
+		}
+
+		throw std::runtime_error( "The requested primary key field doesn't exist" );
+	}
+
+}}}

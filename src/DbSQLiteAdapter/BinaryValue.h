@@ -1,27 +1,26 @@
-#ifndef CPPSQLITEDBADAPTER_CPP_SQLITE_DB_ADAPTER_BINARYVALUE_H_
-#define CPPSQLITEDBADAPTER_CPP_SQLITE_DB_ADAPTER_BINARYVALUE_H_
+#ifndef _DBSQLITEADAPTER_BINARYVALUE_QUIM_VILA_2112151746_H
+#define _DBSQLITEADAPTER_BINARYVALUE_QUIM_VILA_2112151746_H
 
-#include "cpp-db-adapter/IBinaryValue.h"
+#include "DbAdapterInterface/IBinaryValue.h"
 
-namespace systelab {
-namespace db {
-namespace sqlite {
+namespace systelab { namespace db { namespace sqlite {
 
-class BinaryValue : public IBinaryValue {
-public:
-  BinaryValue(int size);
-  BinaryValue(std::istream &inputStream);
-  virtual ~BinaryValue();
+	class BinaryValue : public IBinaryValue
+	{
+	public:
+		BinaryValue(int size);
+		BinaryValue(std::istream& inputStream);
+		virtual ~BinaryValue();
 
-  std::ostream getOutputStream() const;
-  std::istream getInputStream() const;
+		std::ostream getOutputStream() const;
+		std::istream getInputStream() const;
 
-private:
-  int m_size;
-  char *m_buffer;
-};
-} // namespace sqlite
-} // namespace db
-} // namespace systelab
+	private:
+		int m_size;
+		char* m_buffer;
 
-#endif // CPP_SQLITE_DB_ADAPTER_CPP_SQLITE_DB_ADAPTER_BINARYVALUE_H_
+	};
+
+}}}
+
+#endif //_DBSQLITEADAPTER_BINARYVALUE_QUIM_VILA_2112151746_H

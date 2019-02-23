@@ -1,72 +1,86 @@
-//#include "stdafx.h"
+#include "stdafx.h"
 #include "TableRecordSet.h"
 
 #include "Field.h"
 #include "TableRecord.h"
 
-#include "cpp-db-adapter/ITable.h"
+#include "DbAdapterInterface/ITable.h"
 
-#include <sqlite3.h>
+#include <sqlite/sqlite3.h>
 
-namespace systelab {
-namespace db {
-namespace sqlite {
 
-TableRecordSet::TableRecordSet(ITable &table, sqlite3_stmt *statement)
-    : m_table(table) {
-  while (sqlite3_step(statement) == SQLITE_ROW) {
-    m_records.push_back(
-        std::unique_ptr<ITableRecord>(new TableRecord(*this, statement)));
-  }
+namespace systelab { namespace db { namespace sqlite {
 
-  sqlite3_finalize(statement);
+	TableRecordSet::TableRecordSet(ITable& table, sqlite3_stmt* statement)
+		:m_table(table)
+	{
+		while (sqlite3_step(statement) == SQLITE_ROW)
+		{
+			m_records.push_back( std::unique_ptr<ITableRecord>(new TableRecord(*this, statement)) );
+		}
 
-  m_iterator = m_records.begin();
-}
+		sqlite3_finalize(statement);
 
-TableRecordSet::~TableRecordSet() {}
+		m_iterator = m_records.begin();
+	}
 
-ITable &TableRecordSet::getTable() const { return m_table; }
+	TableRecordSet::~TableRecordSet()
+	{
+	}
 
-unsigned int TableRecordSet::getFieldsCount() const {
-  return m_table.getFieldsCount();
-}
+	ITable& TableRecordSet::getTable() const
+	{
+		return m_table;
+	}
 
-const IField &TableRecordSet::getField(unsigned int index) const {
-  return m_table.getField(index);
-}
+	unsigned int TableRecordSet::getFieldsCount() const
+	{
+		return m_table.getFieldsCount();
+	}
 
-const IField &TableRecordSet::getField(const std::string &fieldName) const {
-  return m_table.getField(fieldName);
-}
+	const IField& TableRecordSet::getField(unsigned int index) const
+	{
+		return m_table.getField(index);
+	}
 
-unsigned int TableRecordSet::getRecordsCount() const {
-  return (unsigned int)m_records.size();
-}
+	const IField& TableRecordSet::getField(const std::string& fieldName) const
+	{
+		return m_table.getField(fieldName);
+	}
 
-const ITableRecord &TableRecordSet::getCurrentRecord() const {
-  return *m_iterator->get();
-}
+	unsigned int TableRecordSet::getRecordsCount() const
+	{
+		return m_records.size();
+	}
 
-std::unique_ptr<ITableRecord> TableRecordSet::copyCurrentRecord() const {
-  const ITableRecord &currentRecord = getCurrentRecord();
+	const ITableRecord& TableRecordSet::getCurrentRecord() const
+	{
+		return *m_iterator->get();
+	}
 
-  std::vector<std::unique_ptr<IFieldValue>> copiedFieldValues;
-  unsigned int nFieldValues = currentRecord.getFieldValuesCount();
-  for (unsigned int i = 0; i < nFieldValues; i++) {
-    IFieldValue &fieldValue = currentRecord.getFieldValue(i);
-    copiedFieldValues.push_back(fieldValue.clone());
-  }
+	std::unique_ptr<ITableRecord> TableRecordSet::copyCurrentRecord() const
+	{
+		const ITableRecord& currentRecord = getCurrentRecord();
 
-  return std::unique_ptr<ITableRecord>(
-      new TableRecord(m_table, copiedFieldValues));
-}
+		std::vector< std::unique_ptr<IFieldValue> > copiedFieldValues;
+		unsigned int nFieldValues = currentRecord.getFieldValuesCount();
+		for (unsigned int i = 0; i < nFieldValues; i++)
+		{
+			IFieldValue& fieldValue = currentRecord.getFieldValue(i);
+			copiedFieldValues.push_back( fieldValue.clone() );
+		}
 
-bool TableRecordSet::isCurrentRecordValid() const {
-  return (m_iterator != m_records.end());
-}
+		return std::unique_ptr<ITableRecord>( new TableRecord(m_table, copiedFieldValues) );
+	}
 
-void TableRecordSet::nextRecord() { m_iterator++; }
-}
-}
-}
+	bool TableRecordSet::isCurrentRecordValid() const
+	{
+		return (m_iterator != m_records.end());
+	}
+
+	void TableRecordSet::nextRecord()
+	{
+		m_iterator++;
+	}
+
+}}}

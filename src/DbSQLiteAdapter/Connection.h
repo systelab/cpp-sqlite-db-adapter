@@ -1,17 +1,21 @@
-#pragma once
-#include "cpp-db-adapter/IConnection.h"
+#ifndef _DBSQLITEADAPTER_CONNECTION_QUIM_VILA_2112151522_H
+#define _DBSQLITEADAPTER_CONNECTION_QUIM_VILA_2112151522_H
 
-namespace systelab {
-namespace db {
-namespace sqlite {
+#include "DbAdapterInterface/IConnection.h"
 
-class Connection : public IConnection {
-public:
-  Connection();
-  virtual ~Connection();
 
-  std::unique_ptr<IDatabase> loadDatabase(IConnectionConfiguration &);
-};
-}
-}
-}
+namespace systelab { namespace db { namespace sqlite {
+
+	class Connection : public IConnection
+	{
+	public:
+		Connection();
+		virtual ~Connection();
+
+		std::unique_ptr<IDatabase> loadDatabase(IConnectionConfiguration&);
+
+	};
+
+}}}
+
+#endif //_DBSQLITEADAPTER_CONNECTION_QUIM_VILA_2112151522_H

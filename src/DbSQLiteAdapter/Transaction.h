@@ -1,27 +1,28 @@
-#pragma once
-#include "cpp-db-adapter/ITransaction.h"
+#ifndef _DBSQLITEADAPTER_TRANSACTION_QUIM_VILA_2112151606_H
+#define _DBSQLITEADAPTER_TRANSACTION_QUIM_VILA_2112151606_H
 
-namespace systelab {
-namespace db {
-class IDatabase;
-}
-}
+#include "DbAdapterInterface/ITransaction.h"
 
-namespace systelab {
-namespace db {
-namespace sqlite {
+namespace systelab { namespace db {
+	class IDatabase;
+}}
 
-class Transaction : public ITransaction {
-public:
-  Transaction(IDatabase &database);
-  virtual ~Transaction();
+namespace systelab { namespace db { namespace sqlite {
 
-  void commit();
-  void rollback();
+	class Transaction : public ITransaction
+	{
+	public:
+		Transaction(IDatabase& database);
+		virtual ~Transaction();
 
-private:
-  IDatabase &m_database;
-};
-}
-}
-}
+		void commit();
+		void rollback();
+
+	private:
+		IDatabase& m_database;
+
+	};
+
+}}}
+
+#endif //_DBSQLITEADAPTER_TRANSACTION_QUIM_VILA_2112151606_H

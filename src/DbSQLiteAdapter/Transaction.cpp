@@ -1,25 +1,30 @@
-//#include "stdafx.h"
+#include "stdafx.h"
 #include "Transaction.h"
 
-#include "cpp-db-adapter/IDatabase.h"
+#include "../DbAdapterInterface/IDatabase.h"
 
-namespace systelab {
-namespace db {
-namespace sqlite {
 
-Transaction::Transaction(IDatabase &database) : m_database(database) {}
+namespace systelab { namespace db { namespace sqlite {
 
-Transaction::~Transaction() {}
+	Transaction::Transaction(IDatabase& database)
+		:m_database(database)
+	{
+	}
 
-void Transaction::commit() {
-  std::string operation = "COMMIT";
-  m_database.executeOperation(operation);
-}
+	Transaction::~Transaction()
+	{
+	}
 
-void Transaction::rollback() {
-  std::string operation = "ROLLBACK";
-  m_database.executeOperation(operation);
-}
-}
-}
-}
+	void Transaction::commit()
+	{
+		std::string operation = "COMMIT";
+		m_database.executeOperation(operation);
+	}
+
+	void Transaction::rollback()
+	{
+		std::string operation = "ROLLBACK";
+		m_database.executeOperation(operation);
+	}
+
+}}}
