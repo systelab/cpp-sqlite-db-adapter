@@ -8,3 +8,4 @@ cmake
 
 [options]
 gtest:shared=True
+boost:shared=True
