@@ -1,17 +1,15 @@
 #include "stdafx.h"
 
-#include "Utilities.h"
-#include "TestUtilities/DbAdapter/Mocks/MockConnectionConfiguration.h"
+#include "Helpers/Helpers.h"
 
+#include "DbAdapterTestUtilities/Mocks/MockConnectionConfiguration.h"
 #include "DbAdapterInterface/IConnection.h"
 #include "DbSQLiteAdapter/Connection.h"
 
 
-namespace db { namespace unit_test {
-		
-	using namespace systelab::db;
-	using namespace testing;
-	using namespace utilities;
+using namespace testing;
+
+namespace systelab { namespace db { namespace sqlite { namespace unit_test {
 
 	static const std::string MAIN_TABLE = "MAIN_TABLE";
 	static const std::string DUMMY_TABLE = "DUMMY_TABLE";
@@ -25,7 +23,7 @@ namespace db { namespace unit_test {
 			m_db = m_connection.loadDatabase(m_configuration);
 
 			IDatabase& db = *(m_db.get());
-			dropTable(db, MAIN_TABLE);			
+			dropTable(db, MAIN_TABLE);
 			dropTable(db, DUMMY_TABLE);
 			createTable(db, MAIN_TABLE, 100);
 		}
@@ -42,18 +40,17 @@ namespace db { namespace unit_test {
 
 	protected:
 		systelab::db::sqlite::Connection m_connection;
-		systelab::test_utility::MockConnectionConfiguration m_configuration;
+		test_utility::MockConnectionConfiguration m_configuration;
 
 		void configureConnection(const systelab::db::sqlite::Connection& connection)
 		{
 			EXPECT_CALL(m_configuration, getParameter("filepath")).WillRepeatedly(Return("sqlite-test.db"));
 		}
-
-		
 	};
-	
+
+
 	// INTENDED USE 1: Execution of DDL operations
-	
+
 	// Create Table
 	TEST_F(DbDDLOperationsTest, testDDLCreateTable)
 	{
@@ -181,4 +178,5 @@ namespace db { namespace unit_test {
 
 		ASSERT_EQ(3, recordSet->getRecordsCount());
 	}
-}}
+
+}}}}

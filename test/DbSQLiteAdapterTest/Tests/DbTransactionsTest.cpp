@@ -1,17 +1,15 @@
 #include "stdafx.h"
-#include "Utilities.h"
+#include "Helpers/Helpers.h"
 
 #include "DbAdapterInterface/IConnection.h"
 #include "DbSQLiteAdapter/Connection.h"
 
-#include "TestUtilities/DbAdapter/Mocks/MockConnectionConfiguration.h"
+#include "DbAdapterTestUtilities/Mocks/MockConnectionConfiguration.h"
 
 
-namespace db { namespace unit_test {
+using namespace testing;
 
-	using namespace systelab::db;
-	using namespace testing;
-	using namespace utilities;
+namespace systelab { namespace db { namespace sqlite { namespace unit_test {
 
 	static const std::string MAIN_TABLE = "MAIN_TABLE";
 	static const std::string DUMMY_TABLE = "DUMMY_TABLE";
@@ -43,7 +41,7 @@ namespace db { namespace unit_test {
 
 	protected:
 		systelab::db::sqlite::Connection m_connection;
-		systelab::test_utility::MockConnectionConfiguration m_configuration;
+		test_utility::MockConnectionConfiguration m_configuration;
 
 		void configureConnection(const systelab::db::sqlite::Connection& connection)
 		{
@@ -169,4 +167,5 @@ namespace db { namespace unit_test {
 		
 		ASSERT_EQ(recordSet->getRecordsCount(), 1);
 	}
-}}
+
+}}}}

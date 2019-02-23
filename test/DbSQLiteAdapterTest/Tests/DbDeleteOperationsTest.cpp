@@ -1,17 +1,15 @@
 #include "stdafx.h"
-#include "Utilities.h"
+#include "Helpers/Helpers.h"
 
 #include "DbAdapterInterface/IConnection.h"
 #include "DbSQLiteAdapter/Connection.h"
 
-#include "TestUtilities/DbAdapter/Mocks/MockConnectionConfiguration.h"
+#include "DbAdapterTestUtilities/Mocks/MockConnectionConfiguration.h"
 
 
-namespace db { namespace unit_test {
+using namespace testing;
 
-	using namespace systelab::db;
-	using namespace testing;
-	using namespace utilities;
+namespace systelab { namespace db { namespace sqlite { namespace unit_test {
 
 	static const std::string DELETE_TABLE_NAME = "DELETE_TABLE";
 	static const int DELETE_TABLE_NUM_RECORDS = 50;
@@ -37,7 +35,7 @@ namespace db { namespace unit_test {
 
 		std::unique_ptr<IDatabase> loadDatabase()
 		{
-			systelab::test_utility::MockConnectionConfiguration connectionConfiguration;
+			test_utility::MockConnectionConfiguration connectionConfiguration;
 			EXPECT_CALL(connectionConfiguration, getParameter("filepath")).WillRepeatedly(Return("sqlite-test.db"));
 
 			systelab::db::sqlite::Connection dbConnection;
@@ -95,4 +93,4 @@ namespace db { namespace unit_test {
 		ASSERT_EQ(recordset->getRecordsCount(), 0);
 	}
 
-}}
+}}}}

@@ -1,13 +1,10 @@
-#ifndef _UTILITIES_H_DM_201602231155
-#define _UTILITIES_H_DM_201602231115
+#pragma once
 
 #include "DbAdapterInterface/IDatabase.h"
 #include "DbAdapterInterface/IRecordSet.h"
 
-namespace db { namespace unit_test { namespace utilities {
 
-	using namespace systelab::db;
-	using namespace testing;
+namespace systelab { namespace db { namespace sqlite { namespace unit_test {
 
 	// DDL operations
 	void createTable(IDatabase& db, std::string tableName, unsigned int numRecords);
@@ -36,6 +33,5 @@ namespace db { namespace unit_test { namespace utilities {
 	unsigned int getNumRecordsWithFieldBoolTrue(unsigned int tableRecords);
 	unsigned int getNumRecordsWithFieldDateIsBaseDate(unsigned int tableRecords);
 
-}}}
+}}}}
 
-#endif // _UTILITIES_H_DM_201602231115

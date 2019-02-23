@@ -1,17 +1,15 @@
 #include "stdafx.h"
-#include "Utilities.h"
+#include "Helpers/Helpers.h"
 
 #include "DbAdapterInterface/IConnection.h"
 #include "DbSQLiteAdapter/Connection.h"
 
-#include "TestUtilities/DbAdapter/Mocks/MockConnectionConfiguration.h"
+#include "DbAdapterTestUtilities/Mocks/MockConnectionConfiguration.h"
 
 
-namespace db { namespace unit_test {
+using namespace testing;
 
-	using namespace systelab::db;
-	using namespace testing;
-	using namespace utilities;
+namespace systelab { namespace db { namespace sqlite { namespace unit_test {
 
 	static const std::string UPDATE_TABLE_NAME = "UPDATE_TABLE";
 	static const int UPDATE_TABLE_NUM_RECORDS = 25;
@@ -37,7 +35,7 @@ namespace db { namespace unit_test {
 
 		std::unique_ptr<IDatabase> loadDatabase()
 		{
-			systelab::test_utility::MockConnectionConfiguration connectionConfiguration;
+			test_utility::MockConnectionConfiguration connectionConfiguration;
 			EXPECT_CALL(connectionConfiguration, getParameter("filepath")).WillRepeatedly(Return("sqlite-test.db"));
 
 			systelab::db::sqlite::Connection dbConnection;
@@ -140,4 +138,5 @@ namespace db { namespace unit_test {
 		}
 	}
 
-}}
+}}}}
+

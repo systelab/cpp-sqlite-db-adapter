@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "Utilities.h"
+#include "Helpers/Helpers.h"
 
 #include "DbAdapterInterface/IConnection.h"
 #include "DbSQLiteAdapter/Connection.h"
@@ -7,8 +7,8 @@
 #include <sstream>
 
 
-namespace db { namespace unit_test { namespace utilities {
-	
+namespace systelab { namespace db { namespace sqlite { namespace unit_test {
+
 	void createTable(IDatabase& db, std::string tableName, unsigned int numRecords)
 	{
 		db.executeOperation( "CREATE TABLE " + tableName + " " +
@@ -181,4 +181,4 @@ namespace db { namespace unit_test { namespace utilities {
 		return (int) ceil (tableRecords / 7.);
 	}
 
-}}}
+}}}}

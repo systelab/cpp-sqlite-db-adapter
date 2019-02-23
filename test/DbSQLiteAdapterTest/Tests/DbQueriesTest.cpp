@@ -3,16 +3,16 @@
 #include "DbAdapterInterface/IConnection.h"
 #include "DbSQLiteAdapter/Connection.h"
 
-#include "Mocks/MockConnection.h"
-#include "Mocks/MockConnectionConfiguration.h"
-#include "Mocks/MockDatabase.h"
-#include "Mocks/MockTable.h"
+#include "DbAdapterTestUtilities/Mocks/MockConnection.h"
+#include "DbAdapterTestUtilities/Mocks/MockConnectionConfiguration.h"
+#include "DbAdapterTestUtilities/Mocks/MockDatabase.h"
+#include "DbAdapterTestUtilities/Mocks/MockTable.h"
 
 #include <boost/thread/thread.hpp>
 #include <boost/date_time/microsec_time_clock.hpp>
 
 
-namespace db { namespace unit_test {
+namespace systelab { namespace db { namespace sqlite { namespace unit_test {
 
 	static const std::string EVALUATION_TABLE_NAME = "TESTS";
 
@@ -38,11 +38,11 @@ namespace db { namespace unit_test {
 		}
 
 	protected:
-		MockTable m_table;
-		MockDatabase m_database; 
+		test_utility::MockTable m_table;
+		test_utility::MockDatabase m_database;
 		std::unique_ptr<IDatabase> m_db;
 		systelab::db::sqlite::Connection m_connection;
-		MockConnectionConfiguration m_configuration;
+		test_utility::MockConnectionConfiguration m_configuration;
 
 		boost::posix_time::ptime m_startTime;
 
@@ -95,6 +95,18 @@ namespace db { namespace unit_test {
 			EXPECT_CALL(m_configuration, getParameter("filepath")).WillRepeatedly(Return("sqlite-test.db"));
 		}
 
+		unsigned int iterateTableRecordset(ITableRecordSet& recordSet)
+		{
+			unsigned int nRecords = 0;
+			while (recordSet.isCurrentRecordValid())
+			{
+				const ITableRecord& record = recordSet.getCurrentRecord();
+				++nRecords;
+				recordSet.nextRecord();
+			}
+
+			return nRecords;
+		}
 		unsigned int iterateRecordset(IRecordSet& recordSet)
 		{
 			unsigned int nRecords = 0;
@@ -102,7 +114,6 @@ namespace db { namespace unit_test {
 			{
 				const IRecord& record = recordSet.getCurrentRecord();
 				++nRecords;
-						
 				recordSet.nextRecord();
 			}
 
@@ -113,9 +124,9 @@ namespace db { namespace unit_test {
 	TEST_F(DbQueriesTest, testQueryAll)
 	{
 		ITable& table = m_db->getTable(EVALUATION_TABLE_NAME);
-		std::unique_ptr<IRecordSet> recordSet = table.getAllRecords();		
+		std::unique_ptr<ITableRecordSet> recordSet = table.getAllRecords();
 		ASSERT_EQ(10000, recordSet->getRecordsCount());
-		iterateRecordset(*recordSet);
+		iterateTableRecordset(*recordSet);
 	}
 
 	TEST_F(DbQueriesTest, testQueryRowPrimaryKey)
@@ -299,11 +310,5 @@ namespace db { namespace unit_test {
 		transaction.reset();
 	}
 
-	TEST_F(DbQueriesTest, testGenerateBackup)
-	{
-	}
+}}}}
 
-	TEST_F(DbQueriesTest, testImportBackup)
-	{
-	}
-}}
