@@ -5,7 +5,7 @@
 
 #include "DbAdapterInterface/IRecordSet.h"
 
-#include <sqlite/sqlite3.h>
+#include <sqlite3.h>
 
 
 namespace systelab { namespace db { namespace sqlite {
