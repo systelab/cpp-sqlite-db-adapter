@@ -86,7 +86,7 @@ namespace systelab { namespace db { namespace sqlite {
 
 	Record::Record( std::vector< std::unique_ptr<IFieldValue> >& fieldValues )
 	{
-		unsigned int nFieldValues = fieldValues.size();
+		unsigned int nFieldValues = (unsigned int) fieldValues.size();
 		for( unsigned int i = 0; i < nFieldValues; i++ )
 		{
 			m_fieldValues.push_back( std::move(fieldValues[i]) );
@@ -99,7 +99,7 @@ namespace systelab { namespace db { namespace sqlite {
 
 	unsigned int Record::getFieldValuesCount() const
 	{
-		return m_fieldValues.size();
+		return (unsigned int) m_fieldValues.size();
 	}
 
 	IFieldValue& Record::getFieldValue(unsigned int index) const
@@ -116,7 +116,7 @@ namespace systelab { namespace db { namespace sqlite {
 
 	IFieldValue& Record::getFieldValue(const std::string& fieldName) const
 	{
-		unsigned int nFields = m_fieldValues.size();
+		unsigned int nFields = (unsigned int) m_fieldValues.size();
 		for (unsigned int i = 0; i < nFields; i++)
 		{
 			if (m_fieldValues[i]->getField().getName() == fieldName)
@@ -130,7 +130,7 @@ namespace systelab { namespace db { namespace sqlite {
 
 	bool Record::hasFieldValue(const std::string& fieldName) const
 	{
-		unsigned int nFields = m_fieldValues.size();
+		unsigned int nFields = (unsigned int) m_fieldValues.size();
 		for (unsigned int i = 0; i < nFields; i++)
 		{
 			if (m_fieldValues[i]->getField().getName() == fieldName)

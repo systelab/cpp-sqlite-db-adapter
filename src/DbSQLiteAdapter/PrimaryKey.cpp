@@ -30,7 +30,7 @@ namespace systelab { namespace db { namespace sqlite {
 
 	unsigned int PrimaryKey::getFieldsCount() const
 	{
-		return m_fields.size();
+		return (unsigned int) m_fields.size();
 	}
 
 	const IField& PrimaryKey::getField(unsigned int index) const
@@ -47,7 +47,7 @@ namespace systelab { namespace db { namespace sqlite {
 
 	const IField& PrimaryKey::getField(const std::string& fieldName) const
 	{
-		unsigned int nFields = m_fields.size();
+		unsigned int nFields = (unsigned int) m_fields.size();
 		for (unsigned int i = 0; i < nFields; i++)
 		{
 			if (m_fields[i]->getName() == fieldName)

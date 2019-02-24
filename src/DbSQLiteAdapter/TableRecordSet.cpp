@@ -49,7 +49,7 @@ namespace systelab { namespace db { namespace sqlite {
 
 	unsigned int TableRecordSet::getRecordsCount() const
 	{
-		return m_records.size();
+		return (unsigned int) m_records.size();
 	}
 
 	const ITableRecord& TableRecordSet::getCurrentRecord() const

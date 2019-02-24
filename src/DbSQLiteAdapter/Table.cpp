@@ -37,7 +37,7 @@ namespace systelab { namespace db { namespace sqlite {
 
 	unsigned int Table::getFieldsCount() const
 	{
-		return m_fields.size();
+		return (unsigned int) m_fields.size();
 	}
 
 	const IField& Table::getField(unsigned int index) const
@@ -54,7 +54,7 @@ namespace systelab { namespace db { namespace sqlite {
 
 	const IField& Table::getField(const std::string& fieldName) const
 	{
-		unsigned int nFields = m_fields.size();
+		unsigned int nFields = (unsigned int) m_fields.size();
 		for (unsigned int i = 0; i < nFields; i++)
 		{
 			if (m_fields[i]->getName() == fieldName)
@@ -144,7 +144,7 @@ namespace systelab { namespace db { namespace sqlite {
 	std::unique_ptr<ITableRecordSet> Table::filterRecordsByFields(const std::vector<IFieldValue*>& conditionValues, const IField* orderByField) const
 	{
 		std::vector<std::string> conditionValuesSQL;
-		unsigned int nConditionFieldValues = conditionValues.size();
+		unsigned int nConditionFieldValues = (unsigned int) conditionValues.size();
 		for (unsigned int j = 0; j < nConditionFieldValues; j++)
 		{
 			IFieldValue& conditionFieldValue = *(conditionValues[j]);
@@ -191,10 +191,10 @@ namespace systelab { namespace db { namespace sqlite {
 	}
 
 	std::unique_ptr<ITableRecord> Table::createRecord() const
-	{		
+	{
 		std::vector< std::unique_ptr<IFieldValue> > fieldValues;
 
-		unsigned int nFields = m_fields.size();
+		unsigned int nFields = (unsigned int) m_fields.size();
 		for (unsigned int i = 0; i < nFields; i++)
 		{
 			IField& field = *m_fields[i].get();
@@ -375,7 +375,7 @@ namespace systelab { namespace db { namespace sqlite {
 	RowsAffected Table::updateRecordsByCondition(const std::vector<IFieldValue*>& newValues, const std::vector<IFieldValue*>& conditionValues)
 	{
 		std::vector<std::string> newValuesSQL;
-		unsigned int nNewFieldValues = newValues.size();
+		unsigned int nNewFieldValues = (unsigned int) newValues.size();
 		for (unsigned int i = 0; i < nNewFieldValues; i++)
 		{
 			IFieldValue& newFieldValue = *(newValues[i]);
@@ -395,7 +395,7 @@ namespace systelab { namespace db { namespace sqlite {
 		}
 
 		std::vector<std::string> conditionValuesSQL;
-		unsigned int nConditionFieldValues = conditionValues.size();
+		unsigned int nConditionFieldValues = (unsigned int) conditionValues.size();
 		for (unsigned int j = 0; j < nConditionFieldValues; j++)
 		{
 			IFieldValue& conditionFieldValue = *(conditionValues[j]);
@@ -435,7 +435,7 @@ namespace systelab { namespace db { namespace sqlite {
 	RowsAffected Table::deleteRecordsByCondition(const std::vector<IFieldValue*>& conditionValues)
 	{
 		std::vector<std::string> conditionValuesSQL;
-		unsigned int nConditionFieldValues = conditionValues.size();
+		unsigned int nConditionFieldValues = (unsigned int) conditionValues.size();
 		for (unsigned int i = 0; i < nConditionFieldValues; i++)
 		{
 			IFieldValue& conditionFieldValue = *(conditionValues[i]);
@@ -623,7 +623,7 @@ namespace systelab { namespace db { namespace sqlite {
 	{
 		std::string to_return = "";
 
-		unsigned int nItems = items.size();
+		unsigned int nItems = (unsigned int) items.size();
 		for (unsigned int i = 0; i < nItems; i++)
 		{
 			to_return += (i > 0) ? separator : "";

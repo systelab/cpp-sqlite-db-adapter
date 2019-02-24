@@ -31,7 +31,7 @@ namespace systelab { namespace db { namespace sqlite {
 
 	unsigned int RecordSet::getFieldsCount() const
 	{
-		return m_fields.size();
+		return (unsigned int) m_fields.size();
 	}
 
 	const IField& RecordSet::getField(unsigned int index) const
@@ -48,7 +48,7 @@ namespace systelab { namespace db { namespace sqlite {
 
 	const IField& RecordSet::getField(const std::string& fieldName) const
 	{
-		unsigned int nFields = m_fields.size();
+		unsigned int nFields = (unsigned int) m_fields.size();
 		for (unsigned int i = 0; i < nFields; i++)
 		{
 			if (m_fields[i]->getName() == fieldName)
@@ -62,7 +62,7 @@ namespace systelab { namespace db { namespace sqlite {
 
 	unsigned int RecordSet::getRecordsCount() const
 	{
-		return m_records.size();
+		return (unsigned int) m_records.size();
 	}
 
 	const IRecord& RecordSet::getCurrentRecord() const
