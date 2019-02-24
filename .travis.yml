@@ -19,7 +19,7 @@ script:
   - g++ --version
   - mkdir -p build
   - cd build
-  - conan install .. -s compiler.libcxx=libstdc++11
+  - conan install ..
   - cmake .. -DCMAKE_BUILD_TYPE=Coverage
   - make
   - make DbSQLiteAdapterTestCoverage
