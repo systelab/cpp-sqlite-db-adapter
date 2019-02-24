@@ -1,0 +1,15 @@
+[requires]
+sqlite3/3.27.1@bincrafters/stable
+boost/1.67.0@conan/stable
+
+[generators]
+cmake
+
+[options]
+sqlite3:shared=True
+boost:shared=True
+
+[imports]
+bin, *.dll -> ./bin
+lib, *.dylib* -> ./bin
+lib, *.so* -> ./bin

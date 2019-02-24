@@ -4,18 +4,26 @@ image: Visual Studio 2017
 
 platform:
   - x64
- 
+
 configuration:
+  - Debug
   - Release
 
 install:
-    - git submodule update --init --recursive
+  - set PATH=%PATH%;%PYTHON%/Scripts/
+  - pip.exe install conan
+  - conan user
+  - conan --version
 
 before_build:
-    - cmake -G "Visual Studio 15 2017 Win64" .
+  - md build
+  - cd build
+  - conan install ..
+  - cmake .. -G "Visual Studio 15 2017 Win64"
 
 build:
-  project: $(APPVEYOR_BUILD_FOLDER)\CppSqlLiteDbAdapter.sln
+  project: $(APPVEYOR_BUILD_FOLDER)\build\DbSQLiteAdapter.sln
 
-test_script:
-  - '%APPVEYOR_BUILD_FOLDER%\bin\%CONFIGURATION%\DbSQLiteAdapterTest.exe'
+artifacts:
+  - path: 'build\lib\DbSQLiteAdapter.lib'
+    name: DbSQLiteAdapter.lib
