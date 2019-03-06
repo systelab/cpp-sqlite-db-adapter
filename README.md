@@ -12,18 +12,18 @@ This repository implements the interface for the [C++ Database Adapter](https://
 ### Build from sources
 
 Prerequisites:
-- [Git](https://git-scm.com/)
-- [Conan](https://conan.io/)
-- [CMake](https://cmake.org/)
-- [Visual Studio](https://visualstudio.microsoft.com/) (only on Windows)
-- [GCC](https://gcc.gnu.org/) (only on Linux)
+  - [Git](https://git-scm.com/)
+  - [Conan](https://conan.io/)
+  - [CMake](https://cmake.org/)
+  - [Visual Studio](https://visualstudio.microsoft.com/) (only on Windows)
+  - [GCC](https://gcc.gnu.org/) (only on Linux)
 
 Build library with the following steps:
-1. Clone this repository in a local drive
-2. Make a build directory (i.e. `build/`)
-3. Install `conan` dependencies in the build directory
-4. Run `cmake` in the build directory to configure build targets
-5. Use `Visual Studio` (on Windows) or `make` (on Linux) to build the library
+  1. Clone this repository in a local drive
+  2. Make a build directory (i.e. `build/`)
+  3. Install `conan` dependencies in the build directory
+  4. Run `cmake` in the build directory to configure build targets
+  5. Use `Visual Studio` (on Windows) or `make` (on Linux) to build the library
 
 #### Windows
 ``` bash
@@ -45,7 +45,7 @@ Build library with the following steps:
 
 ### Download using Conan (not available yet)
 
-1. Create/update your `conanfile.txt` to add this library as follows:
+  1. Create/update your `conanfile.txt` to add this library as follows:
 
 ```
 [requires]
@@ -55,14 +55,14 @@ DbSQLiteAdapter/1.0.0@systelab/stable
 cmake
 ```
 
-2. Integrate Conan into CMake by adding the following code into your `CMakeLists.txt`:
+  2. Integrate Conan into CMake by adding the following code into your `CMakeLists.txt`:
 
 ```cmake
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
 ```
 
-3. Link against `${CONAN_LIBS}` when configuring your executables in CMake:
+  3. Link against `${CONAN_LIBS}` when configuring your executables in CMake:
 
 ```cmake
 set(MY_PROJECT MyProject)
