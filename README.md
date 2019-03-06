@@ -69,3 +69,19 @@ set(MY_PROJECT MyProject)
 add_executable(${MY_PROJECT} main.cpp)
 target_link_libraries(${MY_PROJECT} ${CONAN_LIBS})
 ```
+
+## Usage
+
+Establish connection to a SQLite database by creating a configuration object that specifies the path of `.db` file to open:
+
+```cpp
+#include "DbSQLiteAdapter/Connection.h"
+#include "DbSQLiteAdapter/ConnectionConfiguration.h"
+
+systelab::db::sqlite::Connection connection;
+systelab::db::sqlite::ConnectionConfiguration configuration("MyFolder/MyDatabase.db");
+std::unique_ptr<systelab::db::IDatabase> database = connection.loadDatabase(configuration);
+```
+
+Use the created `systelab::db::IDatabase` object to access to the database as described on [C++ Database Adapter](https://github.com/systelab/cpp-db-adapter) documentation.
+
