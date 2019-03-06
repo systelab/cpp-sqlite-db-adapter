@@ -29,7 +29,7 @@ Build by:
 > md build && cd build
 > conan install .. -s arch=x86
 > cmake ..
-> devenv.exe
+> devenv.exe DbSQLiteAdapter.sln
 ```
 
 ### Linux
