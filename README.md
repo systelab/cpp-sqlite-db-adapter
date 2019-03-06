@@ -28,5 +28,5 @@ Build by making a build directory (i.e. `build/`), install `conan` dependencies 
 > mkdir build && cd build
 > conan install ..
 > cmake .. -DCMAKE_BUILD_TYPE=[Debug | Coverage | Release]
-> make # Builds library and unit tests
+> make
 ```
