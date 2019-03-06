@@ -7,28 +7,26 @@
 
 This repository implements the interface for the [C++ Database Adapter](https://github.com/systelab/cpp-db-adapter) using [SQLite](https://www.sqlite.org).
 
-## Download
-
-Remember to clone the repository with "--recursive" flag, otherwise the 'cpp-db-adapter' will not be downloaded.
-
 ## Build
 
-The easiest way to deal with the cpp-sqlite-db-adapter is just open the "CMakeLists.txt" with your QtCreator. However, since it is a CMake project, you don't really need an "IDE" to work with. 
+Build by making a build directory (i.e. `build/`), install `conan` dependencies and run `cmake` in that dir, and then use `Visual Studio` (on Windows) or `make` (on Linux) to build the desired target.
 
-You can build the project from source directly from command line following these steps:  
+### Windows
 
-(In cpp-sqlite-db-adapter folder)  
+``` bash
+> git clone https://github.com/systelab/cpp-sqlite-db-adapter
+> md build && cd build
+> conan install .. -s arch=x86
+> cmake ..
+> devenv.exe
+```
 
-	$mkdir build  
-	$cd build  
-	$cmake ..
+### Linux
 
-Windows:  
-
-	-	CMake will create a Visual Studio Solution from where you can easily modify and compile your project.  
-
-POSIX:  
-
-	-	CMake will create a Makefile from where you can build your binaries by simply calling "$make" command.  
-
-NOTES: Take into account that the first time the build is made can take some time because it has to compile some dependencies such as boost, googletest, etc. To do so, maybe you need to add execution rights to "include/boost_1_67_0/bootstrap.sh" and "include/boost_1_67_0/tools/build/src/engine/build.sh" files.
+``` bash
+> git clone https://github.com/systelab/cpp-sqlite-db-adapter
+> mkdir build && cd build
+> conan install ..
+> cmake .. -DCMAKE_BUILD_TYPE=[Debug | Coverage | Release]
+> make # Builds library and unit tests
+```
