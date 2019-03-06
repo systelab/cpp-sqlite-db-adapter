@@ -7,16 +7,29 @@
 
 This repository implements the interface for the [C++ Database Adapter](https://github.com/systelab/cpp-db-adapter) using [SQLite](https://www.sqlite.org).
 
-## Build
+## Install
 
-Prerequisites:
+### Prerequisites
 - [Git](https://git-scm.com/)
 - [Conan](https://conan.io/)
 - [CMake](https://cmake.org/)
 - [Visual Studio](https://visualstudio.microsoft.com/) (only on Windows)
 - [GCC](https://gcc.gnu.org/) (only on Linux)
 
-Build by:
+### Build using cmake
+
+This 
+
+### Download using Conan
+
+`Not available yet`
+
+## Using the library
+
+Create a new 
+
+## Build
+
 - Cloning this repository in a local drive
 - Making a build directory (i.e. `build/`)
 - Installing `conan` dependencies in that dir
