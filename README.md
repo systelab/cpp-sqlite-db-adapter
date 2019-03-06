@@ -5,6 +5,8 @@
 
 # C++ SQL Lite DB Adapter
 
+This repository implements the interface for the [C++ Database Adapter](https://github.com/systelab/cpp-db-adapter) using [SQLite](https://www.sqlite.org).
+
 ## Download
 
 Remember to clone the repository with "--recursive" flag, otherwise the 'cpp-db-adapter' will not be downloaded.
