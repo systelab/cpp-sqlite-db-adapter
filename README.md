@@ -9,7 +9,7 @@ This repository implements the interface for the [C++ Database Adapter](https://
 
 ## Build
 
-Build by making a build directory (i.e. `build/`), install `conan` dependencies and run `cmake` in that dir, and then use `Visual Studio` (on Windows) or `make` (on Linux) to build the desired target.
+Build by cloning this repository in a local drive, making a build directory (i.e. `build/`), installing `conan` dependencies and run `cmake` in that dir, and then use `Visual Studio` (on Windows) or `make` (on Linux) to build the desired target.
 
 ### Windows
 
