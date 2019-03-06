@@ -10,11 +10,11 @@ This repository implements the interface for the [C++ Database Adapter](https://
 ## Build
 
 Prerequisites:
-- [git][git]
+- [Git](https://git-scm.com/)
 - [Conan](https://conan.io/)
 - [CMake](https://cmake.org/)
-- [Visual Studio](https://visualstudio.microsoft.com/) (only on Windows).
-- [gcc](https://gcc.gnu.org/) (only on Linux).
+- [Visual Studio](https://visualstudio.microsoft.com/) (only on Windows)
+- [GCC](https://gcc.gnu.org/) (only on Linux)
 
 Build by:
 - Cloning this repository in a local drive
