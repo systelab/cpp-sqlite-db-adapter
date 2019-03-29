@@ -130,7 +130,7 @@ namespace systelab { namespace db { namespace sqlite {
 				//return DATETIME;
 
 			default:
-				throw std::runtime_error("SQLite type unsupported: " + SQLiteType );
+				throw std::runtime_error("SQLite type unsupported: " + std::to_string(SQLiteType) );
 		}
 	}
 

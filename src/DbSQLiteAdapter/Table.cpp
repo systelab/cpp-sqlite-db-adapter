@@ -589,7 +589,7 @@ namespace systelab { namespace db { namespace sqlite {
 			switch (fieldType)
 			{
 				case BOOLEAN:
-					fieldValueStream << fieldValue.getBooleanValue() ? 1 : 0;
+					fieldValueStream << (fieldValue.getBooleanValue() ? 1 : 0);
 					break;
 				case INT:
 					fieldValueStream << fieldValue.getIntValue();
