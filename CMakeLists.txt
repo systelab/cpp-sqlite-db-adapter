@@ -17,8 +17,8 @@ conan_basic_setup()
 
 # Setup extern repositories
 include(GitCloneRepository)
-git_clone_repository(URL https://github.com/systelab/cpp-test-utilities.git DIR extern/TestUtilities BRANCH master)
-git_clone_repository(URL https://github.com/systelab/cpp-db-adapter.git     DIR extern/DbAdapter     BRANCH master)
+git_clone_repository(URL https://github.com/systelab/cpp-test-utilities.git DIR extern/TestUtilities BRANCH v1.0.0)
+git_clone_repository(URL https://github.com/systelab/cpp-db-adapter.git     DIR extern/DbAdapter     BRANCH v1.0.0)
 
 # Configure include directories
 include_directories(${CMAKE_SOURCE_DIR}/src)
