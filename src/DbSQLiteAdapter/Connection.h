@@ -27,7 +27,7 @@ namespace systelab { namespace db { namespace sqlite {
 			{
 			}
 
-			virtual const char* what() const
+			virtual const char* what() const noexcept override
 			{
 				std::ostringstream oss;
 				oss << std::runtime_error::what() << ": " << m_extendedMessage
