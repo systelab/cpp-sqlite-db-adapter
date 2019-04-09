@@ -1,5 +1,4 @@
-#ifndef _DBSQLITEADAPTER_CONNECTION_QUIM_VILA_2112151522_H
-#define _DBSQLITEADAPTER_CONNECTION_QUIM_VILA_2112151522_H
+#pragma once
 
 #include "DbAdapterInterface/IConnection.h"
 
@@ -14,8 +13,33 @@ namespace systelab { namespace db { namespace sqlite {
 
 		std::unique_ptr<IDatabase> loadDatabase(IConnectionConfiguration&);
 
+	public:
+		struct SQLiteException : public Exception
+		{
+			SQLiteException(const std::string& message,
+							const std::string& extendedMessage,
+							int errorCode,
+							int extendedErrorCode)
+				:Exception(message)
+				,m_extendedMessage(extendedMessage)
+				,m_errorCode(errorCode)
+				,m_extendedErrorCode(extendedErrorCode)
+			{
+			}
+
+			virtual const char* what() const
+			{
+				std::ostringstream oss;
+				oss << std::runtime_error::what() << ": " << m_extendedMessage
+					<< "(Error " << m_errorCode << "-" << m_extendedErrorCode << ")" << std::endl;
+				return oss.str().c_str();
+			}
+
+			std::string m_extendedMessage;
+			int m_errorCode;
+			int m_extendedErrorCode;
+		};
 	};
 
 }}}
 
-#endif //_DBSQLITEADAPTER_CONNECTION_QUIM_VILA_2112151522_H
