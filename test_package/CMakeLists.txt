@@ -10,7 +10,10 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
 
+# Find threads library
+find_package(Threads REQUIRED)
+
 # Configure test package project
 set(DB_SQLITE_ADAPTER_PACKAGE_TEST_PROJECT DbSQLiteAdapterPackageTest)
 add_executable(${DB_SQLITE_ADAPTER_PACKAGE_TEST_PROJECT} DbSQLiteAdapterExample.cpp)
-target_link_libraries(${DB_SQLITE_ADAPTER_PACKAGE_TEST_PROJECT} ${CONAN_LIBS})
+target_link_libraries(${DB_SQLITE_ADAPTER_PACKAGE_TEST_PROJECT} ${CONAN_LIBS} ${CMAKE_THREAD_LIBS_INIT} ${CMAKE_DL_LIBS})
