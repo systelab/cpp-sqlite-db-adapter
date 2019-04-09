@@ -2,6 +2,8 @@
 
 #include "DbAdapterInterface/IConnectionConfiguration.h"
 
+#include <boost/optional.hpp>
+
 
 namespace systelab { namespace db { namespace sqlite {
 
