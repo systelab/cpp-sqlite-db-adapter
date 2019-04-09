@@ -3,4 +3,5 @@ ignore:
     - "build/.*"
     - "/usr/include/.*"
     - "test/.*"
+    - "src/sqleet-v0.27.2/.*"
 
