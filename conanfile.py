@@ -13,7 +13,7 @@ class DbSQLiteAdapterConan(ConanFile):
     default_options = "sqlite3:shared=True"
 
     def requirements(self):
-        self.requires("DbAdapter/1.0.0@systelab/stable")
+        self.requires("DbAdapter/1.1.0@systelab/stable")
 
     def imports(self):
         self.copy("*.dll", dst="bin", src="bin")
