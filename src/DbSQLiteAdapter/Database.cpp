@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "Database.h"
 
 #include "Table.h"
