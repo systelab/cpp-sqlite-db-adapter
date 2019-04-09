@@ -6,7 +6,7 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 # Configure sqleet static library
 set(DB_SQLEET sqleet)
 add_library(${DB_SQLEET} STATIC sqlite3.c sqlite3.h)
-target_link_libraries(${DB_SQLEET})
+target_link_libraries(${DB_SQLEET} ${CMAKE_DL_LIBS})
 
 # Configure sqlite3.exe
 set(DB_SQLITE3 sqlite3)
