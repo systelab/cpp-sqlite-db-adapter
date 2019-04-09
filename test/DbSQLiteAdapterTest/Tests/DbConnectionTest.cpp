@@ -101,14 +101,16 @@ namespace systelab { namespace db { namespace sqlite { namespace unit_test {
 
 
 	// Error cases
+#ifdef _WIN32
 	TEST_F(DbConnectionTest, testLoadDatabaseForInvalidPathThrowsException)
 	{
-		std::string invalidFilePath = boost::filesystem::path("\0").string();
+		std::string invalidFilePath = boost::filesystem::path("..ÑD~<>").string();
 		systelab::db::sqlite::ConnectionConfiguration configuration(invalidFilePath);
 
 		systelab::db::sqlite::Connection connection;
 		ASSERT_THROW(connection.loadDatabase(configuration), systelab::db::IConnection::Exception);
 	}
+#endif
 
 	TEST_F(DbConnectionTest, testLoadDatabaseForInvalidKeyThrowsException)
 	{
