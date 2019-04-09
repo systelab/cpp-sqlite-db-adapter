@@ -29,7 +29,7 @@ namespace systelab { namespace db { namespace sqlite {
 		if (configuration.hasParameter("key"))
 		{
 			std::string key = configuration.getParameter("key");
-			int keyStatusCode = sqlite3_key(database, key.c_str(), key.size());
+			int keyStatusCode = sqlite3_key(database, key.c_str(), (int) key.size());
 			if (keyStatusCode != SQLITE_OK)
 			{
 				std::string extendedMessage = sqlite3_errmsg(database);
