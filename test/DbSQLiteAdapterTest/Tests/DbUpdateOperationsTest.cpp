@@ -3,14 +3,15 @@
 
 #include "DbAdapterInterface/IConnection.h"
 #include "DbSQLiteAdapter/Connection.h"
+#include "DbSQLiteAdapter/ConnectionConfiguration.h"
 
-#include "DbAdapterTestUtilities/Mocks/MockConnectionConfiguration.h"
-
+#include <boost/filesystem.hpp>
 
 using namespace testing;
 
 namespace systelab { namespace db { namespace sqlite { namespace unit_test {
 
+	static const std::string UPDATE_DATABASE_FILEPATH = "update-test.db";
 	static const std::string UPDATE_TABLE_NAME = "UPDATE_TABLE";
 	static const int UPDATE_TABLE_NUM_RECORDS = 25;
 
@@ -23,6 +24,11 @@ namespace systelab { namespace db { namespace sqlite { namespace unit_test {
 	public:
 		void SetUp()
 		{
+			if (boost::filesystem::exists(UPDATE_DATABASE_FILEPATH))
+			{
+				boost::filesystem::remove(UPDATE_DATABASE_FILEPATH);
+			}
+
 			m_db = loadDatabase();
 			dropTable(*m_db, UPDATE_TABLE_NAME);
 			createTable(*m_db, UPDATE_TABLE_NAME, UPDATE_TABLE_NUM_RECORDS);
@@ -35,8 +41,7 @@ namespace systelab { namespace db { namespace sqlite { namespace unit_test {
 
 		std::unique_ptr<IDatabase> loadDatabase()
 		{
-			test_utility::MockConnectionConfiguration connectionConfiguration;
-			EXPECT_CALL(connectionConfiguration, getParameter("filepath")).WillRepeatedly(Return("sqlite-test.db"));
+			systelab::db::sqlite::ConnectionConfiguration connectionConfiguration(UPDATE_DATABASE_FILEPATH, "keyForTest1234"s);
 
 			systelab::db::sqlite::Connection dbConnection;
 			return dbConnection.loadDatabase(connectionConfiguration);
@@ -139,4 +144,3 @@ namespace systelab { namespace db { namespace sqlite { namespace unit_test {
 	}
 
 }}}}
-
