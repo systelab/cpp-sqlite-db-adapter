@@ -14,7 +14,6 @@ class DbSQLiteAdapterConan(ConanFile):
 
     def requirements(self):
         self.requires("DbAdapter/1.0.0@systelab/stable")
-        self.requires("sqlite3/3.27.1@bincrafters/stable")
 
     def imports(self):
         self.copy("*.dll", dst="bin", src="bin")
