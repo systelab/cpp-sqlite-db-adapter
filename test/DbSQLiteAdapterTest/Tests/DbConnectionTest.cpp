@@ -45,15 +45,21 @@ namespace systelab { namespace db { namespace sqlite { namespace unit_test {
 	// Happy path WITHOUT encryption
 	TEST_F(DbConnectionTest, testLoadDatabaseForHappyPathWithoutEncryptionReturnsDatabaseObject)
 	{
+		std::string dbFilepath = m_dbFilePath.string();
+		systelab::db::sqlite::ConnectionConfiguration configuration(dbFilepath);
+
 		systelab::db::sqlite::Connection connection;
-		auto database = connection.loadDatabase(systelab::db::sqlite::ConnectionConfiguration(m_dbFilePath.string()));
+		auto database = connection.loadDatabase(configuration);
 		ASSERT_TRUE(database != NULL);
 	}
 
 	TEST_F(DbConnectionTest, testLoadDatabaseForHappyPathWithoutEncryptionCreatesDBFile)
 	{
+		std::string dbFilepath = m_dbFilePath.string();
+		systelab::db::sqlite::ConnectionConfiguration configuration(dbFilepath);
+
 		systelab::db::sqlite::Connection connection;
-		connection.loadDatabase(systelab::db::sqlite::ConnectionConfiguration(m_dbFilePath.string()));
+		auto database = connection.loadDatabase(configuration);
 		ASSERT_TRUE(boost::filesystem::exists(m_dbFilePath));
 	}
 
@@ -61,45 +67,63 @@ namespace systelab { namespace db { namespace sqlite { namespace unit_test {
 	// Happy path WITH encryption
 	TEST_F(DbConnectionTest, testLoadDatabaseForHappyPathWithEncryptionReturnsDatabaseObject)
 	{
+		std::string dbFilepath = m_dbFilePath.string();
+		systelab::db::sqlite::ConnectionConfiguration configuration(dbFilepath, "MyEncryptionKey"s);
+
 		systelab::db::sqlite::Connection connection;
-		auto database = connection.loadDatabase(systelab::db::sqlite::ConnectionConfiguration(m_dbFilePath.string(), "MyEncryptionKey"s));
+		auto database = connection.loadDatabase(configuration);
 		ASSERT_TRUE(database != NULL);
 	}
 
 	TEST_F(DbConnectionTest, testLoadDatabaseForHappyPathWithEncryptionCreatesDBFile)
 	{
+		std::string dbFilepath = m_dbFilePath.string();
+		systelab::db::sqlite::ConnectionConfiguration configuration(dbFilepath, "MyEncryptionKey"s);
+
 		systelab::db::sqlite::Connection connection;
-		connection.loadDatabase(systelab::db::sqlite::ConnectionConfiguration(m_dbFilePath.string(), "MyEncryptionKey"s));
+		auto database = connection.loadDatabase(configuration);
 		ASSERT_TRUE(boost::filesystem::exists(m_dbFilePath));
 	}
 
 	TEST_F(DbConnectionTest, testLoadDatabaseForHappyPathWithEncryptionOverAnExistingDatabase)
 	{
+		std::string dbFilepath = m_dbFilePath.string();
 		std::string encryptionKey = "MyEncryptionKey";
+		systelab::db::sqlite::ConnectionConfiguration configuration(dbFilepath, encryptionKey);
+
 		systelab::db::sqlite::Connection connection;
-		auto database1 = connection.loadDatabase(systelab::db::sqlite::ConnectionConfiguration(m_dbFilePath.string(), encryptionKey));
+		auto database1 = connection.loadDatabase(configuration);
 		createTable(*database1, "MY_TABLE", 10);
 		database1.reset();
 
-		ASSERT_NO_THROW(connection.loadDatabase(systelab::db::sqlite::ConnectionConfiguration(m_dbFilePath.string(), encryptionKey)));
+		ASSERT_NO_THROW(connection.loadDatabase(configuration));
 	}
 
 
 	// Error cases
 	TEST_F(DbConnectionTest, testLoadDatabaseForInvalidPathThrowsException)
 	{
-		boost::filesystem::path invalidFilePath("..ÑD~<>");
+		std::string invalidFilePath = boost::filesystem::path("..ÑD~<>").string();
+		systelab::db::sqlite::ConnectionConfiguration configuration(invalidFilePath);
+
 		systelab::db::sqlite::Connection connection;
-		ASSERT_THROW(connection.loadDatabase(systelab::db::sqlite::ConnectionConfiguration(invalidFilePath.string())), systelab::db::IConnection::Exception);
+		ASSERT_THROW(connection.loadDatabase(configuration), systelab::db::IConnection::Exception);
 	}
 
 	TEST_F(DbConnectionTest, testLoadDatabaseForInvalidKeyThrowsException)
 	{
+		std::string dbFilepath = m_dbFilePath.string();
+		std::string encryptionKey = "MyEncryptionKey";
+		systelab::db::sqlite::ConnectionConfiguration validConfiguration(dbFilepath, encryptionKey);
+
 		systelab::db::sqlite::Connection connection;
-		auto database = connection.loadDatabase(systelab::db::sqlite::ConnectionConfiguration(m_dbFilePath.string(), "MyEncryptionKey"s));
+		auto database = connection.loadDatabase(validConfiguration);
 		createTable(*database, "MY_TABLE", 10);
 		database.reset();
 
-		ASSERT_THROW(connection.loadDatabase(systelab::db::sqlite::ConnectionConfiguration(m_dbFilePath.string(), "InvalidEncryptionKey"s)), systelab::db::IConnection::Exception);
+		std::string invalidEncryptionKey = "InvalidEncryptionKey";
+		systelab::db::sqlite::ConnectionConfiguration invalidConfiguration(dbFilepath, invalidEncryptionKey);
+		ASSERT_THROW(connection.loadDatabase(invalidConfiguration), systelab::db::IConnection::Exception);
 	}
+
 }}}}
