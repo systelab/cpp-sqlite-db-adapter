@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "PrimaryKey.h"
 
 #include "DbAdapterInterface/ITable.h"
