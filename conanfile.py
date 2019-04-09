@@ -26,6 +26,10 @@ class DbSQLiteAdapterConan(ConanFile):
         self.copy("*DbSQLiteAdapter.lib", dst="lib", keep_path=False)
         self.copy("*DbSQLiteAdapter.pdb", dst="lib", keep_path=False)
         self.copy("*DbSQLiteAdapter.a", dst="lib", keep_path=False)
+        self.copy("*sqleet.lib", dst="lib", keep_path=False)		
+        self.copy("*sqleet.pdb", dst="lib", keep_path=False)
+        self.copy("*sqleet.a", dst="lib", keep_path=False)
+        self.copy("*sqlite3.exe", dst="bin", keep_path=False)
 
     def package_info(self):
         self.cpp_info.libs = tools.collect_libs(self)
