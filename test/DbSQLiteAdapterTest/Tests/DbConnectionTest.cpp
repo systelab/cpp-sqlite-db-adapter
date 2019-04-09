@@ -103,7 +103,7 @@ namespace systelab { namespace db { namespace sqlite { namespace unit_test {
 	// Error cases
 	TEST_F(DbConnectionTest, testLoadDatabaseForInvalidPathThrowsException)
 	{
-		std::string invalidFilePath = boost::filesystem::path("..ÑD~<>").string();
+		std::string invalidFilePath = boost::filesystem::path("\0").string();
 		systelab::db::sqlite::ConnectionConfiguration configuration(invalidFilePath);
 
 		systelab::db::sqlite::Connection connection;
