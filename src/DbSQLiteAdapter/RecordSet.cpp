@@ -93,7 +93,7 @@ namespace systelab { namespace db { namespace sqlite {
 
 	void RecordSet::nextRecord()
 	{
-		m_iterator++;
+		++m_iterator;
 	}
 
 	void RecordSet::createFields(sqlite3_stmt* statement, bool allFieldsAsStrings)
