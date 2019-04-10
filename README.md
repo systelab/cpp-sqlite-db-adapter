@@ -86,3 +86,13 @@ std::unique_ptr<systelab::db::IDatabase> database = connection.loadDatabase(conf
 
 Use the created `systelab::db::IDatabase` object to access to the database as described on [C++ Database Adapter](https://github.com/systelab/cpp-db-adapter) documentation.
 
+### Encryption
+
+In order work with encryption, the connection configuration object must include a key as the second attribute:
+
+```cpp
+systelab::db::sqlite::Connection connection;
+systelab::db::sqlite::ConnectionConfiguration configuration("MyFolder/MyDatabase.db", "Y0urDBEncrypt1onK3y");
+std::unique_ptr<systelab::db::IDatabase> database = connection.loadDatabase(configuration);
+```
+
