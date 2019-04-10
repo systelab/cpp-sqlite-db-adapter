@@ -2,9 +2,9 @@
 
 #include "DbAdapterInterface/IConnection.h"
 #include "DbSQLiteAdapter/Connection.h"
+#include "DbSQLiteAdapter/ConnectionConfiguration.h"
 
 #include "DbAdapterTestUtilities/Mocks/MockConnection.h"
-#include "DbAdapterTestUtilities/Mocks/MockConnectionConfiguration.h"
 #include "DbAdapterTestUtilities/Mocks/MockDatabase.h"
 #include "DbAdapterTestUtilities/Mocks/MockTable.h"
 
@@ -24,8 +24,8 @@ namespace systelab { namespace db { namespace sqlite { namespace unit_test {
 	public:
 		void SetUp()
 		{
-			configureConnection(m_connection);
-			m_db = m_connection.loadDatabase(m_configuration);
+			ConnectionConfiguration configuration("database.db"s);
+			m_db = m_connection.loadDatabase(configuration);
 			dropTable(m_connection);
 			createTable(m_connection);
 			startTimeTracking();
@@ -42,7 +42,6 @@ namespace systelab { namespace db { namespace sqlite { namespace unit_test {
 		test_utility::MockDatabase m_database;
 		std::unique_ptr<IDatabase> m_db;
 		systelab::db::sqlite::Connection m_connection;
-		test_utility::MockConnectionConfiguration m_configuration;
 
 		boost::posix_time::ptime m_startTime;
 
@@ -88,11 +87,6 @@ namespace systelab { namespace db { namespace sqlite { namespace unit_test {
 		void dropTable(const systelab::db::sqlite::Connection& connection)
 		{
 			m_db->executeOperation("DROP TABLE IF EXISTS TESTS");
-		}
-
-		void configureConnection(const systelab::db::sqlite::Connection& connection)
-		{
-			EXPECT_CALL(m_configuration, getParameter("filepath")).WillRepeatedly(Return("sqlite-test.db"));
 		}
 
 		unsigned int iterateTableRecordset(ITableRecordSet& recordSet)

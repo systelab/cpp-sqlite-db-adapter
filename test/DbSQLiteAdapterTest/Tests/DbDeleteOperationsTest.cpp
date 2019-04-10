@@ -3,14 +3,15 @@
 
 #include "DbAdapterInterface/IConnection.h"
 #include "DbSQLiteAdapter/Connection.h"
+#include "DbSQLiteAdapter/ConnectionConfiguration.h"
 
-#include "DbAdapterTestUtilities/Mocks/MockConnectionConfiguration.h"
-
+#include <boost/filesystem.hpp>
 
 using namespace testing;
 
 namespace systelab { namespace db { namespace sqlite { namespace unit_test {
 
+	static const std::string DELETE_DATABASE_FILEPATH = "delete-keys-test.db";
 	static const std::string DELETE_TABLE_NAME = "DELETE_TABLE";
 	static const int DELETE_TABLE_NUM_RECORDS = 50;
 
@@ -23,20 +24,19 @@ namespace systelab { namespace db { namespace sqlite { namespace unit_test {
 	public:
 		void SetUp()
 		{
+			if (boost::filesystem::exists(DELETE_DATABASE_FILEPATH))
+			{
+				boost::filesystem::remove(DELETE_DATABASE_FILEPATH);
+			}
+
 			m_db = loadDatabase();
 			dropTable(*m_db, DELETE_TABLE_NAME);
 			createTable(*m_db, DELETE_TABLE_NAME, DELETE_TABLE_NUM_RECORDS);
 		}
 
-		void TearDown()
-		{
-			dropTable(*m_db, DELETE_TABLE_NAME);
-		}
-
 		std::unique_ptr<IDatabase> loadDatabase()
 		{
-			test_utility::MockConnectionConfiguration connectionConfiguration;
-			EXPECT_CALL(connectionConfiguration, getParameter("filepath")).WillRepeatedly(Return("sqlite-test.db"));
+			systelab::db::sqlite::ConnectionConfiguration connectionConfiguration(DELETE_DATABASE_FILEPATH, "keyForTest1234"s);
 
 			systelab::db::sqlite::Connection dbConnection;
 			return dbConnection.loadDatabase(connectionConfiguration);

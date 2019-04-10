@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.2)
 
 # Configure preprocessor definitions
-add_compile_options(-DBOOST_ALL_DYN_LINK -DBOOST_CONFIG_SUPPRESS_OUTDATED_MESSAGE)
+add_compile_options(-DBOOST_ALL_DYN_LINK)
 
 # Add project folder into includes
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
@@ -11,7 +11,7 @@ set(DB_SQLITE_ADAPTER DbSQLiteAdapter)
 file(GLOB_RECURSE DB_SQLITE_ADAPTER_SRC "*.cpp")
 file(GLOB_RECURSE DB_SQLITE_ADAPTER_HDR "*.h")
 add_library(${DB_SQLITE_ADAPTER} STATIC ${DB_SQLITE_ADAPTER_SRC} ${DB_SQLITE_ADAPTER_HDR})
-target_link_libraries(${DB_SQLITE_ADAPTER} ${CONAN_LIBS})
+target_link_libraries(${DB_SQLITE_ADAPTER} sqleet ${CONAN_LIBS})
 
 #Configure source groups
 foreach(FILE ${DB_SQLITE_ADAPTER_SRC} ${DB_SQLITE_ADAPTER_HDR}) 

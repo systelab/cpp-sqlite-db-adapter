@@ -18,13 +18,15 @@ conan_basic_setup()
 # Setup extern repositories
 include(GitCloneRepository)
 git_clone_repository(URL https://github.com/systelab/cpp-test-utilities.git DIR extern/TestUtilities BRANCH v1.0.0)
-git_clone_repository(URL https://github.com/systelab/cpp-db-adapter.git     DIR extern/DbAdapter     BRANCH v1.0.0)
+git_clone_repository(URL https://github.com/systelab/cpp-db-adapter.git     DIR extern/DbAdapter     BRANCH v1.1.0)
 
 # Configure include directories
 include_directories(${CMAKE_SOURCE_DIR}/src)
+include_directories(${CMAKE_SOURCE_DIR}/src/sqleet-v0.27.2)
 include_directories(${CMAKE_SOURCE_DIR}/test)
 
 # Add subprojects
+add_subdirectory(${CMAKE_SOURCE_DIR}/src/sqleet-v0.27.2)
 add_subdirectory(${CMAKE_SOURCE_DIR}/src/DbSQLiteAdapter)
 add_subdirectory(${CMAKE_SOURCE_DIR}/test/DbSQLiteAdapterTest)
 add_subdirectory(${CMAKE_SOURCE_DIR}/extern/DbAdapter/DbAdapterTestUtilities)

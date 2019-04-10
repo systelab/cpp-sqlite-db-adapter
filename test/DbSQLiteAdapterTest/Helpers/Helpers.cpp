@@ -6,9 +6,8 @@
 
 #include <sstream>
 
-
 namespace systelab { namespace db { namespace sqlite { namespace unit_test {
-
+	
 	void createTable(IDatabase& db, std::string tableName, unsigned int numRecords)
 	{
 		db.executeOperation( "CREATE TABLE " + tableName + " " +

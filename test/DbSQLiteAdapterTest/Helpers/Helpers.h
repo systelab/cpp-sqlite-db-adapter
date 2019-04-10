@@ -3,7 +3,6 @@
 #include "DbAdapterInterface/IDatabase.h"
 #include "DbAdapterInterface/IRecordSet.h"
 
-
 namespace systelab { namespace db { namespace sqlite { namespace unit_test {
 
 	// DDL operations
@@ -34,4 +33,3 @@ namespace systelab { namespace db { namespace sqlite { namespace unit_test {
 	unsigned int getNumRecordsWithFieldDateIsBaseDate(unsigned int tableRecords);
 
 }}}}
-

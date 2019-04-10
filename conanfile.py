@@ -13,8 +13,7 @@ class DbSQLiteAdapterConan(ConanFile):
     default_options = "sqlite3:shared=True"
 
     def requirements(self):
-        self.requires("DbAdapter/1.0.0@systelab/stable")
-        self.requires("sqlite3/3.27.1@bincrafters/stable")
+        self.requires("DbAdapter/1.1.0@systelab/stable")
 
     def imports(self):
         self.copy("*.dll", dst="bin", src="bin")
@@ -27,6 +26,10 @@ class DbSQLiteAdapterConan(ConanFile):
         self.copy("*DbSQLiteAdapter.lib", dst="lib", keep_path=False)
         self.copy("*DbSQLiteAdapter.pdb", dst="lib", keep_path=False)
         self.copy("*DbSQLiteAdapter.a", dst="lib", keep_path=False)
+        self.copy("*sqleet.lib", dst="lib", keep_path=False)		
+        self.copy("*sqleet.pdb", dst="lib", keep_path=False)
+        self.copy("*sqleet.a", dst="lib", keep_path=False)
+        self.copy("*sqlite3.exe", dst="bin", keep_path=False)
 
     def package_info(self):
         self.cpp_info.libs = tools.collect_libs(self)

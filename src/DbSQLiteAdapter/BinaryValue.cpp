@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "BinaryValue.h"
 
 #include <streambuf>

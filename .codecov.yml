@@ -3,4 +3,6 @@ ignore:
     - "build/.*"
     - "/usr/include/.*"
     - "test/.*"
-
+    - "src/sqleet-v0.27.2/shell.c"
+    - "src/sqleet-v0.27.2/sqlite3.c"
+    - "src/sqleet-v0.27.2/sqlite3.h"

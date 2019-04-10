@@ -1,16 +1,18 @@
 #include "stdafx.h"
 
 #include "Helpers/Helpers.h"
+#include "DbSQLiteAdapter/ConnectionConfiguration.h"
 
-#include "DbAdapterTestUtilities/Mocks/MockConnectionConfiguration.h"
 #include "DbAdapterInterface/IConnection.h"
 #include "DbSQLiteAdapter/Connection.h"
 
+#include <boost/filesystem.hpp>
 
 using namespace testing;
 
 namespace systelab { namespace db { namespace sqlite { namespace unit_test {
-
+		
+	static const std::string DDL_DATABASE_FILEPATH = "ddl-test.db";
 	static const std::string MAIN_TABLE = "MAIN_TABLE";
 	static const std::string DUMMY_TABLE = "DUMMY_TABLE";
 
@@ -19,8 +21,13 @@ namespace systelab { namespace db { namespace sqlite { namespace unit_test {
 	public:
 		void SetUp()
 		{
-			configureConnection(m_connection);
-			m_db = m_connection.loadDatabase(m_configuration);
+			if (boost::filesystem::exists(DDL_DATABASE_FILEPATH))
+			{
+				boost::filesystem::remove(DDL_DATABASE_FILEPATH);
+			}
+
+			systelab::db::sqlite::ConnectionConfiguration connectionConfiguration(DDL_DATABASE_FILEPATH, "keyForTest1234"s);
+			m_db = m_connection.loadDatabase(connectionConfiguration);
 
 			IDatabase& db = *(m_db.get());
 			dropTable(db, MAIN_TABLE);
@@ -28,29 +35,14 @@ namespace systelab { namespace db { namespace sqlite { namespace unit_test {
 			createTable(db, MAIN_TABLE, 100);
 		}
 
-		void TearDown()
-		{
-			IDatabase& db = *(m_db.get());
-			dropTable(db, MAIN_TABLE);
-			dropTable(db, DUMMY_TABLE);
-		}
-
 	public:
 		std::unique_ptr<IDatabase> m_db;
-
-	protected:
 		systelab::db::sqlite::Connection m_connection;
-		test_utility::MockConnectionConfiguration m_configuration;
-
-		void configureConnection(const systelab::db::sqlite::Connection& connection)
-		{
-			EXPECT_CALL(m_configuration, getParameter("filepath")).WillRepeatedly(Return("sqlite-test.db"));
-		}
 	};
 
 
 	// INTENDED USE 1: Execution of DDL operations
-
+	
 	// Create Table
 	TEST_F(DbDDLOperationsTest, testDDLCreateTable)
 	{
@@ -178,5 +170,4 @@ namespace systelab { namespace db { namespace sqlite { namespace unit_test {
 
 		ASSERT_EQ(3, recordSet->getRecordsCount());
 	}
-
 }}}}

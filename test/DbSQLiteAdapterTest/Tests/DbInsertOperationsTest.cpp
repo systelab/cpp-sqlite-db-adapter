@@ -3,16 +3,16 @@
 
 #include "DbAdapterInterface/IConnection.h"
 #include "DbSQLiteAdapter/Connection.h"
+#include "DbSQLiteAdapter/ConnectionConfiguration.h"
 
-#include "DbAdapterTestUtilities/Mocks/MockConnectionConfiguration.h"
-
+#include <boost/filesystem.hpp>
 #include <thread>
-
 
 using namespace testing;
 
 namespace systelab { namespace db { namespace sqlite { namespace unit_test {
 
+	static const std::string INSERT_DATABASE_FILEPATH = "insert-test.db";
 	static const std::string INSERT_TABLE_NAME = "INSERT_TABLE";
 	static const int INSERT_TABLE_NUM_RECORDS = 10;
 
@@ -25,21 +25,20 @@ namespace systelab { namespace db { namespace sqlite { namespace unit_test {
 	public:
 		void SetUp()
 		{
+			if (boost::filesystem::exists(INSERT_DATABASE_FILEPATH))
+			{
+				boost::filesystem::remove(INSERT_DATABASE_FILEPATH);
+			}
+
 			m_db = loadDatabase();
 			dropTable(*m_db, INSERT_TABLE_NAME);
 			createTable(*m_db, INSERT_TABLE_NAME, INSERT_TABLE_NUM_RECORDS);
 		}
 
-		void TearDown()
-		{
-			dropTable(*m_db, INSERT_TABLE_NAME);
-		}
-
 		std::unique_ptr<IDatabase> loadDatabase()
 		{
-			test_utility::MockConnectionConfiguration connectionConfiguration;
-			EXPECT_CALL(connectionConfiguration, getParameter("filepath")).WillRepeatedly(Return("sqlite-test.db"));
-
+			systelab::db::sqlite::ConnectionConfiguration connectionConfiguration(INSERT_DATABASE_FILEPATH, "keyForTest123"s);
+			
 			systelab::db::sqlite::Connection dbConnection;
 			return dbConnection.loadDatabase(connectionConfiguration);
 		}
@@ -50,6 +49,7 @@ namespace systelab { namespace db { namespace sqlite { namespace unit_test {
 		}
 
 	private:
+		std::string m_filepath;
 		std::unique_ptr<IDatabase> m_db;
 	};
 
@@ -183,8 +183,7 @@ namespace systelab { namespace db { namespace sqlite { namespace unit_test {
 
 		std::unique_ptr<IDatabase> loadDatabase()
 		{
-			test_utility::MockConnectionConfiguration connectionConfiguration;
-			EXPECT_CALL(connectionConfiguration, getParameter("filepath")).WillRepeatedly(Return("sqlite-test.db"));
+			systelab::db::sqlite::ConnectionConfiguration connectionConfiguration("sqlite-test.db"s, "keyForTest1234"s);
 
 			systelab::db::sqlite::Connection dbConnection;
 			return dbConnection.loadDatabase(connectionConfiguration);

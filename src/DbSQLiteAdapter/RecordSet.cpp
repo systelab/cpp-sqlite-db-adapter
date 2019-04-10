@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "RecordSet.h"
 
 #include "Field.h"

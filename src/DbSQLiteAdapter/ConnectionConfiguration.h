@@ -1,22 +1,26 @@
-#ifndef _DBSQLITEADAPTER_CONNECTIONCONFIGURATION_QV_2302160917_H
-#define _DBSQLITEADAPTER_CONNECTIONCONFIGURATION_QV_2302160917_H
+#pragma once
 
 #include "DbAdapterInterface/IConnectionConfiguration.h"
+
+#include <boost/optional.hpp>
+
 
 namespace systelab { namespace db { namespace sqlite {
 
 	class ConnectionConfiguration : public IConnectionConfiguration
 	{
 	public:
-		ConnectionConfiguration(const std::string& filepath);
-		~ConnectionConfiguration();
+		ConnectionConfiguration(const std::string& filepath,
+								const boost::optional<std::string>& key = boost::none);
+		virtual ~ConnectionConfiguration();
 
-		std::string getParameter(const std::string& parameterName) const;
+		bool hasParameter(const std::string& name) const;
+		std::string getParameter(const std::string& name) const;
 
 	private:
 		std::string m_filepath;
+		boost::optional<std::string> m_key;
 	};
 
 }}}
 
-#endif //_DBSQLITEADAPTER_CONNECTIONCONFIGURATION_QV_2302160917_H
