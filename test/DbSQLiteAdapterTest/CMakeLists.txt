@@ -1,7 +1,7 @@
 enable_testing()
 
 # Configure preprocessor definitions
-add_compile_options(-DBOOST_ALL_DYN_LINK)
+add_compile_options(-DBOOST_ALL_DYN_LINK -DSQLITE_HAS_CODEC)
 
 # Add project folder into includes
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
