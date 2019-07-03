@@ -1,5 +1,8 @@
 cmake_minimum_required(VERSION 3.2)
 
+# Find 3rd party dependencides
+find_package(boost)
+
 # Configure preprocessor definitions
 add_compile_options(-DBOOST_ALL_DYN_LINK -DSQLITE_HAS_CODEC)
 
@@ -11,7 +14,7 @@ set(DB_SQLITE_ADAPTER DbSQLiteAdapter)
 file(GLOB_RECURSE DB_SQLITE_ADAPTER_SRC "*.cpp")
 file(GLOB_RECURSE DB_SQLITE_ADAPTER_HDR "*.h")
 add_library(${DB_SQLITE_ADAPTER} STATIC ${DB_SQLITE_ADAPTER_SRC} ${DB_SQLITE_ADAPTER_HDR})
-target_link_libraries(${DB_SQLITE_ADAPTER} sqleet ${CONAN_LIBS})
+target_link_libraries(${DB_SQLITE_ADAPTER} sqleet boost::boost)
 
 #Configure source groups
 foreach(FILE ${DB_SQLITE_ADAPTER_SRC} ${DB_SQLITE_ADAPTER_HDR}) 
