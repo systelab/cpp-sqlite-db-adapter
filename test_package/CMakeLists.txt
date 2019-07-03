@@ -18,11 +18,6 @@ set(DB_SQLITE_ADAPTER_PACKAGE_TEST_PROJECT DbSQLiteAdapterPackageTest)
 add_executable(${DB_SQLITE_ADAPTER_PACKAGE_TEST_PROJECT} DbSQLiteAdapterExample.cpp)
 target_link_libraries(${DB_SQLITE_ADAPTER_PACKAGE_TEST_PROJECT} DbSQLiteAdapter::DbSQLiteAdapter)
 
-# Link against dl and pthread on linux
-if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
-  set_target_properties(sqlite3 PROPERTIES INTERFACE_LINK_LIBRARIES "dl;pthread")
-endif()
-
 # Register tests
 enable_testing()
 add_test(NAME DbSQLiteAdapterPackageTest COMMAND ${DB_SQLITE_ADAPTER_PACKAGE_TEST_PROJECT})
