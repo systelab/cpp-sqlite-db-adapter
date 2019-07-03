@@ -8,9 +8,8 @@ class DbSQLiteAdapterConan(ConanFile):
     author = "CSW <csw@werfen.com>"
     topics = ("conan", "db", "sql", "sqlite", "adapter")
     license = "MIT"
-    generators = "cmake"
+    generators = "cmake_find_package"
     settings = "os", "compiler", "build_type", "arch"
-    default_options = "sqlite3:shared=True"
 
     def requirements(self):
         self.requires("DbAdapter/1.1.0@systelab/stable")
