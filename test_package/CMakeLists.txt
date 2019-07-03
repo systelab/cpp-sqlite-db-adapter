@@ -11,8 +11,8 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 # Find tested package and required system libraries
-find_package(DbSQLiteAdapter)
 find_package(Threads REQUIRED)
+find_package(DbSQLiteAdapter)
 
 # Configure test package project
 set(DB_SQLITE_ADAPTER_PACKAGE_TEST_PROJECT DbSQLiteAdapterPackageTest)
