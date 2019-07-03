@@ -37,13 +37,14 @@ after_build:
 
 test_script:
   - ps: cd bin
+  - ps: cd $env:CONFIGURATION
   - DbSQLiteAdapterTest.exe --gtest_output=xml:DbSQLiteAdapterTest.xml
 
 after_test:
   - ps: (new-object net.webclient).UploadFile("https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\DbSQLiteAdapterTest.xml))
 
 artifacts:
-  - path: 'build\lib\DbSQLiteAdapter.lib'
+  - path: 'build\lib\%CONFIGURATION%\DbSQLiteAdapter.lib'
     name: DbSQLiteAdapter.lib
 
 deploy_script:
