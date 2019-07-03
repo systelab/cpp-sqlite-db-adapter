@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.2)
 # Add project folder into includes
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-# Find threads library
+# Find 3rd party libraries
 find_package(Threads REQUIRED)
 
 # Configure sqleet static library
