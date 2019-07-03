@@ -12,7 +12,7 @@ class DbSQLiteAdapterConan(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
 
     def requirements(self):
-        self.requires("DbAdapter/1.1.0@systelab/stable")
+        self.requires("DbAdapter/1.1.1@systelab/stable")
 
     def imports(self):
         self.copy("*.dll", dst="bin", src="bin")
