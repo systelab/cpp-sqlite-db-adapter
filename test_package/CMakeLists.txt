@@ -11,17 +11,13 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 # Find tested package
+find_package(Threads REQUIRED)
 find_package(DbSQLiteAdapter)
 
 # Configure test package project
 set(DB_SQLITE_ADAPTER_PACKAGE_TEST_PROJECT DbSQLiteAdapterPackageTest)
 add_executable(${DB_SQLITE_ADAPTER_PACKAGE_TEST_PROJECT} DbSQLiteAdapterExample.cpp)
-target_link_libraries(${DB_SQLITE_ADAPTER_PACKAGE_TEST_PROJECT} DbSQLiteAdapter::DbSQLiteAdapter)
-
-# Link against dl and pthread on linux
-if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
-  set_target_properties(sqleet PROPERTIES INTERFACE_LINK_LIBRARIES "dl;pthread")
-endif()
+target_link_libraries(${DB_SQLITE_ADAPTER_PACKAGE_TEST_PROJECT} DbSQLiteAdapter::DbSQLiteAdapter Threads::Threads ${CMAKE_DL_LIBS})
 
 # Register tests
 enable_testing()
