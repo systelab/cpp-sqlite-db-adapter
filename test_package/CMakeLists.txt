@@ -20,7 +20,7 @@ target_link_libraries(${DB_SQLITE_ADAPTER_PACKAGE_TEST_PROJECT} DbSQLiteAdapter:
 
 # Link against dl and pthread on linux
 if(CMAKE_SYSTEM_NAME STREQUAL "Linux")
-  set_target_properties(sqlite3 PROPERTIES INTERFACE_LINK_LIBRARIES "dl;pthread")
+  set_target_properties(sqleet PROPERTIES INTERFACE_LINK_LIBRARIES "dl;pthread")
 endif()
 
 # Register tests
