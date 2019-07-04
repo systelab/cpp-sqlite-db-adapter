@@ -14,10 +14,13 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 find_package(Threads REQUIRED)
 find_package(DbSQLiteAdapter)
 
+# Configure preprocessor definitions
+add_compile_options(-DBOOST_ALL_DYN_LINK -DSQLITE_HAS_CODEC)
+
 # Configure test package project
 set(DB_SQLITE_ADAPTER_PACKAGE_TEST_PROJECT DbSQLiteAdapterPackageTest)
 add_executable(${DB_SQLITE_ADAPTER_PACKAGE_TEST_PROJECT} DbSQLiteAdapterExample.cpp)
-target_link_libraries(${DB_SQLITE_ADAPTER_PACKAGE_TEST_PROJECT} DbSQLiteAdapter::DbSQLiteAdapter Threads::Threads ${CMAKE_DL_LIBS})
+target_link_libraries(${DB_SQLITE_ADAPTER_PACKAGE_TEST_PROJECT} DbSQLiteAdapter::DbSQLiteAdapter ${CMAKE_THREAD_LIBS_INIT} ${CMAKE_DL_LIBS})
 
 # Register tests
 enable_testing()
