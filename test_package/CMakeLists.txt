@@ -18,11 +18,6 @@ find_package(DbSQLiteAdapter)
 # Configure preprocessor definitions
 add_compile_options(-DBOOST_ALL_DYN_LINK -DSQLITE_HAS_CODEC)
 
-# Setup 3rd party libraries through conan
-include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-conan_basic_setup()
-MESSAGE (${CONAN_LIBS})
-
 # Configure test package project
 set(DB_SQLITE_ADAPTER_PACKAGE_TEST_PROJECT DbSQLiteAdapterPackageTest)
 add_executable(${DB_SQLITE_ADAPTER_PACKAGE_TEST_PROJECT} DbSQLiteAdapterExample.cpp)
