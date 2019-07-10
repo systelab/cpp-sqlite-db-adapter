@@ -9,6 +9,7 @@ set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/../cmake ${CMAKE_BINARY_DIR})
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+set(CMAKE_VERBOSE_MAKEFILE TRUE)
 
 # Find tested package
 find_package(Threads REQUIRED)
@@ -16,6 +17,11 @@ find_package(DbSQLiteAdapter)
 
 # Configure preprocessor definitions
 add_compile_options(-DBOOST_ALL_DYN_LINK -DSQLITE_HAS_CODEC)
+
+# Setup 3rd party libraries through conan
+include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+conan_basic_setup()
+MESSAGE (${CONAN_LIBS})
 
 # Configure test package project
 set(DB_SQLITE_ADAPTER_PACKAGE_TEST_PROJECT DbSQLiteAdapterPackageTest)
