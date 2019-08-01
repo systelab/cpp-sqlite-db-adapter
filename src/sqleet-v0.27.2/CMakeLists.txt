@@ -3,6 +3,9 @@ cmake_minimum_required(VERSION 3.2)
 # Add project folder into includes
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
+# Omit loading extensions
+add_compile_options(-DSQLITE_OMIT_LOAD_EXTENSION)
+
 # Find 3rd party libraries
 find_package(Threads REQUIRED)
 
