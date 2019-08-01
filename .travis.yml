@@ -73,7 +73,6 @@ script:
   - cmake .. -DCMAKE_BUILD_TYPE=${BUILD_TYPE}
   - make
   - cd bin
-  - if [ $TRAVIS_OS_NAME == osx ]; then cp -f *.dylib /usr/local/lib; fi
   - ./DbSQLiteAdapterTest
   - cd ..
   - if [[ $TRAVIS_OS_NAME == linux && $BUILD_TYPE == Coverage ]]; then make DbSQLiteAdapterTestCoverage; fi
