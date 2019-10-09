@@ -118,11 +118,12 @@ namespace systelab { namespace db { namespace sqlite {
 		{
 			std::ostringstream exceptionStream;
 			std::string sqlError = sqlite3_errmsg(m_database);
+			std::string sqlError2;
 			if (errors != NULL)
 			{
+				sqlError2 = errors;
 				sqlite3_free(errors);
 			}
-
 			exceptionStream << "# ERR: SQLException in " << __FILE__;
 			exceptionStream << "(Database::executeQuery) on line " << __LINE__ << std::endl;
 			exceptionStream << "# ERR: " << sqlError << std::endl;
@@ -130,9 +131,10 @@ namespace systelab { namespace db { namespace sqlite {
 			std::string exceptionStr = exceptionStream.str();
 			throw std::runtime_error(exceptionStr.c_str());
 		}
-
 		if (errors != NULL)
 		{
+			std::string sqlError2;
+			sqlError2 = errors;
 			sqlite3_free(errors);
 		}
 	}

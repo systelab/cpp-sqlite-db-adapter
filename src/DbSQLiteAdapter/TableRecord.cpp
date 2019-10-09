@@ -142,6 +142,7 @@ namespace systelab { namespace db { namespace sqlite {
 		unsigned int nFields = (unsigned int) m_fieldValues.size();
 		for (unsigned int i = 0; i < nFields; i++)
 		{
+			std::string value = m_fieldValues[i]->getField().getName();
 			if (m_fieldValues[i]->getField().getName() == fieldName)
 			{
 				return true;
