@@ -9,7 +9,7 @@ init:
       }
 
 platform:
-  - x86
+  - Win32
 
 configuration:
   - Debug
@@ -25,15 +25,15 @@ install:
 before_build:
   - md build
   - cd build
-  - conan install .. -s build_type=%CONFIGURATION% -s compiler.toolset=v141
-  - cmake .. -G "Visual Studio 15 2017 Win64"
+  - conan install .. -s build_type=%CONFIGURATION% -s compiler.toolset=v141 -s arch=x86
+  - cmake .. -G "Visual Studio 15 2017" -DCMAKE_CXX_FLAGS=-m32
 
 build:
   project: $(APPVEYOR_BUILD_FOLDER)\build\DbSQLiteAdapter.sln
 
 after_build:
-  - conan export-pkg ../conanfile.py DbSQLiteAdapter/%APPVEYOR_BUILD_VERSION%@systelab/stable -s build_type=%CONFIGURATION%
-  - conan test ../test_package/conanfile.py DbSQLiteAdapter/%APPVEYOR_BUILD_VERSION%@systelab/stable -s build_type=%CONFIGURATION%
+  - conan export-pkg ../conanfile.py DbSQLiteAdapter/%APPVEYOR_BUILD_VERSION%@systelab/stable -s build_type=%CONFIGURATION% -s compiler.toolset=v141 -s arch=x86
+  - conan test ../test_package/conanfile.py DbSQLiteAdapter/%APPVEYOR_BUILD_VERSION%@systelab/stable -s build_type=%CONFIGURATION% -s compiler.toolset=v141 -s arch=x86
 
 test_script:
   - ps: cd bin
