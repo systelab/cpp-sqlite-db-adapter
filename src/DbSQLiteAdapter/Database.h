@@ -5,7 +5,7 @@
 #include "DbAdapterInterface/ITableRecordSet.h"
 
 #include <map>
-#include <boost/thread/mutex.hpp>
+#include <boost/thread/recursive_mutex.hpp>
 
 
 struct sqlite3;
@@ -18,7 +18,7 @@ namespace systelab { namespace db { namespace sqlite {
 		Database(sqlite3* database);
 		virtual ~Database();
 
-		struct Lock : public boost::unique_lock<boost::mutex>
+		struct Lock : public boost::unique_lock<boost::recursive_mutex>
 		{
 			Lock(Database&);
 		};
@@ -36,7 +36,7 @@ namespace systelab { namespace db { namespace sqlite {
 	private:
 		sqlite3* m_database;
 		std::map< std::string, std::unique_ptr<ITable> > m_tables;
-		boost::mutex m_mutex;
+		boost::recursive_mutex m_mutex;
 	};
 
 }}}

@@ -424,6 +424,7 @@ namespace systelab { namespace db { namespace sqlite {
 								 "SET " + newValuesSQLStr + " " +
 								 "WHERE " + conditionSQLStr + ";";
 
+			Database::Lock databaseLock(m_database);
 			m_database.executeOperation(update);
 			return m_database.getRowsAffectedByLastChangeOperation();
 		}
@@ -462,6 +463,7 @@ namespace systelab { namespace db { namespace sqlite {
 			std::string deleteSQL = "DELETE FROM " + m_name + " " +
 									"WHERE " + conditionSQLStr + ";";
 
+			Database::Lock databaseLock(m_database);
 			m_database.executeOperation(deleteSQL);
 			return m_database.getRowsAffectedByLastChangeOperation();
 		}
@@ -474,7 +476,9 @@ namespace systelab { namespace db { namespace sqlite {
 	RowsAffected Table::deleteRecordsByCondition(const std::string& condition)
 	{
 		std::string deleteSQL = "DELETE FROM " + m_name + " " +
-									"WHERE " + condition + ";";
+								"WHERE " + condition + ";";
+
+		Database::Lock databaseLock(m_database);
 		m_database.executeOperation(deleteSQL);
 		return m_database.getRowsAffectedByLastChangeOperation();
 	}
@@ -482,6 +486,8 @@ namespace systelab { namespace db { namespace sqlite {
 	RowsAffected Table::deleteAllRecords()
 	{
 		std::string deleteSQL = "DELETE FROM " + m_name + ";";
+
+		Database::Lock databaseLock(m_database);
 		m_database.executeOperation(deleteSQL);
 		return m_database.getRowsAffectedByLastChangeOperation();
 	}

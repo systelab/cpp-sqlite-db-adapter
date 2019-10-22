@@ -22,7 +22,7 @@ namespace systelab { namespace db { namespace sqlite {
 	}
 
 	Database::Lock::Lock(Database& db)
-		:boost::unique_lock<boost::mutex>(db.m_mutex)
+		:boost::unique_lock<boost::recursive_mutex>(db.m_mutex)
 	{
 	}
 
@@ -46,6 +46,7 @@ namespace systelab { namespace db { namespace sqlite {
 	std::unique_ptr<IRecordSet> Database::executeQuery(const std::string& query, bool allFieldsAsStrings)
 	{
 		sqlite3_stmt* statement = 0;
+		Database::Lock databaseLock(*this);
 		if(sqlite3_prepare_v2(m_database, query.c_str(), -1, &statement, 0) == SQLITE_OK)
 		{
 			return std::unique_ptr<IRecordSet>( new RecordSet(statement, allFieldsAsStrings) );
@@ -64,6 +65,7 @@ namespace systelab { namespace db { namespace sqlite {
 	std::unique_ptr<ITableRecordSet> Database::executeTableQuery(const std::string& query, ITable& table)
 	{
 		sqlite3_stmt* statement = 0;
+		Database::Lock databaseLock(*this);
 		if(sqlite3_prepare_v2(m_database, query.c_str(), -1, &statement, 0) == SQLITE_OK)
 		{
 			return std::unique_ptr<ITableRecordSet>( new TableRecordSet(table, statement) );
@@ -82,6 +84,7 @@ namespace systelab { namespace db { namespace sqlite {
 	void Database::executeOperation(const std::string& operation)
 	{
 		sqlite3_stmt* statement = 0;
+		Database::Lock databaseLock(*this);
 		if(sqlite3_prepare_v2(m_database, operation.c_str(), -1, &statement, 0) == SQLITE_OK)
 		{
 			int res = sqlite3_step(statement);
@@ -114,15 +117,17 @@ namespace systelab { namespace db { namespace sqlite {
 	void Database::executeMultipleStatements(const std::string& statements)
 	{
 		char* errors = NULL;
+		Database::Lock databaseLock(*this);
 		if(sqlite3_exec(m_database, statements.c_str(), NULL, NULL, &errors) != SQLITE_OK)
 		{
 			std::ostringstream exceptionStream;
 			std::string sqlError = sqlite3_errmsg(m_database);
+			std::string sqlError2;
 			if (errors != NULL)
 			{
+				sqlError2 = errors;
 				sqlite3_free(errors);
 			}
-
 			exceptionStream << "# ERR: SQLException in " << __FILE__;
 			exceptionStream << "(Database::executeQuery) on line " << __LINE__ << std::endl;
 			exceptionStream << "# ERR: " << sqlError << std::endl;
@@ -130,9 +135,10 @@ namespace systelab { namespace db { namespace sqlite {
 			std::string exceptionStr = exceptionStream.str();
 			throw std::runtime_error(exceptionStr.c_str());
 		}
-
 		if (errors != NULL)
 		{
+			std::string sqlError2;
+			sqlError2 = errors;
 			sqlite3_free(errors);
 		}
 	}
