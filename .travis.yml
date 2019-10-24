@@ -97,10 +97,12 @@ script:
         conan test ../test_package/conanfile.py DbSQLiteAdapter/0.0.${TRAVIS_BUILD_NUMBER}@systelab/stable -s build_type=${CONAN_BUILD_TYPE} -s compiler.libcxx=${COMPILER_LIBCXX};
       fi
     fi
+  - cd ..
 
 deploy:
   provider: script
   script: conan upload "DbSQLiteAdapter/${TRAVIS_TAG:1}@systelab/stable" --all -r systelab-bintray --force
+  skip_cleanup: true
   on:
     tags: true
     condition: "$BUILD_TYPE != Coverage"
