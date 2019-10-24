@@ -5,6 +5,12 @@ from conans import ConanFile, CMake, tools
 class DbSQLiteAdapterTestConan(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
     generators = "cmake_find_package"
+    options = {"boost": ["1.66.0", "1.67.0"], "gtest": ["1.7.0", "1.8.1"]}
+    default_options = {"boost":"1.67.0", "gtest":"1.8.1"}
+
+    def configure(self):
+        self.options["DbSQLiteAdapter"].gtest = self.options.gtest
+        self.options["DbSQLiteAdapter"].boost = self.options.boost
 
     def build(self):
         cmake = CMake(self)
