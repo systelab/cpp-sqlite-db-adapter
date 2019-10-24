@@ -10,9 +10,23 @@ class DbSQLiteAdapterConan(ConanFile):
     license = "MIT"
     generators = "cmake_find_package"
     settings = "os", "compiler", "build_type", "arch"
+    options = {"boost": ["1.66.0", "1.67.0"], "gtest": ["1.7.0", "1.8.1"]}
+    default_options = {"boost":"1.67.0", "gtest":"1.8.1"}
+
+    def configure(self):
+        self.options["DbAdapterInterface"].boost = self.options.boost
+        self.options["DbAdapterTestUtilities"].gtest = self.options.gtest
+        self.options["DbAdapterTestUtilities"].boost = self.options.boost
 
     def requirements(self):
-        self.requires("DbAdapter/1.1.4@systelab/stable")
+        self.requires("DbAdapterInterface/1.1.5@systelab/stable")
+
+    def build_requirements(self):
+        self.build_requires("DbAdapterTestUtilities/1.1.5@systelab/stable")
+        if self.options.gtest == "1.7.0":
+            self.build_requires("gtest/1.7.0@systelab/stable")
+        else:
+            self.build_requires("gtest/1.8.1@bincrafters/stable")
 
     def imports(self):
         self.copy("*.dll", dst=("bin/%s" % self.settings.build_type), src="bin")
