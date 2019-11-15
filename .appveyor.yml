@@ -19,12 +19,6 @@ environment:
     visual_studio: Visual Studio 15 2017
     gtest: 1.7.0
     boost: 1.66.0
-    
-  - arch: x86
-    platform: Win32
-    visual_studio: Visual Studio 15 2017
-    gtest: 1.8.1
-    boost: 1.66.0
 
   - arch: x86_64
     platform: x64
