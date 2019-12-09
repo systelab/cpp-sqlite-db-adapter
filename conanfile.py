@@ -1,4 +1,4 @@
-from conans import ConanFile, tools
+from conans import ConanFile, CMake, tools
 
 class DbSQLiteAdapterConan(ConanFile):
     name = "DbSQLiteAdapter"
@@ -12,6 +12,7 @@ class DbSQLiteAdapterConan(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
     options = {"boost": ["1.66.0", "1.67.0"], "gtest": ["1.7.0", "1.8.1"]}
     default_options = {"boost":"1.67.0", "gtest":"1.8.1"}
+    exports_sources = "*"
 
     def configure(self):
         self.options["DbAdapterInterface"].boost = self.options.boost
@@ -27,6 +28,11 @@ class DbSQLiteAdapterConan(ConanFile):
             self.build_requires("gtest/1.7.0@systelab/stable")
         else:
             self.build_requires("gtest/1.8.1@bincrafters/stable")
+
+    def build(self):
+        cmake = CMake(self)
+        cmake.configure(source_folder=".")
+        cmake.build()
 
     def imports(self):
         self.copy("*.dll", dst=("bin/%s" % self.settings.build_type), src="bin")
