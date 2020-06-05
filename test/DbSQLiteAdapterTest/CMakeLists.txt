@@ -2,7 +2,13 @@ enable_testing()
 
 # Find external dependencides
 find_package(DbAdapterTestUtilities)
-find_package(gtest)
+
+set(GTEST_PACKAGE_NAME gtest)
+find_package(${GTEST_PACKAGE_NAME})
+if (NOT TARGET ${GTEST_PACKAGE_NAME}::${GTEST_PACKAGE_NAME})
+    set(GTEST_PACKAGE_NAME GTest)
+    find_package(${GTEST_PACKAGE_NAME})
+endif()
 
 # Configure preprocessor definitions
 add_compile_options(-DBOOST_ALL_DYN_LINK -DSQLITE_HAS_CODEC)
@@ -15,7 +21,10 @@ set(DB_SQLITE_ADAPTER_TEST_PROJECT DbSQLiteAdapterTest)
 file(GLOB_RECURSE DB_SQLITE_ADAPTER_TEST_PROJECT_SRC "*.cpp")
 file(GLOB_RECURSE DB_SQLITE_ADAPTER_TEST_PROJECT_HDR "*.h")
 add_executable(${DB_SQLITE_ADAPTER_TEST_PROJECT} ${DB_SQLITE_ADAPTER_TEST_PROJECT_SRC} ${DB_SQLITE_ADAPTER_TEST_PROJECT_HDR})
-target_link_libraries(${DB_SQLITE_ADAPTER_TEST_PROJECT} DbSQLiteAdapter DbAdapterTestUtilities::DbAdapterTestUtilities gtest::gtest)
+target_link_libraries(${DB_SQLITE_ADAPTER_TEST_PROJECT}
+					  DbSQLiteAdapter
+					  DbAdapterTestUtilities::DbAdapterTestUtilities
+					  ${GTEST_PACKAGE_NAME}::${GTEST_PACKAGE_NAME})
 
 #Configure source groups
 foreach(FILE ${DB_SQLITE_ADAPTER_TEST_PROJECT_SRC} ${DB_SQLITE_ADAPTER_TEST_PROJECT_HDR}) 

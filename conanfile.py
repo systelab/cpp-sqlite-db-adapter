@@ -10,8 +10,8 @@ class DbSQLiteAdapterConan(ConanFile):
     license = "MIT"
     generators = "cmake_find_package"
     settings = "os", "compiler", "build_type", "arch"
-    options = {"boost": ["1.66.0", "1.67.0"], "gtest": ["1.7.0", "1.8.1"]}
-    default_options = {"boost":"1.67.0", "gtest":"1.8.1"}
+    options = {"boost": ["1.66.0", "1.67.0", "1.71.0"], "gtest": ["1.7.0", "1.8.1", "1.10.0"]}
+    default_options = {"boost":"1.71.0", "gtest":"1.10.0"}
     exports_sources = "*"
 
     def configure(self):
@@ -20,14 +20,16 @@ class DbSQLiteAdapterConan(ConanFile):
         self.options["DbAdapterTestUtilities"].boost = self.options.boost
 
     def requirements(self):
-        self.requires("DbAdapterInterface/1.1.7@systelab/stable")
+        self.requires("DbAdapterInterface/1.1.9@systelab/stable")
 
     def build_requirements(self):
-        self.build_requires("DbAdapterTestUtilities/1.1.7@systelab/stable")
+        self.build_requires("DbAdapterTestUtilities/1.1.9@systelab/stable")
         if self.options.gtest == "1.7.0":
             self.build_requires("gtest/1.7.0@systelab/stable")
+        elif self.options.gtest == "1.8.1":
+            self.build_requires("gtest/1.8.1")
         else:
-            self.build_requires("gtest/1.8.1@bincrafters/stable")
+            self.build_requires("gtest/1.10.0")
 
     def build(self):
         cmake = CMake(self)
