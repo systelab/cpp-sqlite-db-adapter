@@ -2,7 +2,7 @@
 [![Build status](https://ci.appveyor.com/api/projects/status/3qv7apbhgby08ekh?svg=true)](https://ci.appveyor.com/project/systelab/cpp-sqlite-db-adapter)
 [![codecov](https://codecov.io/gh/systelab/cpp-sqlite-db-adapter/branch/master/graph/badge.svg)](https://codecov.io/gh/systelab/cpp-sqlite-db-adapter)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/0b13f402745d4421a2f67810a498e49c)](https://www.codacy.com/app/systelab/cpp-sqlite-db-adapter?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=systelab/cpp-sqlite-db-adapter&amp;utm_campaign=Badge_Grade)
-[![Download](https://api.bintray.com/packages/systelab/conan/DbSQLiteAdapter:systelab/images/download.svg)](https://bintray.com/systelab/conan/DbSQLiteAdapter:systelab/_latestVersion)
+
 
 # C++ Database Adapter implementation with SQLite
 
