@@ -71,7 +71,7 @@ matrix:
       - CONAN_BUILD_TYPE=Release
       - COMPILER_LIBCXX=libc++
       - GTEST_VERSION=1.8.1
-      - BOOST_VERSION=1.67.0
+      - BOOST_VERSION=1.75.0
       - HOMEBREW_NO_AUTO_UPDATE=1
     cache:
       directories:
