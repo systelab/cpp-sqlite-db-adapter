@@ -97,7 +97,7 @@ script:
   - cmake .. -DCMAKE_BUILD_TYPE=${BUILD_TYPE}
   - make
   - cd bin
-  - ./DbSQLiteAdapterTest
+  - ./DbSQLiteAdapterTest --gtest_output=xml:DbSQLiteAdapterTest.xml
   - cd ..
   - if [[ $TRAVIS_OS_NAME == linux && $BUILD_TYPE == Coverage ]]; then make DbSQLiteAdapterTestCoverage; fi
   - cd test
