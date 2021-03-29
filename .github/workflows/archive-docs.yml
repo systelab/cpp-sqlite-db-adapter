@@ -14,8 +14,8 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         owner: systelab
-        repo_name: cpp-json-adapter
-        library_name: 'JSONAdapterInterface CSW library'
+        repo_name: cpp-sqlite-db-adapter
+        library_name: 'DbSQLiteAdapter CSW library'
         tag_name: ${{ github.event.client_payload.tag }}
         configuration_name: ${{ github.event.client_payload.configuration }}
         ci_system: ${{ github.event.client_payload.ci }}
