@@ -129,6 +129,11 @@ deploy:
     on:
       tags: true
       condition: "$BUILD_TYPE != Coverage"
+  - provider: script
+    script: bash ./ci/build_docs.sh -o "systelab" -s "cpp-sqlite-db-adapter" -t "${TRAVIS_TAG}" -c "Travis" -n "${COMPILER_NAME} ${BUILD_TYPE}" -j "${TRAVIS_JOB_ID}" -p "DbSQLiteAdapterTest"
+    skip_cleanup: true
+    on:
+      tags: true
 
 after_success:
   - if [[ $TRAVIS_OS_NAME == linux && $BUILD_TYPE == Coverage ]]; then bash <(curl -s https://codecov.io/bash); fi
