@@ -1,2 +1,5 @@
-cmake/* linguist-vendored
+*.cmake linguist-vendored
+*.txt linguist-vendored
+*.py linguist-vendored
+*.sh linguist-vendored
 src/sqleet-v0.27.2/* linguist-vendored
