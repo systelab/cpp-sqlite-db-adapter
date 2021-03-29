@@ -83,6 +83,7 @@ install:
   - if [ $TRAVIS_OS_NAME == linux ]; then sudo update-alternatives --install /usr/bin/g++ g++ /usr/bin/g++-7 90; fi
   - if [[ $TRAVIS_OS_NAME == linux && $BUILD_TYPE == Coverage ]]; then sudo apt-get install lcov; fi
   - if [ $TRAVIS_OS_NAME == linux ]; then pip install conan; fi
+  - if [ $TRAVIS_OS_NAME == osx ]; then brew update; fi
   - if [ $TRAVIS_OS_NAME == osx ]; then brew install conan; fi
   - conan user
   - conan remote add systelab-public https://csw.jfrog.io/artifactory/api/conan/cpp-conan-production-local
