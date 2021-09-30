@@ -12,10 +12,10 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 # Configure include directories
 include_directories(${CMAKE_SOURCE_DIR}/src)
-include_directories(${CMAKE_SOURCE_DIR}/src/sqleet-v0.27.2)
+include_directories(${CMAKE_SOURCE_DIR}/src/sqleet-v0.31.1)
 include_directories(${CMAKE_SOURCE_DIR}/test)
 
 # Add subprojects
-add_subdirectory(${CMAKE_SOURCE_DIR}/src/sqleet-v0.27.2)
+add_subdirectory(${CMAKE_SOURCE_DIR}/src/sqleet-v0.31.1)
 add_subdirectory(${CMAKE_SOURCE_DIR}/src/DbSQLiteAdapter)
 add_subdirectory(${CMAKE_SOURCE_DIR}/test/DbSQLiteAdapterTest)
