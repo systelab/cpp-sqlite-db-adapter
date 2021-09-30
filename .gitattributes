@@ -2,4 +2,4 @@
 *.txt linguist-vendored
 *.py linguist-vendored
 *.sh linguist-vendored
-src/sqleet-v0.27.2/* linguist-vendored
+src/sqleet-v*/* linguist-vendored
