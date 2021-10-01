@@ -96,7 +96,10 @@ pipeline
 		always
 		{
 			junit allowEmptyResults: true, testResults: "build*/${testApplication}.xml"
-            currentBuild.description = "${version}/${channel}"
+            script
+			{
+				currentBuild.description = "${version}/${channel}"
+			}
 		}
 	}
 }
