@@ -20,10 +20,10 @@ class DbSQLiteAdapterConan(ConanFile):
         self.options["DbAdapterTestUtilities"].boost = self.options.boost
 
     def requirements(self):
-        self.requires("DbAdapterInterface/1.1.13.1@systelab/testing")
+        self.requires("DbAdapterInterface/1.1.13@systelab/stable")
 
     def build_requirements(self):
-        self.build_requires("DbAdapterTestUtilities/1.1.13.1@systelab/testing")
+        self.build_requires("DbAdapterTestUtilities/1.1.13@systelab/stable")
         if self.options.gtest == "1.7.0":
             self.build_requires("gtest/1.7.0@systelab/stable")
         elif self.options.gtest == "1.8.1":
