@@ -5,6 +5,17 @@
 ### Bug Fixes
 
 - Updated continuous integration to:
+  - Have a jenkins file to build in jenkins and remove Appveyor and Travis files
+- Updated dependencies:
+  - Moved sqleet version to 0.31.1
+  - Moved DbAdapter version to 1.1.13
+  - Added support for boost 1.76
+
+## Changes for version 1.1.9 (30 Mar 2021)
+
+### Bug Fixes
+
+- Updated continuous integration to:
   - Use GitHub Action to generate library documentation
   - Upload generated packages to Systelab's public Artifactory
   - Moved VS2017 configurations to work with GoogleTest 1.10.0
