@@ -70,7 +70,7 @@ pipeline
 								sh "cmake --build . --config ${props.cmakeConfiguration}"
 								sh "conan export-pkg ../conanfile.py ${packageName}/${version}@systelab/${channel} -s build_type=${props.conanBuildType} -s compiler.toolset=${props.conanCompilerToolset} -s compiler.version=${props.conanCompilerVersion} -s arch=${props.conanArch} -o gtest=${props.conanGTestVersion} -o boost=${props.conanBoostVersion} --force"
 								sh "conan test ../test_package/conanfile.py ${packageName}/${version}@systelab/${channel} -s build_type=${props.conanBuildType} -s compiler.toolset=${props.conanCompilerToolset} -s compiler.version=${props.conanCompilerVersion} -s arch=${props.conanArch} -o gtest=${props.conanGTestVersion} -o boost=${props.conanBoostVersion}"
-								sh "bin/${props.conanBuildType}/${testApplication}.exe --gtest_output=xml:../${testApplication}.xml"
+								sh "bin/${props.conanBuildType}/${testApplication}.exe --gtest_output=xml:${testApplication}.xml"
 							}
 						}
 					}
