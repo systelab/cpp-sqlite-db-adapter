@@ -3,8 +3,8 @@ def version = "0.0.0"
 def packageName = "DbSQLiteAdapter"
 def testApplication = "DbSQLiteAdapterTest"
 def profile = "vs2022.conanprofile"
-def configs = ['Debug', 'Release']
 def arch = "x86"
+def configs = ['Debug', 'Release']
 
 library identifier: "cpp-jenkins-pipelines@master", retriever: modernSCM(
   [$class: "GitSCMSource",
@@ -26,6 +26,7 @@ pipeline
 		booleanParam( name: 'stable',
 					  description: 'Show if generated library should be uploaded as stable or testing',
 					  defaultValue: false )
+					  
 		booleanParam( name: 'uploadPackage',
 					  description: 'Whether or not to upload conan package',
 					  defaultValue: false )
@@ -72,12 +73,12 @@ pipeline
 						stage("Build ${config}|${arch}")
 						{
 							def buildFolder = "build-${config}-${arch}"
-							bat "conan install . --install-folder ${buildFolder} --profile=${profile} -s build_type=${config} -s arch=${arch}"
-							bat "conan build . --build-folder ${buildFolder}"
-							bat "conan export-pkg . ${packageName}/${version}@systelab/${channel} --build-folder ${buildFolder} --force"
+							bat script: "conan install . --install-folder ${buildFolder} --profile=${profile} -s build_type=${config} -s arch=${arch}", label: 'Installing dependencies'
+							bat script: "conan build . --build-folder ${buildFolder}", label: 'Building'
+							bat script: "conan export-pkg . ${packageName}/${version}@systelab/${channel} --build-folder ${buildFolder} --force", label: "Exporting package ${packageName}/${version}@systelab/${channel}"
 							dir("${buildFolder}/bin/${config}")
 							{
-								bat "${testApplication}.exe --gtest_output=xml:${env.WORKSPACE}/${buildFolder}/test_reports/${testApplication}.xml"
+								bat script: "${testApplication}.exe --gtest_output=xml:${env.WORKSPACE}/${buildFolder}/test_reports/${testApplication}.xml", label: 'Executing tests'
 							}
 						}
 					}
@@ -93,7 +94,7 @@ pipeline
 			}
 			steps
 			{
-				bat "conan upload ${packageName}/${version}@systelab/${channel} --all -r systelab-conan-local --force"
+				bat script: "conan upload ${packageName}/${version}@systelab/${channel} --all -r systelab-conan-local --force", label: "Uploading packages for ${packageName}/${version}@systelab/${channel}"
 			}
 		}
 	}
