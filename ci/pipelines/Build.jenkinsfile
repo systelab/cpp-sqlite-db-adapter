@@ -69,7 +69,7 @@ pipeline
 				script
 				{
 					configs.each
-					{ -> config
+					{ config -> 
 						stage("Build ${config}|${arch}")
 						{
 							def buildFolder = "build-${config}-${arch}"
