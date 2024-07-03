@@ -1,5 +1,4 @@
-#ifndef _DBSQLITEADAPTER_FIELD_QUIM_VILA_2112151646_H
-#define _DBSQLITEADAPTER_FIELD_QUIM_VILA_2112151646_H
+#pragma once
 
 #include "DbAdapterInterface/IField.h"
 
@@ -14,18 +13,18 @@ namespace systelab { namespace db { namespace sqlite {
 		Field(unsigned int index, const std::string& name, FieldTypes type, const std::string& defaultValue, bool primaryKey);
 		virtual ~Field();
 
-		unsigned int getIndex() const;
-		std::string getName() const;
-		FieldTypes getType() const;
-		bool isPrimaryKey() const;
+		unsigned int getIndex() const override;
+		std::string getName() const override;
+		FieldTypes getType() const override;
+		bool isPrimaryKey() const override;
 
-		bool hasNullDefaultValue() const;
-		bool getBooleanDefaultValue() const;
-		int getIntDefaultValue() const;
-		double getDoubleDefaultValue() const;
-		std::string getStringDefaultValue() const;
-		boost::posix_time::ptime getDateTimeDefaultValue() const;
-		IBinaryValue& getBinaryDefaultValue() const;
+		bool hasNullDefaultValue() const override;
+		bool getBooleanDefaultValue() const override;
+		int getIntDefaultValue() const override;
+		double getDoubleDefaultValue() const override;
+		std::string getStringDefaultValue() const override;
+		DateTimeType getDateTimeDefaultValue() const override;
+		IBinaryValue& getBinaryDefaultValue() const override;
 
 	private:
 		unsigned int m_index;
@@ -38,13 +37,11 @@ namespace systelab { namespace db { namespace sqlite {
 		int m_defaultIntValue;
 		double m_defaultDoubleValue;
 		std::string m_defaultStringValue;
-		boost::posix_time::ptime m_defaultDateTimeValue;
+		DateTimeType m_defaultDateTimeValue;
 		std::unique_ptr<IBinaryValue> m_defaultBinaryValue;
 
 		void setDefaultValue(FieldTypes type, const std::string& defaultValue);
-		boost::posix_time::ptime getDateTimeFromSQLiteString(const std::string& sqliteDateTime) const;
+		DateTimeType getDateTimeFromSQLiteString(const std::string& sqliteDateTime) const;
 	};
 
 }}}
-
-#endif //_DBSQLITEADAPTER_FIELD_QUIM_VILA_2112151646_H

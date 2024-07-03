@@ -6,7 +6,7 @@
 
 #include "DbAdapterInterface/ITable.h"
 
-#include <sqlite3.h>
+#include <sqleet/sqleet.h>
 
 
 namespace systelab { namespace db { namespace sqlite {

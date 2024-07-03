@@ -1,5 +1,4 @@
-#ifndef _DBSQLITEADAPTER_PRIMARYKEY_QV_2502161134_H
-#define _DBSQLITEADAPTER_PRIMARYKEY_QV_2502161134_H
+#pragma once
 
 #include "DbAdapterInterface/IPrimaryKey.h"
 
@@ -10,14 +9,14 @@ namespace systelab { namespace db { namespace sqlite {
 	class PrimaryKey : public IPrimaryKey
 	{
 	public:
-		PrimaryKey(ITable& table);
-		virtual ~PrimaryKey();
+		explicit PrimaryKey(ITable& table);
+		~PrimaryKey();
 
-		ITable& getTable() const;
+		ITable& getTable() const override;
 
-		unsigned int getFieldsCount() const;
-		const IField& getField(unsigned int index) const;
-		const IField& getField(const std::string& fieldName) const;
+		unsigned int getFieldsCount() const override;
+		const IField& getField(unsigned int index) const override;
+		const IField& getField(const std::string& fieldName) const override;
 
 	private:
 		ITable& m_table;
@@ -26,5 +25,3 @@ namespace systelab { namespace db { namespace sqlite {
 	};
 
 }}}
-
-#endif // _DBSQLITEADAPTER_PRIMARYKEY_QV_2502161134_H

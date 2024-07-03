@@ -4,7 +4,8 @@
 #include "Field.h"
 #include "Record.h"
 
-#include <sqlite3.h>
+#include <DbAdapterInterface/IFieldValue.h>
+#include <sqleet/sqleet.h>
 
 
 namespace systelab { namespace db { namespace sqlite {

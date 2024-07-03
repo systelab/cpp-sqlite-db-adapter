@@ -8,7 +8,6 @@
 #define _WIN32_WINNT 0x0A00	// Change this to the appropriate value to target other versions of Windows.
 #endif
 
-#define BOOST_CONFIG_SUPPRESS_OUTDATED_MESSAGE
-
-#include <boost/optional.hpp>
-
+#include <string>
+#include <memory>
+#include <stdexcept>

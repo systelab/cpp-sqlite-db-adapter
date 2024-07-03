@@ -1,15 +1,18 @@
 #include "stdafx.h"
 #include "Table.h"
 
+#include "DateTimeHelper.h"
 #include "Field.h"
 #include "FieldValue.h"
 #include "TableRecord.h"
 #include "PrimaryKey.h"
 #include "PrimaryKeyValue.h"
 
-#include "DbAdapterInterface/IDatabase.h"
+#include <DbAdapterInterface/IDatabase.h>
+#include <DbAdapterInterface/IRecord.h>
+#include <DbAdapterInterface/IRecordSet.h>
 
-#include <sqlite3.h>
+#include <sqleet/sqleet.h>
 
 
 namespace systelab { namespace db { namespace sqlite {
@@ -92,7 +95,7 @@ namespace systelab { namespace db { namespace sqlite {
 		return std::unique_ptr<IFieldValue>( new FieldValue(field,value) );
 	}
 
-	std::unique_ptr<IFieldValue> Table::createFieldValue(const IField& field, const boost::posix_time::ptime& value) const
+	std::unique_ptr<IFieldValue> Table::createFieldValue(const IField& field, const DateTimeType& value) const
 	{
 		return std::unique_ptr<IFieldValue>( new FieldValue(field,value) );
 	}
@@ -527,7 +530,7 @@ namespace systelab { namespace db { namespace sqlite {
 		}
 	}
 
-	FieldTypes Table::getTypeFromSQLiteTypeName(std::string SQLiteTypeName)
+	FieldTypes Table::getTypeFromSQLiteTypeName(const std::string& SQLiteTypeName)
 	{
 		if (SQLiteTypeName == "BOOLEAN")
 		{
@@ -612,7 +615,7 @@ namespace systelab { namespace db { namespace sqlite {
 					}
 					break;
 				case DATETIME:
-					fieldValueStream << "'" << boost::posix_time::to_iso_string( fieldValue.getDateTimeValue() ) << "'";
+					fieldValueStream << "'" << date_time::toISOString(fieldValue.getDateTimeValue()) << "'";
 					break;
 				case BINARY:
 					throw std::runtime_error("Insert of tables with binary fields not implemented." );

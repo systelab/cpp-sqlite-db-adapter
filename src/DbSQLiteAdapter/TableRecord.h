@@ -1,5 +1,4 @@
-#ifndef _DBSQLITEADAPTER_TABLERECORD_QV_0303161116_H
-#define _DBSQLITEADAPTER_TABLERECORD_QV_0303161116_H
+#pragma once
 
 #include "DbAdapterInterface/ITableRecord.h"
 
@@ -19,24 +18,22 @@ namespace systelab { namespace db { namespace sqlite {
 	{
 	public:
 		TableRecord(ITableRecordSet& recordSet, sqlite3_stmt* statement);
-		TableRecord(ITable&, std::vector< std::unique_ptr<IFieldValue> >& );
-		virtual ~TableRecord();
+		TableRecord(ITable&, std::vector<std::unique_ptr<IFieldValue>>&);
+		~TableRecord();
 
-		ITable& getTable() const;
+		ITable& getTable() const override;
 
-		unsigned int getFieldValuesCount() const;
-		IFieldValue& getFieldValue(unsigned int index) const;
-		IFieldValue& getFieldValue(const std::string& fieldName) const;
+		unsigned int getFieldValuesCount() const override;
+		IFieldValue& getFieldValue(unsigned int index) const override;
+		IFieldValue& getFieldValue(const std::string& fieldName) const override;
 
-		bool hasFieldValue(const std::string& fieldName) const;
+		bool hasFieldValue(const std::string& fieldName) const override;
 
-		std::vector<IFieldValue*> getValuesList() const;
+		std::vector<IFieldValue*> getValuesList() const override;
 
 	private:
 		ITable& m_table;
-		std::vector< std::unique_ptr<IFieldValue> > m_fieldValues;
+		std::vector<std::unique_ptr<IFieldValue>> m_fieldValues;
 	};
 
 }}}
-
-#endif //_DBSQLITEADAPTER_TABLERECORD_QV_0303161116_H

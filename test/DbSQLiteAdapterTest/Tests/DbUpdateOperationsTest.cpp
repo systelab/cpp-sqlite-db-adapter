@@ -1,11 +1,14 @@
 #include "stdafx.h"
 #include "Helpers/Helpers.h"
 
-#include "DbAdapterInterface/IConnection.h"
 #include "DbSQLiteAdapter/Connection.h"
 #include "DbSQLiteAdapter/ConnectionConfiguration.h"
+#include "DbSQLiteAdapter/DateTimeHelper.h"
 
-#include <boost/filesystem.hpp>
+#include <DbAdapterInterface/IConnection.h>
+#include <DbAdapterInterface/ITable.h>
+#include <DbAdapterInterface/ITableRecord.h>
+#include <filesystem>
 
 using namespace testing;
 
@@ -24,9 +27,9 @@ namespace systelab { namespace db { namespace sqlite { namespace unit_test {
 	public:
 		void SetUp()
 		{
-			if (boost::filesystem::exists(UPDATE_DATABASE_FILEPATH))
+			if (std::filesystem::exists(UPDATE_DATABASE_FILEPATH))
 			{
-				boost::filesystem::remove(UPDATE_DATABASE_FILEPATH);
+				std::filesystem::remove(UPDATE_DATABASE_FILEPATH);
 			}
 
 			m_db = loadDatabase();
@@ -71,7 +74,7 @@ namespace systelab { namespace db { namespace sqlite { namespace unit_test {
 		record->getFieldValue("FIELD_STR_NO_INDEX").setStringValue("STR_UPDATED");
 		record->getFieldValue("FIELD_REAL").setDoubleValue(6789.1234);
 		record->getFieldValue("FIELD_BOOL").setBooleanValue(false);
-		record->getFieldValue("FIELD_DATE").setDateTimeValue(boost::posix_time::ptime(boost::gregorian::date(2015,9,6)));
+		record->getFieldValue("FIELD_DATE").setDateTimeValue(date_time::toDateTime("20150906T000000"));
 
 		// Update the single record
 		RowsAffected nRows = table.updateRecord(*record);
@@ -85,7 +88,7 @@ namespace systelab { namespace db { namespace sqlite { namespace unit_test {
 		ASSERT_EQ(updatedRecord->getFieldValue("FIELD_STR_NO_INDEX").getStringValue(),	std::string("STR_UPDATED"));
 		ASSERT_EQ(updatedRecord->getFieldValue("FIELD_REAL").getDoubleValue(),			6789.1234);
 		ASSERT_EQ(updatedRecord->getFieldValue("FIELD_BOOL").getBooleanValue(),			false);
-		ASSERT_EQ(updatedRecord->getFieldValue("FIELD_DATE").getDateTimeValue(),		boost::posix_time::ptime(boost::gregorian::date(2015,9,6)));
+		ASSERT_EQ(updatedRecord->getFieldValue("FIELD_DATE").getDateTimeValue(),		date_time::toDateTime("20150906T000000"));
 	}
 
 	TEST_F(DbUpdateOperationsTest, testUpdateNonExistingRecordAffectsZeroRows)
@@ -110,7 +113,7 @@ namespace systelab { namespace db { namespace sqlite { namespace unit_test {
 		auxRecord->getFieldValue("FIELD_STR_NO_INDEX").setStringValue("NEW_VALUE2");
 		auxRecord->getFieldValue("FIELD_REAL").setDoubleValue(777.888);
 		auxRecord->getFieldValue("FIELD_BOOL").setBooleanValue(false);
-		auxRecord->getFieldValue("FIELD_DATE").setDateTimeValue(boost::posix_time::ptime(boost::gregorian::date(2012,4,5)));
+		auxRecord->getFieldValue("FIELD_DATE").setDateTimeValue(date_time::toDateTime("20120405T000000"));
 
 		std::vector<IFieldValue*> newValues;
 		newValues.push_back( &(auxRecord->getFieldValue("FIELD_INT_NO_INDEX")) );
@@ -138,7 +141,7 @@ namespace systelab { namespace db { namespace sqlite { namespace unit_test {
 			ASSERT_EQ(updatedRecord.getFieldValue("FIELD_STR_NO_INDEX").getStringValue(),	std::string("NEW_VALUE2"));
 			ASSERT_EQ(updatedRecord.getFieldValue("FIELD_REAL").getDoubleValue(),			777.888);
 			ASSERT_EQ(updatedRecord.getFieldValue("FIELD_BOOL").getBooleanValue(),			false);
-			ASSERT_EQ(updatedRecord.getFieldValue("FIELD_DATE").getDateTimeValue(),			boost::posix_time::ptime(boost::gregorian::date(2012,4,5)));
+			ASSERT_EQ(updatedRecord.getFieldValue("FIELD_DATE").getDateTimeValue(),			date_time::toDateTime("20120405T000000"));
 			updatedRecordset->nextRecord();
 		}
 	}

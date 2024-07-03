@@ -1,5 +1,4 @@
-#ifndef _DBSQLITEADAPTER_FIELDVALUE_QUIM_VILA_2112151751_H
-#define _DBSQLITEADAPTER_FIELDVALUE_QUIM_VILA_2112151751_H
+#pragma once
 
 #include "DbAdapterInterface/IFieldValue.h"
 
@@ -16,34 +15,34 @@ namespace systelab { namespace db { namespace sqlite {
 		FieldValue(const IField&, int);
 		FieldValue(const IField&, double);
 		FieldValue(const IField&, const std::string&);
-		FieldValue(const IField&, const boost::posix_time::ptime&);
+		FieldValue(const IField&, const DateTimeType&);
 		FieldValue(const IField&, std::unique_ptr<IBinaryValue>);
-		virtual ~FieldValue(void);
+		~FieldValue();
 
-		const IField& getField() const;
+		const IField& getField() const override;
 
-		bool isNull() const;
-		bool isDefault() const;
-		bool getBooleanValue() const;
-		int getIntValue() const;
-		double getDoubleValue() const;
-		std::string getStringValue() const;
-		boost::posix_time::ptime getDateTimeValue() const;
-		IBinaryValue& getBinaryValue() const;
+		bool isNull() const override;
+		bool isDefault() const override;
+		bool getBooleanValue() const override;
+		int getIntValue() const override;
+		double getDoubleValue() const override;
+		std::string getStringValue() const override;
+		DateTimeType getDateTimeValue() const override;
+		IBinaryValue& getBinaryValue() const override;
 
-		void setValue(const IFieldValue&);
-		void setNull();
-		void setDefault();
-		void setBooleanValue(bool value);
-		void setIntValue(int value);
-		void setDoubleValue(double value);
-		void setStringValue(const std::string& value);
-		void setDateTimeValue(const boost::posix_time::ptime& value);
-		void setBinaryValue(std::unique_ptr<IBinaryValue> value);
+		void setValue(const IFieldValue&) override;
+		void setNull() override;
+		void setDefault() override;
+		void setBooleanValue(bool value) override;
+		void setIntValue(int value) override;
+		void setDoubleValue(double value) override;
+		void setStringValue(const std::string& value) override;
+		void setDateTimeValue(const DateTimeType& value) override;
+		void setBinaryValue(std::unique_ptr<IBinaryValue> value) override;
 
-		void useDefaultValue();
+		void useDefaultValue() override;
 
-		std::unique_ptr<IFieldValue> clone() const;
+		std::unique_ptr<IFieldValue> clone() const override;
 
 	private:
 		const IField& m_field;
@@ -54,10 +53,8 @@ namespace systelab { namespace db { namespace sqlite {
 		int m_intValue;
 		double m_doubleValue;
 		std::string m_stringValue;
-		boost::posix_time::ptime m_dateTimeValue;
+		DateTimeType m_dateTimeValue;
 		std::unique_ptr<IBinaryValue> m_binaryValue;
 	};
 
 }}}
-
-#endif //_DBSQLITEADAPTER_FIELDVALUE_QUIM_VILA_2112151751_H

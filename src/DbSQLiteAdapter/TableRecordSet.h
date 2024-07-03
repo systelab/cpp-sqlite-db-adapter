@@ -1,5 +1,4 @@
-#ifndef _DBSQLITEADAPTER_TABLERECORDSET_QV_0303161126_H
-#define _DBSQLITEADAPTER_TABLERECORDSET_QV_0303161126_H
+#pragma once
 
 #include "DbAdapterInterface/ITableRecordSet.h"
 #include "DbAdapterInterface/ITableRecord.h"
@@ -21,27 +20,25 @@ namespace systelab { namespace db { namespace sqlite {
 	{
 	public:
 		TableRecordSet(ITable& table, sqlite3_stmt* statement);
-		virtual ~TableRecordSet();
+		~TableRecordSet();
 
-		ITable& getTable() const;
+		ITable& getTable() const override;
 
-		unsigned int getFieldsCount() const;
-		const IField& getField(unsigned int index) const;
-		const IField& getField(const std::string& fieldName) const;
+		unsigned int getFieldsCount() const override;
+		const IField& getField(unsigned int index) const override;
+		const IField& getField(const std::string& fieldName) const override;
 
-		unsigned int getRecordsCount() const;
+		unsigned int getRecordsCount() const override;
 
-		const ITableRecord& getCurrentRecord() const;
-		std::unique_ptr<ITableRecord> copyCurrentRecord() const;
-		bool isCurrentRecordValid() const;
-		void nextRecord();
+		const ITableRecord& getCurrentRecord() const override;
+		std::unique_ptr<ITableRecord> copyCurrentRecord() const override;
+		bool isCurrentRecordValid() const override;
+		void nextRecord() override;
 
 	private:
 		ITable& m_table;
-		std::vector< std::unique_ptr<ITableRecord> > m_records;
-		std::vector< std::unique_ptr<ITableRecord> >::iterator m_iterator;
+		std::vector<std::unique_ptr<ITableRecord>> m_records;
+		std::vector<std::unique_ptr<ITableRecord>>::iterator m_iterator;
 	};
 
 }}}
-
-#endif //_DBSQLITEADAPTER_RECORDSET_QUIM_VILA_21212151651_H

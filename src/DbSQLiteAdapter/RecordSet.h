@@ -1,5 +1,4 @@
-#ifndef _DBSQLITEADAPTER_RECORDSET_QUIM_VILA_21212151651_H
-#define _DBSQLITEADAPTER_RECORDSET_QUIM_VILA_21212151651_H
+#pragma once
 
 #include "DbAdapterInterface/IRecordSet.h"
 #include "DbAdapterInterface/Types.h"
@@ -19,28 +18,26 @@ namespace systelab { namespace db { namespace sqlite {
 	{
 	public:
 		RecordSet(sqlite3_stmt* statement, bool allFieldsAsStrings);
-		virtual ~RecordSet();
+		~RecordSet();
 
-		unsigned int getFieldsCount() const;
-		const IField& getField(unsigned int index) const;
-		const IField& getField(const std::string& fieldName) const;
+		unsigned int getFieldsCount() const override;
+		const IField& getField(unsigned int index) const override;
+		const IField& getField(const std::string& fieldName) const override;
 
-		unsigned int getRecordsCount() const;
+		unsigned int getRecordsCount() const override;
 
-		const IRecord& getCurrentRecord() const;
-		std::unique_ptr<IRecord> copyCurrentRecord() const;
-		bool isCurrentRecordValid() const;
-		void nextRecord();
+		const IRecord& getCurrentRecord() const override;
+		std::unique_ptr<IRecord> copyCurrentRecord() const override;
+		bool isCurrentRecordValid() const override;
+		void nextRecord() override;
 
 	private:
-		std::vector< std::unique_ptr<IField> > m_fields;
-		std::vector< std::unique_ptr<IRecord> > m_records;
-		std::vector< std::unique_ptr<IRecord> >::iterator m_iterator;
+		std::vector<std::unique_ptr<IField>> m_fields;
+		std::vector<std::unique_ptr<IRecord>> m_records;
+		std::vector<std::unique_ptr<IRecord>>::iterator m_iterator;
 
 		void createFields(sqlite3_stmt* statement, bool allFieldsAsStrings);
 		FieldTypes getTypeFromSQLiteType(int SQLiteType);
 	};
 
 }}}
-
-#endif //_DBSQLITEADAPTER_RECORDSET_QUIM_VILA_21212151651_H

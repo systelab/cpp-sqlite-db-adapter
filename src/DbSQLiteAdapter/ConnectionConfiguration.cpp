@@ -5,7 +5,7 @@
 namespace systelab { namespace db { namespace sqlite {
 
 	ConnectionConfiguration::ConnectionConfiguration(const std::string& filepath,
-													 const boost::optional<std::string>& key)
+													 const std::optional<std::string>& key)
 		:m_filepath(filepath)
 		,m_key(key)
 	{
@@ -21,7 +21,7 @@ namespace systelab { namespace db { namespace sqlite {
 		}
 		else if (parameterName == "key")
 		{
-			return m_key.is_initialized();
+			return m_key.has_value();
 		}
 		else
 		{
@@ -35,7 +35,7 @@ namespace systelab { namespace db { namespace sqlite {
 		{
 			return m_filepath;
 		}
-		else if (parameterName == "key" && m_key.is_initialized())
+		else if (parameterName == "key" && m_key.has_value())
 		{
 			return *m_key;
 		}

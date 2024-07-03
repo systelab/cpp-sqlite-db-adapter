@@ -5,7 +5,7 @@
 #include "DbSQLiteAdapter/Connection.h"
 #include "DbSQLiteAdapter/ConnectionConfiguration.h"
 
-#include <boost/filesystem.hpp>
+#include <filesystem>
 
 using namespace testing;
 
@@ -20,9 +20,9 @@ namespace systelab { namespace db { namespace sqlite { namespace unit_test {
 	public:
 		void SetUp()
 		{
-			if (boost::filesystem::exists(FOREIGN_KEYS_DATABASE_FILEPATH))
+			if (std::filesystem::exists(FOREIGN_KEYS_DATABASE_FILEPATH))
 			{
-				boost::filesystem::remove(FOREIGN_KEYS_DATABASE_FILEPATH);
+				std::filesystem::remove(FOREIGN_KEYS_DATABASE_FILEPATH);
 			}
 
 			systelab::db::sqlite::ConnectionConfiguration connectionConfiguration(FOREIGN_KEYS_DATABASE_FILEPATH, "keyForTest1234"s);
