@@ -42,15 +42,15 @@ namespace systelab { namespace db { namespace sqlite {
 
 	std::ostream BinaryValue::getOutputStream() const
 	{
-		ostreambuf obuf(m_buffer, m_size);
 		throw "Not implemented yet!";
+		//ostreambuf obuf(m_buffer, m_size);
 		//return std::ostream(&obuf);
 	}
 
 	std::istream BinaryValue::getInputStream() const
 	{
-		istreambuf sbuf(m_buffer, m_buffer + sizeof(m_buffer));
 		throw "Not implemented yet!";
+		//istreambuf sbuf(m_buffer, m_buffer + sizeof(m_buffer));
 		//return std::istream(&sbuf);
 	}
 

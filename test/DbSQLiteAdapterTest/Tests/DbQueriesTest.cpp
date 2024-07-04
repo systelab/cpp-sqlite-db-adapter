@@ -1,16 +1,13 @@
 #include "stdafx.h"
 
-#include "DbAdapterInterface/IConnection.h"
 #include "DbSQLiteAdapter/Connection.h"
 #include "DbSQLiteAdapter/ConnectionConfiguration.h"
+#include "DbSQLiteAdapter/DateTimeHelper.h"
 
-#include "DbAdapterTestUtilities/Mocks/MockConnection.h"
-#include "DbAdapterTestUtilities/Mocks/MockDatabase.h"
-#include "DbAdapterTestUtilities/Mocks/MockTable.h"
-
-#include <boost/thread/thread.hpp>
-#include <boost/date_time/microsec_time_clock.hpp>
-
+#include <DbAdapterInterface/IConnection.h>
+#include <DbAdapterTestUtilities/Mocks/MockConnection.h>
+#include <DbAdapterTestUtilities/Mocks/MockDatabase.h>
+#include <DbAdapterTestUtilities/Mocks/MockTable.h>
 
 namespace systelab { namespace db { namespace sqlite { namespace unit_test {
 
@@ -43,17 +40,17 @@ namespace systelab { namespace db { namespace sqlite { namespace unit_test {
 		std::unique_ptr<IDatabase> m_db;
 		systelab::db::sqlite::Connection m_connection;
 
-		boost::posix_time::ptime m_startTime;
+		std::chrono::system_clock::time_point m_startTime;
 
 		void startTimeTracking()
 		{
-			m_startTime = boost::posix_time::microsec_clock::universal_time();
+			m_startTime = std::chrono::system_clock::now();
 		}
 
 		void endTimeTracking()
 		{
-			boost::posix_time::ptime endTime = boost::posix_time::microsec_clock::universal_time();
-			std::cout << "\nExecution time: " << (endTime - m_startTime).total_milliseconds() << " ms.\n";
+			auto endTime = std::chrono::system_clock::now();
+			std::cout << "\nExecution time: " << (endTime - m_startTime) << "\n";
 		}
 
 		void createTable(const systelab::db::sqlite::Connection& connection)
@@ -64,11 +61,11 @@ namespace systelab { namespace db { namespace sqlite { namespace unit_test {
 
 			std::unique_ptr<ITransaction> transaction = m_db->startTransaction();
 
-			boost::posix_time::ptime today(boost::gregorian::date(2015,1,1));
+			auto today = date_time::toDateTime("20150101T000000");
 			for (unsigned int i = 0; i < 10000; i++)
 			{
 				std::ostringstream oss;
-				std::string strDate = boost::posix_time::to_iso_string(today + (boost::gregorian::days(7 * i)));
+				std::string strDate = date_time::toISOString(today + std::chrono::days(7 * i));
 				oss << "INSERT INTO TESTS (ID, FIELD_INT_INDEX, FIELD_INT_NO_INDEX, FIELD_STR_INDEX, FIELD_STR_NO_INDEX, FIELD_DATE) VALUES (" 
 					<< i 
 					<< ", " << i%7 
@@ -175,11 +172,11 @@ namespace systelab { namespace db { namespace sqlite { namespace unit_test {
 
 	TEST_F(DbQueriesTest, testInsert1000RowsNoTransaction)
 	{
-		boost::posix_time::ptime today(boost::gregorian::date(2018,1,1));
+		auto today = date_time::toDateTime("20180101T000000");
 		for (unsigned int i = 10001; i < 11000; i++)
 		{
 			std::ostringstream oss;
-			std::string strDate = boost::posix_time::to_iso_string(today + (boost::gregorian::days(7 * i)));
+			std::string strDate = date_time::toISOString(today + std::chrono::days(7 * i));
 			oss << "INSERT INTO TESTS (ID, FIELD_INT_INDEX, FIELD_INT_NO_INDEX, FIELD_STR_INDEX, FIELD_STR_NO_INDEX) VALUES (" 
 				<< i 
 				<< ", " << i%7 
@@ -194,11 +191,11 @@ namespace systelab { namespace db { namespace sqlite { namespace unit_test {
 	TEST_F(DbQueriesTest, testInsert1000RowsTransaction)
 	{
 		std::unique_ptr<ITransaction> transaction = m_db->startTransaction();
-		boost::posix_time::ptime today(boost::gregorian::date(2018,1,1));
+		auto today = date_time::toDateTime("20180101T000000");
 		for (unsigned int i = 10001; i < 11000; i++)
 		{
 			std::ostringstream oss;
-			std::string strDate = boost::posix_time::to_iso_string(today + (boost::gregorian::days(7 * i)));
+			std::string strDate = date_time::toISOString(today + std::chrono::days(7 * i));
 			oss << "INSERT INTO TESTS (ID, FIELD_INT_INDEX, FIELD_INT_NO_INDEX, FIELD_STR_INDEX, FIELD_STR_NO_INDEX) VALUES (" 
 				<< i 
 				<< ", " << i%7 

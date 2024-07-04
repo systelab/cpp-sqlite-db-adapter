@@ -1,10 +1,10 @@
 #include "stdafx.h"
 #include "Connection.h"
-
 #include "Database.h"
 
-#include <sqlite3.h>
+#include <DbAdapterInterface/IConnectionConfiguration.h>
 
+#include <sqleet/sqleet.h>
 
 namespace systelab { namespace db { namespace sqlite {
 

@@ -1,9 +1,11 @@
 #include "stdafx.h"
 #include "Helpers/Helpers.h"
 
-#include "DbAdapterInterface/IConnection.h"
 #include "DbSQLiteAdapter/Connection.h"
+#include "DbSQLiteAdapter/DateTimeHelper.h"
 
+#include <DbAdapterInterface/IConnection.h>
+#include <DbAdapterInterface/ITransaction.h>
 #include <sstream>
 
 namespace systelab { namespace db { namespace sqlite { namespace unit_test {
@@ -41,7 +43,7 @@ namespace systelab { namespace db { namespace sqlite { namespace unit_test {
 				<< ", " << "'" << getFieldStringNoIndexValue(i) << "'"
 				<< ", " << getFieldRealValue(i)
 				<< ", " << (getFieldBooleanValue(i) ? 1 : 0)
-				<< ", " << "'" << boost::posix_time::to_iso_string(getFieldDateValue(i)) << "'"
+				<< ", " << "'" << date_time::toISOString(getFieldDateValue(i)) << "'"
 				<< " )";
 
 			db.executeOperation(oss.str());
@@ -135,14 +137,14 @@ namespace systelab { namespace db { namespace sqlite { namespace unit_test {
 		return (id % 2 == 0);
 	}
 
-	boost::posix_time::ptime getFieldDateValue(unsigned int id)
+	DateTimeType getFieldDateValue(unsigned int id)
 	{
-		return boost::posix_time::ptime( getFieldDateBaseDate() + boost::gregorian::days(id % 7) );
+		return getFieldDateBaseDate() + std::chrono::days(id % 7);
 	}
 
-	boost::posix_time::ptime getFieldDateBaseDate()
+	DateTimeType getFieldDateBaseDate()
 	{
-		return boost::posix_time::ptime( boost::gregorian::date(2015,1,1) );
+		return date_time::toDateTime("20150101");
 	}
 
 	unsigned int getNumRecordsWithFieldIntIndexZero(unsigned int tableRecords)

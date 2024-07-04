@@ -1,5 +1,4 @@
-#ifndef _DBSQLITEADAPTER_TRANSACTION_QUIM_VILA_2112151606_H
-#define _DBSQLITEADAPTER_TRANSACTION_QUIM_VILA_2112151606_H
+#pragma once
 
 #include "DbAdapterInterface/ITransaction.h"
 
@@ -12,17 +11,14 @@ namespace systelab { namespace db { namespace sqlite {
 	class Transaction : public ITransaction
 	{
 	public:
-		Transaction(IDatabase& database);
-		virtual ~Transaction();
+		explicit Transaction(IDatabase& database);
+		~Transaction();
 
-		void commit();
-		void rollback();
+		void commit() override;
+		void rollback() override;
 
 	private:
 		IDatabase& m_database;
-
 	};
 
 }}}
-
-#endif //_DBSQLITEADAPTER_TRANSACTION_QUIM_VILA_2112151606_H

@@ -1,5 +1,4 @@
-#ifndef _DBSQLITEADAPTER_RECORD_QUIM_VILA_2112151735_H
-#define _DBSQLITEADAPTER_RECORD_QUIM_VILA_2112151735_H
+#pragma once
 
 #include "DbAdapterInterface/IRecord.h"
 
@@ -19,20 +18,17 @@ namespace systelab { namespace db { namespace sqlite {
 	{
 	public:
 		Record(IRecordSet& recordSet, sqlite3_stmt* statement);
-		Record( std::vector< std::unique_ptr<IFieldValue> >& );
-		virtual ~Record();
+		explicit Record(std::vector<std::unique_ptr<IFieldValue>>&);
+		~Record();
 
-		unsigned int getFieldValuesCount() const;
-		IFieldValue& getFieldValue(unsigned int index) const;
-		IFieldValue& getFieldValue(const std::string& fieldName) const;
+		unsigned int getFieldValuesCount() const override;
+		IFieldValue& getFieldValue(unsigned int index) const override;
+		IFieldValue& getFieldValue(const std::string& fieldName) const override;
 
-		bool hasFieldValue(const std::string& fieldName) const;
+		bool hasFieldValue(const std::string& fieldName) const override;
 
 	private:
 		std::vector< std::unique_ptr<IFieldValue> > m_fieldValues;
-
 	};
 
 }}}
-
-#endif //_DBSQLITEADAPTER_RECORD_QUIM_VILA_2112151735_H

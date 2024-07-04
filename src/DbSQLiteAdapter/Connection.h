@@ -1,7 +1,7 @@
 #pragma once
 
 #include "DbAdapterInterface/IConnection.h"
-
+#include <sstream>
 
 namespace systelab { namespace db { namespace sqlite {
 
@@ -9,9 +9,9 @@ namespace systelab { namespace db { namespace sqlite {
 	{
 	public:
 		Connection();
-		virtual ~Connection();
+		~Connection();
 
-		std::unique_ptr<IDatabase> loadDatabase(IConnectionConfiguration&);
+		std::unique_ptr<IDatabase> loadDatabase(IConnectionConfiguration&) override;
 
 	public:
 		struct SQLiteException : public Exception
@@ -27,7 +27,7 @@ namespace systelab { namespace db { namespace sqlite {
 			{
 			}
 
-			virtual const char* what() const noexcept override
+			const char* what() const noexcept override
 			{
 				std::ostringstream oss;
 				oss << std::runtime_error::what() << ": " << m_extendedMessage

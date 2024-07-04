@@ -1,10 +1,14 @@
 #include "stdafx.h"
 #include "Field.h"
 
+#include "DateTimeHelper.h"
+
 #include <algorithm>
 
 
 namespace systelab { namespace db { namespace sqlite {
+
+
 
 	Field::Field(unsigned int index,
 				 const std::string& name,
@@ -119,7 +123,7 @@ namespace systelab { namespace db { namespace sqlite {
 		}
 	}
 
-	boost::posix_time::ptime Field::getDateTimeDefaultValue() const
+	DateTimeType Field::getDateTimeDefaultValue() const
 	{
 		if (!hasNullDefaultValue())
 		{
@@ -168,7 +172,7 @@ namespace systelab { namespace db { namespace sqlite {
 		m_defaultIntValue = 0;
 		m_defaultDoubleValue = 0.;
 		m_defaultStringValue = "";
-		m_defaultDateTimeValue = boost::posix_time::ptime();
+		m_defaultDateTimeValue = DateTimeType();
 		m_defaultBinaryValue.reset();
 
 		std::string defaultValueUpper = defaultValue;
@@ -207,17 +211,17 @@ namespace systelab { namespace db { namespace sqlite {
 		}
 	}
 
-	boost::posix_time::ptime Field::getDateTimeFromSQLiteString(const std::string& sqliteDateTime) const
+	DateTimeType Field::getDateTimeFromSQLiteString(const std::string& sqliteDateTime) const
 	{
 		if (!sqliteDateTime.empty())
 		{
 			std::string sqliteDateTimeNoQuotes = sqliteDateTime.substr(1);
 			sqliteDateTimeNoQuotes = sqliteDateTimeNoQuotes.substr(0, sqliteDateTimeNoQuotes.length() - 1);
-			return boost::posix_time::from_iso_string(sqliteDateTimeNoQuotes);
+			return date_time::toDateTime(sqliteDateTimeNoQuotes);
 		}
 		else
 		{
-			return boost::posix_time::ptime();
+			return DateTimeType();
 		}
 	}
 

@@ -3,7 +3,6 @@
 
 #include "DbAdapterInterface/IDatabase.h"
 
-
 namespace systelab { namespace db { namespace sqlite {
 
 	Transaction::Transaction(IDatabase& database)
@@ -17,14 +16,12 @@ namespace systelab { namespace db { namespace sqlite {
 
 	void Transaction::commit()
 	{
-		std::string operation = "COMMIT";
-		m_database.executeOperation(operation);
+		m_database.executeOperation("COMMIT");
 	}
 
 	void Transaction::rollback()
 	{
-		std::string operation = "ROLLBACK";
-		m_database.executeOperation(operation);
+		m_database.executeOperation("ROLLBACK");
 	}
 
 }}}

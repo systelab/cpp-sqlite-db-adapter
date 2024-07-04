@@ -1,11 +1,10 @@
-#ifndef _DBSQLITEADAPTER_DATABASE_QUIM_VILA_2112151554_H
-#define _DBSQLITEADAPTER_DATABASE_QUIM_VILA_2112151554_H
+#pragma once
 
 #include "DbAdapterInterface/IDatabase.h"
 #include "DbAdapterInterface/ITableRecordSet.h"
 
 #include <map>
-#include <boost/thread/recursive_mutex.hpp>
+#include <mutex>
 
 
 struct sqlite3;
@@ -15,30 +14,31 @@ namespace systelab { namespace db { namespace sqlite {
 	class Database : public IDatabase
 	{
 	public:
-		Database(sqlite3* database);
-		virtual ~Database();
+		explicit Database(sqlite3* database);
+		~Database();
 
-		struct Lock : public boost::unique_lock<boost::recursive_mutex>
+		struct Lock : public std::lock_guard<std::recursive_mutex>
 		{
 			Lock(Database&);
 		};
 
-		ITable& getTable(std::string tableName);
-		std::unique_ptr<IRecordSet> executeQuery(const std::string& query);
+		ITable& getTable(const std::string& tableName) override;
+		std::unique_ptr<IRecordSet> executeQuery(const std::string& query) override;
+		
+		void executeOperation(const std::string& operation) override;
+		void executeMultipleStatements(const std::string& statements) override;
+		RowsAffected getRowsAffectedByLastChangeOperation() const override;
+		RowId getLastInsertedRowId() const override;
+		std::unique_ptr<ITransaction> startTransaction() override;
+
+		// Internal usage
 		std::unique_ptr<IRecordSet> executeQuery(const std::string& query, bool allFieldsAsStrings);
 		std::unique_ptr<ITableRecordSet> executeTableQuery(const std::string& query, ITable& table);
-		void executeOperation(const std::string& operation);
-		void executeMultipleStatements(const std::string& statements);
-		RowsAffected getRowsAffectedByLastChangeOperation() const;
-		RowId getLastInsertedRowId() const;
-		std::unique_ptr<ITransaction> startTransaction();
-
 	private:
 		sqlite3* m_database;
 		std::map< std::string, std::unique_ptr<ITable> > m_tables;
-		boost::recursive_mutex m_mutex;
+		std::recursive_mutex m_mutex;
+
 	};
 
 }}}
-
-#endif //_DBSQLITEADAPTER_DATABASE_QUIM_VILA_2112151554_H

@@ -1,16 +1,23 @@
 #include "stdafx.h"
 #include "Helpers/Helpers.h"
 
-#include "DbAdapterInterface/IConnection.h"
 #include "DbSQLiteAdapter/Connection.h"
 #include "DbSQLiteAdapter/ConnectionConfiguration.h"
+#include "DbSQLiteAdapter/DateTimeHelper.h"
 
-#include <boost/filesystem.hpp>
+#include <DbAdapterInterface/IConnection.h>
+#include <DbAdapterInterface/ITable.h>
+#include <DbAdapterInterface/ITableRecord.h>
+#include <filesystem>
 #include <thread>
 
-using namespace testing;
 
 namespace systelab { namespace db { namespace sqlite { namespace unit_test {
+	namespace
+	{
+		using namespace testing;
+		using namespace std::chrono_literals;
+	}
 
 	static const std::string INSERT_DATABASE_FILEPATH = "insert-test.db";
 	static const std::string INSERT_TABLE_NAME = "INSERT_TABLE";
@@ -25,9 +32,9 @@ namespace systelab { namespace db { namespace sqlite { namespace unit_test {
 	public:
 		void SetUp()
 		{
-			if (boost::filesystem::exists(INSERT_DATABASE_FILEPATH))
+			if (std::filesystem::exists(INSERT_DATABASE_FILEPATH))
 			{
-				boost::filesystem::remove(INSERT_DATABASE_FILEPATH);
+				std::filesystem::remove(INSERT_DATABASE_FILEPATH);
 			}
 
 			m_db = loadDatabase();
@@ -69,8 +76,7 @@ namespace systelab { namespace db { namespace sqlite { namespace unit_test {
 			record->getFieldValue("FIELD_STR_NO_INDEX").setStringValue(std::string("STR") + std::to_string((long long) (i*2)));
 			record->getFieldValue("FIELD_REAL").setDoubleValue(1.2345 + i);
 			record->getFieldValue("FIELD_BOOL").setBooleanValue((i%2) == 0);
-			record->getFieldValue("FIELD_DATE").setDateTimeValue
-				(boost::posix_time::ptime(boost::gregorian::date(2015,2,3) + boost::gregorian::days(i)));
+			record->getFieldValue("FIELD_DATE").setDateTimeValue(date_time::toDateTime("20150203T000000") + std::chrono::days(i));
 
 			RowsAffected nRows = table.insertRecord(*record.get());
 			ASSERT_EQ(nRows, 1);
@@ -91,7 +97,7 @@ namespace systelab { namespace db { namespace sqlite { namespace unit_test {
 			std::string expectedStrIndex = "STR" + std::to_string((long long) id);
 			std::string expectedStrNoIndex = "STR" + std::to_string((long long) (id*2));
 			bool expectedBool = ((id%2) == 0);
-			boost::posix_time::ptime expectedDate(boost::gregorian::date(2015,2,3) + boost::gregorian::days(id));
+			auto expectedDate = date_time::toDateTime("20150203T000000") + std::chrono::days(id);
 
 			ASSERT_EQ(record.getFieldValue("FIELD_INT_INDEX").getIntValue(),		expectedIntIndex);
 			ASSERT_EQ(record.getFieldValue("FIELD_INT_NO_INDEX").getIntValue(),		expectedIntNoIndex);
@@ -116,7 +122,7 @@ namespace systelab { namespace db { namespace sqlite { namespace unit_test {
 		record->getFieldValue("FIELD_STR_NO_INDEX").setStringValue("STR");
 		record->getFieldValue("FIELD_REAL").setDoubleValue(1.0);
 		record->getFieldValue("FIELD_BOOL").setBooleanValue(true);
-		record->getFieldValue("FIELD_DATE").setDateTimeValue(boost::posix_time::ptime());
+		record->getFieldValue("FIELD_DATE").setDateTimeValue(DateTimeType());
 
 		// Insert the record into table
 		RowsAffected nRows = table.insertRecord(*record.get());
@@ -146,10 +152,7 @@ namespace systelab { namespace db { namespace sqlite { namespace unit_test {
 		ASSERT_NEAR(3.3, record->getFieldValue("FIELD_REAL").getDoubleValue(), 1e-10);
 		ASSERT_EQ(false, record->getFieldValue("FIELD_BOOL").getBooleanValue());
 
-		boost::posix_time::ptime expectedDate(boost::gregorian::date(2016,1,2));  // 20160102T030405
-		expectedDate += boost::posix_time::hours(3);
-		expectedDate += boost::posix_time::minutes(4);
-		expectedDate += boost::posix_time::seconds(5);
+		auto expectedDate = date_time::toDateTime("20160102T000000") + 3h + 4min + 5s;
 		ASSERT_EQ(expectedDate, record->getFieldValue("FIELD_DATE").getDateTimeValue());
 	}
 

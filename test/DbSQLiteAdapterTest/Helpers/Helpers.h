@@ -20,8 +20,8 @@ namespace systelab { namespace db { namespace sqlite { namespace unit_test {
 	std::string getFieldStringNoIndexValue(unsigned int id);
 	double getFieldRealValue(unsigned int id);
 	bool getFieldBooleanValue(unsigned int id);
-	boost::posix_time::ptime getFieldDateValue(unsigned int id);
-	boost::posix_time::ptime getFieldDateBaseDate();
+	DateTimeType getFieldDateValue(unsigned int id);
+	DateTimeType getFieldDateBaseDate();
 
 	// Expected records
 	unsigned int getNumRecordsWithFieldIntIndexZero(unsigned int tableRecords);

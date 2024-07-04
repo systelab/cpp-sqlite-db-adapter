@@ -2,11 +2,13 @@ def channel = "testing"
 def version = "0.0.0"
 def packageName = "DbSQLiteAdapter"
 def testApplication = "DbSQLiteAdapterTest"
+def profile = "vs2022.conanprofile"
+def arch = "x86"
+def configs = ['Debug', 'Release']
 
 library identifier: "cpp-jenkins-pipelines@master", retriever: modernSCM(
   [$class: "GitSCMSource",
-   remote: "https://github.com/systelab/cpp-jenkins-pipelines.git",
-   credentialsId: "GitHubCredentials"])
+   remote: "https://github.com/systelab/cpp-jenkins-pipelines.git"])
    
 pipeline
 {
@@ -17,8 +19,16 @@ pipeline
 
 	parameters
 	{
-		booleanParam( name: 'uploadTestingPkg',
-					  description: 'Whether or not to upload testing conan package',
+		string(	name: 'version',
+				description: 'Number of the version to build (must match the name of the tag that will be checked out), leave as 0.0.0 for checkout of current branch',
+				defaultValue: '0.0.0' )
+
+		booleanParam( name: 'stable',
+					  description: 'Show if generated library should be uploaded as stable or testing',
+					  defaultValue: false )
+					  
+		booleanParam( name: 'uploadPackage',
+					  description: 'Whether or not to upload conan package',
 					  defaultValue: false )
 	}
 
@@ -36,7 +46,19 @@ pipeline
 			steps
 			{
 				deleteDir()
-				checkoutSourceCode()
+				script 
+				{
+					if (params.version == '0.0.0')
+					{
+						checkoutSourceCode()
+					}
+					else
+					{
+						checkoutSourceCodeFromTag(version)
+						version = params.version
+					}
+					channel = params.stable ? 'stable' : 'testing'
+				}
 			}
 		}
 		
@@ -46,23 +68,17 @@ pipeline
 			{
 				script
 				{
-					def configurations = ['SnowDebug', 'SnowRelease']
-					for(int i=0; i < configurations.size(); i++)
-					{
-						stage('Build ' + configurations[i])
+					configs.each
+					{ config -> 
+						stage("Build ${config}|${arch}")
 						{
-							def props = readProperties file:"ci/pipelines/${configurations[i]}.properties"							
-							props.each { propKey, propValue -> println "${propKey}: ${propValue}" }
-
-							sh "mkdir build-${configurations[i]}"
-							dir("build-${configurations[i]}")
+							def buildFolder = "build-${config}-${arch}"
+							bat script: "conan install . --install-folder ${buildFolder} --profile=${profile} -s build_type=${config} -s arch=${arch}", label: 'Installing dependencies'
+							bat script: "conan build . --build-folder ${buildFolder}", label: 'Building'
+							bat script: "conan export-pkg . ${packageName}/${version}@systelab/${channel} --build-folder ${buildFolder} --force", label: "Exporting package ${packageName}/${version}@systelab/${channel}"
+							dir("${buildFolder}/bin/${config}")
 							{
-								sh "conan install .. -s build_type=${props.conanBuildType} -s compiler.toolset=${props.conanCompilerToolset} -s compiler.version=${props.conanCompilerVersion} -s arch=${props.conanArch} -o gtest=${props.conanGTestVersion} -o boost=${props.conanBoostVersion}"
-								sh "cmake .. -G '${props.cmakeVS}' -A ${props.cmakePlatform}"
-								sh "cmake --build . --config ${props.cmakeConfiguration}"
-								sh "conan export-pkg ../conanfile.py ${packageName}/${version}@systelab/${channel} -s build_type=${props.conanBuildType} -s compiler.toolset=${props.conanCompilerToolset} -s compiler.version=${props.conanCompilerVersion} -s arch=${props.conanArch} -o gtest=${props.conanGTestVersion} -o boost=${props.conanBoostVersion} --force"
-								sh "conan test ../test_package/conanfile.py ${packageName}/${version}@systelab/${channel} -s build_type=${props.conanBuildType} -s compiler.toolset=${props.conanCompilerToolset} -s compiler.version=${props.conanCompilerVersion} -s arch=${props.conanArch} -o gtest=${props.conanGTestVersion} -o boost=${props.conanBoostVersion}"
-								sh "bin/${props.conanBuildType}/${testApplication}.exe --gtest_output=xml:${testApplication}.xml"
+								bat script: "${testApplication}.exe --gtest_output=xml:${env.WORKSPACE}/${buildFolder}/test_reports/${testApplication}.xml", label: 'Executing tests'
 							}
 						}
 					}
@@ -74,15 +90,11 @@ pipeline
 		{
 			when
 			{
-				expression { return params.uploadTestingPkg }
+				expression { params.uploadPackage }
 			}
 			steps
 			{
-				script
-				{
-					sh "conan remove ${packageName}/${version}@systelab/${channel} -r systelab-conan-local --force"
-					sh "conan upload ${packageName}/${version}@systelab/${channel} --all -r systelab-conan-local --force"
-				}
+				bat script: "conan upload ${packageName}/${version}@systelab/${channel} --all -r systelab-conan-local --force", label: "Uploading packages for ${packageName}/${version}@systelab/${channel}"
 			}
 		}
 	}
@@ -91,7 +103,11 @@ pipeline
 	{
 		always
 		{
-			junit allowEmptyResults: true, testResults: "build*/${testApplication}.xml"
+			junit allowEmptyResults: true, testResults: "build*/test_reports/*.xml"
+			script
+			{
+				currentBuild.description = "${version}/${channel}"
+			}
 		}
 	}
 }

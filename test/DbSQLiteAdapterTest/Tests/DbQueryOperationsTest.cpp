@@ -1,11 +1,14 @@
 #include "stdafx.h"
 #include "Helpers/Helpers.h"
 
-#include "DbAdapterInterface/IConnection.h"
 #include "DbSQLiteAdapter/Connection.h"
 #include "DbSQLiteAdapter/ConnectionConfiguration.h"
+#include "DbSQLiteAdapter/DateTimeHelper.h"
 
-#include <boost/filesystem.hpp>
+#include <DbAdapterInterface/IConnection.h>
+#include <DbAdapterInterface/ITable.h>
+#include <DbAdapterInterface/ITableRecordSet.h>
+#include <filesystem>
 #include <string>
 
 using namespace testing;
@@ -25,9 +28,9 @@ namespace systelab { namespace db { namespace sqlite { namespace unit_test {
 	public:
 		void SetUp()
 		{
-			if (boost::filesystem::exists(QUERY_DATABASE_FILEPATH))
+			if (std::filesystem::exists(QUERY_DATABASE_FILEPATH))
 			{
-				boost::filesystem::remove(QUERY_DATABASE_FILEPATH);
+				std::filesystem::remove(QUERY_DATABASE_FILEPATH);
 			}
 
 			m_db = loadDatabase();
@@ -66,7 +69,7 @@ namespace systelab { namespace db { namespace sqlite { namespace unit_test {
 			std::string fieldStrNoIndex = record.getFieldValue("FIELD_STR_NO_INDEX").getStringValue();
 			double fieldReal = record.getFieldValue("FIELD_REAL").getDoubleValue();
 			bool fieldBool = record.getFieldValue("FIELD_BOOL").getBooleanValue();
-			boost::posix_time::ptime fieldDateTime = record.getFieldValue("FIELD_DATE").getDateTimeValue();
+			auto fieldDateTime = record.getFieldValue("FIELD_DATE").getDateTimeValue();
 
 			ASSERT_EQ(fieldIntIndex,	getFieldIntIndexValue(id));
 			ASSERT_EQ(fieldIntNoIndex,	getFieldIntNoIndexValue(id));
@@ -217,7 +220,7 @@ namespace systelab { namespace db { namespace sqlite { namespace unit_test {
 
 	TEST_F(DbQueryOperationsTest, testQueryWhenFieldDateIsBaseDate)
 	{
-		boost::posix_time::ptime baseDate(boost::gregorian::date(2015,1,1));
+		auto baseDate = date_time::toDateTime("20150101T000000");
 
 		ITable& table = getQueryTable();
 		const IField& fieldDate = table.getField("FIELD_DATE");

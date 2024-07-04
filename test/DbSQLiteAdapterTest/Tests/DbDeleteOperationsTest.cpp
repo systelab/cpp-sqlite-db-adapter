@@ -1,11 +1,15 @@
 #include "stdafx.h"
 #include "Helpers/Helpers.h"
 
-#include "DbAdapterInterface/IConnection.h"
 #include "DbSQLiteAdapter/Connection.h"
 #include "DbSQLiteAdapter/ConnectionConfiguration.h"
 
-#include <boost/filesystem.hpp>
+#include <DbAdapterInterface/IConnection.h>
+#include <DbAdapterInterface/IFieldValue.h>
+#include <DbAdapterInterface/IPrimaryKeyValue.h>
+#include <DbAdapterInterface/ITable.h>
+#include <DbAdapterInterface/ITableRecord.h>
+#include <filesystem>
 
 using namespace testing;
 
@@ -24,9 +28,9 @@ namespace systelab { namespace db { namespace sqlite { namespace unit_test {
 	public:
 		void SetUp()
 		{
-			if (boost::filesystem::exists(DELETE_DATABASE_FILEPATH))
+			if (std::filesystem::exists(DELETE_DATABASE_FILEPATH))
 			{
-				boost::filesystem::remove(DELETE_DATABASE_FILEPATH);
+				std::filesystem::remove(DELETE_DATABASE_FILEPATH);
 			}
 
 			m_db = loadDatabase();

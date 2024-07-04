@@ -6,7 +6,8 @@
 #include "RecordSet.h"
 #include "TableRecordSet.h"
 
-#include <sqlite3.h>
+#include <iostream>
+#include <sqleet/sqleet.h>
 
 
 namespace systelab { namespace db { namespace sqlite {
@@ -22,11 +23,11 @@ namespace systelab { namespace db { namespace sqlite {
 	}
 
 	Database::Lock::Lock(Database& db)
-		:boost::unique_lock<boost::recursive_mutex>(db.m_mutex)
+		:std::lock_guard<std::recursive_mutex>(db.m_mutex)
 	{
 	}
 
-	ITable& Database::getTable(std::string tableName)
+	ITable& Database::getTable(const std::string& tableName)
 	{
 		std::map< std::string, std::unique_ptr<ITable> >::iterator itr = m_tables.find(tableName);
 		if (itr == m_tables.end())

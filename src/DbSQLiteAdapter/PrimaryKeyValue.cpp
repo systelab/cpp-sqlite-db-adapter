@@ -4,6 +4,8 @@
 #include "Field.h"
 #include "FieldValue.h"
 
+#include <DbAdapterInterface/IPrimaryKey.h>
+
 
 namespace systelab { namespace db { namespace sqlite {
 

@@ -1,12 +1,13 @@
 #include "stdafx.h"
 #include "Record.h"
 
+#include "DateTimeHelper.h"
 #include "Field.h"
 #include "FieldValue.h"
 
 #include "DbAdapterInterface/IRecordSet.h"
 
-#include <sqlite3.h>
+#include <sqleet/sqleet.h>
 
 
 namespace systelab { namespace db { namespace sqlite {
@@ -67,7 +68,7 @@ namespace systelab { namespace db { namespace sqlite {
 					case DATETIME:
 					{
 						std::string stringValue( (char*) sqlite3_column_text(statement, fieldIndex) );
-						fieldValue.reset( new FieldValue(field, boost::posix_time::from_iso_string(stringValue)) );
+						fieldValue.reset( new FieldValue(field, date_time::toDateTime(stringValue)) );
 					}
 					break;
 

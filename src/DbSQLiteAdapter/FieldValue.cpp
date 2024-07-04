@@ -2,6 +2,7 @@
 #include "FieldValue.h"
 
 #include "BinaryValue.h"
+#include "DateTimeHelper.h"
 
 
 namespace systelab { namespace db { namespace sqlite {
@@ -87,7 +88,7 @@ namespace systelab { namespace db { namespace sqlite {
 		}
 	}
 
-	FieldValue::FieldValue(const IField& field, const boost::posix_time::ptime& value)
+	FieldValue::FieldValue(const IField& field, const DateTimeType& value)
 		:m_field(field)
 		,m_nullValue(true)
 		,m_default(false)
@@ -103,7 +104,7 @@ namespace systelab { namespace db { namespace sqlite {
 			throw std::runtime_error( "Field doesn't accept a datetime value" );
 		}
 
-		if (!value.is_not_a_date_time())
+		if (!date_time::isDateTimeNull(value))
 		{
 			m_dateTimeValue = value;
 			m_nullValue = false;
@@ -250,7 +251,7 @@ namespace systelab { namespace db { namespace sqlite {
 		}
 	}
 
-	boost::posix_time::ptime FieldValue::getDateTimeValue() const
+	DateTimeType FieldValue::getDateTimeValue() const
 	{
 		if (!isDefault())
 		{
@@ -262,11 +263,11 @@ namespace systelab { namespace db { namespace sqlite {
 			{
 				if (!isNull())
 				{
-					return boost::posix_time::from_iso_string(m_stringValue);
+					return date_time::toDateTime(m_stringValue);
 				}
 				else
 				{
-					return boost::posix_time::ptime();
+					return DateTimeType();
 				}
 			}
 			else
@@ -356,7 +357,7 @@ namespace systelab { namespace db { namespace sqlite {
 		m_intValue = 0;
 		m_doubleValue = 0.;
 		m_stringValue = "";
-		m_dateTimeValue = boost::posix_time::ptime();
+		m_dateTimeValue = DateTimeType();
 		m_binaryValue.reset();
 	}
 
@@ -368,7 +369,7 @@ namespace systelab { namespace db { namespace sqlite {
 		m_intValue = 0;
 		m_doubleValue = 0.;
 		m_stringValue = "";
-		m_dateTimeValue = boost::posix_time::ptime();
+		m_dateTimeValue = DateTimeType();
 		m_binaryValue.reset();
 	}
 
@@ -428,12 +429,12 @@ namespace systelab { namespace db { namespace sqlite {
 		}
 	}
 
-	void FieldValue::setDateTimeValue(const boost::posix_time::ptime& value)
+	void FieldValue::setDateTimeValue(const DateTimeType& value)
 	{
 		if( m_field.getType() == DATETIME )
 		{
 			m_dateTimeValue = value;
-			m_nullValue = value.is_not_a_date_time();
+			m_nullValue = date_time::isDateTimeNull(value);
 			m_default = false;
 		}
 		else

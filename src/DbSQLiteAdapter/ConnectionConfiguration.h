@@ -2,7 +2,7 @@
 
 #include "DbAdapterInterface/IConnectionConfiguration.h"
 
-#include <boost/optional.hpp>
+#include <optional>
 
 
 namespace systelab { namespace db { namespace sqlite {
@@ -10,16 +10,16 @@ namespace systelab { namespace db { namespace sqlite {
 	class ConnectionConfiguration : public IConnectionConfiguration
 	{
 	public:
-		ConnectionConfiguration(const std::string& filepath,
-								const boost::optional<std::string>& key = boost::none);
-		virtual ~ConnectionConfiguration();
+		explicit ConnectionConfiguration(const std::string& filepath,
+								const std::optional<std::string>& key = std::nullopt);
+		~ConnectionConfiguration();
 
-		bool hasParameter(const std::string& name) const;
-		std::string getParameter(const std::string& name) const;
+		bool hasParameter(const std::string& name) const override;
+		std::string getParameter(const std::string& name) const override;
 
 	private:
 		std::string m_filepath;
-		boost::optional<std::string> m_key;
+		std::optional<std::string> m_key;
 	};
 
 }}}

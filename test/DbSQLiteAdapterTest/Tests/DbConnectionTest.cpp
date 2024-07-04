@@ -5,7 +5,7 @@
 #include "DbSQLiteAdapter/Connection.h"
 #include "DbSQLiteAdapter/ConnectionConfiguration.h"
 
-#include <boost/filesystem.hpp>
+#include <filesystem>
 
 using namespace testing;
 
@@ -16,29 +16,29 @@ namespace systelab { namespace db { namespace sqlite { namespace unit_test {
 	public:
 		void SetUp()
 		{
-			m_dbFilePath = boost::filesystem::absolute(boost::filesystem::path(std::string("DbConnectionTest") / boost::filesystem::path("test.db")));
-			boost::filesystem::path folderPath = m_dbFilePath.parent_path();
-			if (!boost::filesystem::exists(folderPath))
+			m_dbFilePath = std::filesystem::absolute(std::filesystem::path(std::string("DbConnectionTest") / std::filesystem::path("test.db")));
+			std::filesystem::path folderPath = m_dbFilePath.parent_path();
+			if (!std::filesystem::exists(folderPath))
 			{
-				boost::filesystem::create_directories(folderPath);
+				std::filesystem::create_directories(folderPath);
 			}
 
-			if (boost::filesystem::exists(m_dbFilePath))
+			if (std::filesystem::exists(m_dbFilePath))
 			{
-				boost::filesystem::remove(m_dbFilePath);
+				std::filesystem::remove(m_dbFilePath);
 			}
 		}
 
 		void TearDown()
 		{
-			if (boost::filesystem::exists(m_dbFilePath))
+			if (std::filesystem::exists(m_dbFilePath))
 			{
-				boost::filesystem::remove(m_dbFilePath);
+				std::filesystem::remove(m_dbFilePath);
 			}
 		}
 
 	protected:
-		boost::filesystem::path m_dbFilePath;
+		std::filesystem::path m_dbFilePath;
 	};
 
 
@@ -60,7 +60,7 @@ namespace systelab { namespace db { namespace sqlite { namespace unit_test {
 
 		systelab::db::sqlite::Connection connection;
 		auto database = connection.loadDatabase(configuration);
-		ASSERT_TRUE(boost::filesystem::exists(m_dbFilePath));
+		ASSERT_TRUE(std::filesystem::exists(m_dbFilePath));
 	}
 
 
@@ -82,7 +82,7 @@ namespace systelab { namespace db { namespace sqlite { namespace unit_test {
 
 		systelab::db::sqlite::Connection connection;
 		auto database = connection.loadDatabase(configuration);
-		ASSERT_TRUE(boost::filesystem::exists(m_dbFilePath));
+		ASSERT_TRUE(std::filesystem::exists(m_dbFilePath));
 	}
 
 	TEST_F(DbConnectionTest, testLoadDatabaseForHappyPathWithEncryptionOverAnExistingDatabase)
@@ -104,7 +104,7 @@ namespace systelab { namespace db { namespace sqlite { namespace unit_test {
 #ifdef _WIN32
 	TEST_F(DbConnectionTest, testLoadDatabaseForInvalidPathThrowsException)
 	{
-		std::string invalidFilePath = boost::filesystem::path("..ÑD~<>").string();
+		std::string invalidFilePath = std::filesystem::path("..ÑD~<>").string();
 		systelab::db::sqlite::ConnectionConfiguration configuration(invalidFilePath);
 
 		systelab::db::sqlite::Connection connection;
