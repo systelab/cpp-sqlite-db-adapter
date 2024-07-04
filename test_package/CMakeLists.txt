@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.2)
 project(DbSQLiteAdapterPackageTestProject)
 
 # Configure environment
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/../cmake ${CMAKE_BINARY_DIR})
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
@@ -15,7 +15,7 @@ find_package(Threads REQUIRED)
 find_package(DbSQLiteAdapter)
 
 # Configure preprocessor definitions
-add_compile_options(-DBOOST_ALL_DYN_LINK -DSQLITE_HAS_CODEC)
+add_compile_options(-DSQLITE_HAS_CODEC)
 
 # Configure test package project
 set(DB_SQLITE_ADAPTER_PACKAGE_TEST_PROJECT DbSQLiteAdapterPackageTest)

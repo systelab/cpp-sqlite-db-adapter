@@ -11,7 +11,7 @@ if (NOT TARGET ${GTEST_PACKAGE_NAME}::${GTEST_PACKAGE_NAME})
 endif()
 
 # Configure preprocessor definitions
-add_compile_options(-DBOOST_ALL_DYN_LINK -DSQLITE_HAS_CODEC)
+add_compile_options(-DSQLITE_HAS_CODEC)
 
 # Add project folder into includes
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
