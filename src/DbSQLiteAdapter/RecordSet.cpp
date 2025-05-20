@@ -9,6 +9,41 @@
 
 
 namespace systelab { namespace db { namespace sqlite {
+	
+	namespace
+	{
+		int declaredTypeToColumnTypeConversion(const std::string& type)
+		{
+			if (type.find("INT") != std::string::npos ||
+			    type.find("BOOL") != std::string::npos)
+			{
+				return SQLITE_INTEGER;
+			}
+			if (type.find("CHAR") != std::string::npos || 
+			    type.find("CLOB") != std::string::npos || 
+				type.find("TEXT") != std::string::npos || 
+				type.find("DATE") != std::string::npos ||
+				type.find("TIME") != std::string::npos)
+			{
+				return SQLITE_TEXT;
+			}
+			if (type.find("BLOB") != std::string::npos || type.empty())
+			{
+				return SQLITE_BLOB;
+			}
+			if (type.find("REAL") != std::string::npos || type.find("FLOA") != std::string::npos || type.find("DOUB") != std::string::npos)
+			{
+				return SQLITE_FLOAT;
+			}
+			if (type.find("NONE") != std::string::npos)
+			{
+				return SQLITE_NULL;
+			}
+
+			// Default fallback is NUMERIC, which SQLite stores as INTEGER or REAL
+			return SQLITE_FLOAT;
+		}
+	}
 
 	RecordSet::RecordSet(sqlite3_stmt* statement, bool allFieldsAsStrings)
 	{
@@ -103,7 +138,16 @@ namespace systelab { namespace db { namespace sqlite {
 		for( int i = 0; i < nFields; i++ )
 		{
 			std::string fieldName( sqlite3_column_name(statement, i) );
+			
 			int sqliteFieldType = allFieldsAsStrings ? SQLITE_TEXT : sqlite3_column_type(statement, i);
+			if (sqliteFieldType == SQLITE_NULL)
+			{
+				auto declaredType = sqlite3_column_decltype(statement, i);
+				if (declaredType)
+				{
+					sqliteFieldType = declaredTypeToColumnTypeConversion(declaredType);
+				}
+			}			
 
 			FieldTypes fieldType = getTypeFromSQLiteType(sqliteFieldType);
 			std::unique_ptr<IField> field( new Field(i, fieldName, fieldType, "", false) );

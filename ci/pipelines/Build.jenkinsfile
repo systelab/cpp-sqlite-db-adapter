@@ -14,7 +14,7 @@ pipeline
 {
 	agent
 	{
-		label 'lib-build'
+		label 'snow-lib-build'
 	}
 
 	parameters
