@@ -14,11 +14,16 @@ namespace systelab { namespace db { namespace sqlite {
 	{
 		int declaredTypeToColumnTypeConversion(const std::string& type)
 		{
-			if (type.find("INT") != std::string::npos)
+			if (type.find("INT") != std::string::npos ||
+			    type.find("BOOL") != std::string::npos)
 			{
 				return SQLITE_INTEGER;
 			}
-			if (type.find("CHAR") != std::string::npos || type.find("CLOB") != std::string::npos || type.find("TEXT") != std::string::npos)
+			if (type.find("CHAR") != std::string::npos || 
+			    type.find("CLOB") != std::string::npos || 
+				type.find("TEXT") != std::string::npos || 
+				type.find("DATE") != std::string::npos ||
+				type.find("TIME") != std::string::npos)
 			{
 				return SQLITE_TEXT;
 			}
@@ -29,6 +34,10 @@ namespace systelab { namespace db { namespace sqlite {
 			if (type.find("REAL") != std::string::npos || type.find("FLOA") != std::string::npos || type.find("DOUB") != std::string::npos)
 			{
 				return SQLITE_FLOAT;
+			}
+			if (type.find("NONE") != std::string::npos)
+			{
+				return SQLITE_NULL;
 			}
 
 			// Default fallback is NUMERIC, which SQLite stores as INTEGER or REAL
@@ -133,8 +142,11 @@ namespace systelab { namespace db { namespace sqlite {
 			int sqliteFieldType = allFieldsAsStrings ? SQLITE_TEXT : sqlite3_column_type(statement, i);
 			if (sqliteFieldType == SQLITE_NULL)
 			{
-				auto declaredType = std::string(sqlite3_column_decltype(statement, i));
-				sqliteFieldType = declaredTypeToColumnTypeConversion(declaredType);
+				auto declaredType = sqlite3_column_decltype(statement, i);
+				if (declaredType)
+				{
+					sqliteFieldType = declaredTypeToColumnTypeConversion(declaredType);
+				}
 			}			
 
 			FieldTypes fieldType = getTypeFromSQLiteType(sqliteFieldType);
