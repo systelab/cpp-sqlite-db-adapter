@@ -4,24 +4,45 @@
 
 #include <DbAdapterInterface/IConnectionConfiguration.h>
 
+#include <excpt.h>
 #include <sqleet/sqleet.h>
 
-namespace systelab { namespace db { namespace sqlite {
-
-	Connection::Connection()
+namespace systelab::db::sqlite 
+{
+	namespace
 	{
+		sqlite3* openDb(const char* dbPath)
+		{
+			sqlite3* database = nullptr;
+			int openStatusCode = SQLITE_ERROR;
+			__try
+			{
+				openStatusCode = sqlite3_open(dbPath, &database);
+			}
+			__except (EXCEPTION_EXECUTE_HANDLER) { }
+			
+			if (openStatusCode != SQLITE_OK)
+			{
+				sqlite3_close(database);
+				database = nullptr;
+			}
+			
+			return database;
+		}
 	}
 
+	Connection::Connection() = default;
 	Connection::~Connection() = default;
 
 	std::unique_ptr<IDatabase> Connection::loadDatabase(IConnectionConfiguration& configuration)
 	{
-		sqlite3* database;
 		std::string filepath = configuration.getParameter("filepath");
-		int openStatusCode = sqlite3_open(filepath.c_str(), &database);
-		if (openStatusCode != SQLITE_OK)
+		sqlite3* database = openDb(filepath.c_str());
+		
+		if (!database)
 		{
 			std::string extendedMessage = sqlite3_errmsg(database);
+			int openStatusCode = SQLITE_ERROR;
 			int extendedErrorCode = sqlite3_extended_errcode(database);
 			throw SQLiteException("Unable to open database file '" + filepath + "'", extendedMessage, openStatusCode, extendedErrorCode);
 		}
@@ -45,5 +66,4 @@ namespace systelab { namespace db { namespace sqlite {
 		return db;
 	}
 
-}}}
-
+}

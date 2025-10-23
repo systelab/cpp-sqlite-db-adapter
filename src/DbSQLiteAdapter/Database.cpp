@@ -9,9 +9,8 @@
 #include <iostream>
 #include <sqleet/sqleet.h>
 
-
-namespace systelab { namespace db { namespace sqlite {
-
+namespace systelab::db::sqlite
+{
 	Database::Database(sqlite3* database)
 		:m_database(database)
 	{
@@ -19,7 +18,13 @@ namespace systelab { namespace db { namespace sqlite {
 
 	Database::~Database()
 	{
+		while (auto stmt = sqlite3_next_stmt(m_database, nullptr))
+		{
+			sqlite3_finalize(stmt);
+		}
+
 		sqlite3_close(m_database);
+		m_database = nullptr;
 	}
 
 	Database::Lock::Lock(Database& db)
@@ -161,4 +166,4 @@ namespace systelab { namespace db { namespace sqlite {
 		return std::unique_ptr<ITransaction>( new Transaction(*this) );
 	}
 
-}}}
+}

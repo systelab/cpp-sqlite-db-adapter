@@ -3,8 +3,8 @@
 #include "DbAdapterInterface/IConnection.h"
 #include <sstream>
 
-namespace systelab { namespace db { namespace sqlite {
-
+namespace systelab::db::sqlite 
+{
 	class Connection : public IConnection
 	{
 	public:
@@ -40,6 +40,4 @@ namespace systelab { namespace db { namespace sqlite {
 			int m_extendedErrorCode;
 		};
 	};
-
-}}}
-
+}

@@ -9,8 +9,8 @@
 
 struct sqlite3;
 
-namespace systelab { namespace db { namespace sqlite {
-
+namespace systelab::db::sqlite
+{
 	class Database : public IDatabase
 	{
 	public:
@@ -40,5 +40,4 @@ namespace systelab { namespace db { namespace sqlite {
 		std::recursive_mutex m_mutex;
 
 	};
-
-}}}
+}
