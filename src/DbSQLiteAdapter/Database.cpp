@@ -23,7 +23,7 @@ namespace systelab::db::sqlite
 			sqlite3_finalize(stmt);
 		}
 
-		sqlite3_close(m_database);
+		sqlite3_close_v2(m_database);
 		m_database = nullptr;
 	}
 
