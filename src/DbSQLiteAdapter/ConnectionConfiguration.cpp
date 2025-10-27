@@ -1,13 +1,14 @@
 #include "stdafx.h"
 #include "ConnectionConfiguration.h"
 
-
-namespace systelab { namespace db { namespace sqlite {
-
+namespace systelab::db::sqlite
+{
 	ConnectionConfiguration::ConnectionConfiguration(const std::string& filepath,
-													 const std::optional<std::string>& key)
+													 const std::optional<std::string>& key,
+													 std::optional<bool> readOnly)
 		:m_filepath(filepath)
 		,m_key(key)
+		,m_readOnly(readOnly)
 	{
 	}
 
@@ -22,6 +23,10 @@ namespace systelab { namespace db { namespace sqlite {
 		else if (parameterName == "key")
 		{
 			return m_key.has_value();
+		}
+		else if (parameterName == "readOnly")
+		{
+			return m_readOnly.has_value();
 		}
 		else
 		{
@@ -39,11 +44,14 @@ namespace systelab { namespace db { namespace sqlite {
 		{
 			return *m_key;
 		}
+		else if (parameterName == "readOnly" && m_readOnly.has_value())
+		{
+			return *m_readOnly ? "true" : "false";
+		}
 		else
 		{
 			return "";
 		}
 	}
 
-}}}
-
+}

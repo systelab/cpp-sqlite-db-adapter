@@ -9,7 +9,7 @@
 
 struct sqlite3;
 
-namespace systelab::db::sqlite
+namespace systelab::db::sqlite 
 {
 	class Database : public IDatabase
 	{
@@ -38,6 +38,5 @@ namespace systelab::db::sqlite
 		sqlite3* m_database;
 		std::map< std::string, std::unique_ptr<ITable> > m_tables;
 		std::recursive_mutex m_mutex;
-
 	};
 }

@@ -1,5 +1,4 @@
 #pragma once
-
 #include "DbAdapterInterface/IConnection.h"
 #include <sstream>
 
@@ -8,12 +7,8 @@ namespace systelab::db::sqlite
 	class Connection : public IConnection
 	{
 	public:
-		Connection();
-		~Connection();
-
 		std::unique_ptr<IDatabase> loadDatabase(IConnectionConfiguration&) override;
 
-	public:
 		struct SQLiteException : public Exception
 		{
 			SQLiteException(const std::string& message,
@@ -40,4 +35,5 @@ namespace systelab::db::sqlite
 			int m_extendedErrorCode;
 		};
 	};
+
 }

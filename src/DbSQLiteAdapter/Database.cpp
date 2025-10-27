@@ -9,7 +9,8 @@
 #include <iostream>
 #include <sqleet/sqleet.h>
 
-namespace systelab::db::sqlite
+
+namespace systelab::db::sqlite 
 {
 	Database::Database(sqlite3* database)
 		:m_database(database)

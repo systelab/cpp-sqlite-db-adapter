@@ -4,14 +4,14 @@
 
 #include <optional>
 
-
-namespace systelab { namespace db { namespace sqlite {
-
+namespace systelab::db::sqlite 
+{
 	class ConnectionConfiguration : public IConnectionConfiguration
 	{
 	public:
 		explicit ConnectionConfiguration(const std::string& filepath,
-								const std::optional<std::string>& key = std::nullopt);
+										 const std::optional<std::string>& key = std::nullopt,
+										 std::optional<bool> readOnly = std::nullopt);
 		~ConnectionConfiguration();
 
 		bool hasParameter(const std::string& name) const override;
@@ -20,7 +20,6 @@ namespace systelab { namespace db { namespace sqlite {
 	private:
 		std::string m_filepath;
 		std::optional<std::string> m_key;
+		std::optional<bool> m_readOnly;
 	};
-
-}}}
-
+}
