@@ -32,11 +32,6 @@ namespace systelab::db::sqlite
 			sqlite3_close(m_database);
 		}
 		m_database = nullptr;
-		
-		// On Windows OS, file system operations like closing a file handle may not complete immediately.
-		// Memory resource is freed for the application context, but file descriptor still in use from the OS perspective.
-		// This can cause issues when reopening the same file shortly after closing it.
-		std::this_thread::sleep_for(100ms); 
 	}
 
 	Database::Lock::Lock(Database& db)
