@@ -5,7 +5,7 @@ namespace systelab::db::sqlite
 {
 	ConnectionConfiguration::ConnectionConfiguration(const std::string& filepath,
 													 const std::optional<std::string>& key,
-													 std::optional<bool> readOnly)
+													 bool readOnly)
 		:m_filepath(filepath)
 		,m_key(key)
 		,m_readOnly(readOnly)
@@ -26,7 +26,7 @@ namespace systelab::db::sqlite
 		}
 		else if (parameterName == "readOnly")
 		{
-			return m_readOnly.has_value();
+			return m_readOnly;
 		}
 		else
 		{
@@ -44,9 +44,9 @@ namespace systelab::db::sqlite
 		{
 			return *m_key;
 		}
-		else if (parameterName == "readOnly" && m_readOnly.has_value())
+		else if (parameterName == "readOnly")
 		{
-			return *m_readOnly ? "true" : "false";
+			return m_readOnly ? "true" : "false";
 		}
 		else
 		{

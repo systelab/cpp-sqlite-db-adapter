@@ -11,7 +11,7 @@ namespace systelab::db::sqlite
 	public:
 		explicit ConnectionConfiguration(const std::string& filepath,
 										 const std::optional<std::string>& key = std::nullopt,
-										 std::optional<bool> readOnly = std::nullopt);
+										 bool readOnly = false);
 		~ConnectionConfiguration();
 
 		bool hasParameter(const std::string& name) const override;
@@ -20,6 +20,6 @@ namespace systelab::db::sqlite
 	private:
 		std::string m_filepath;
 		std::optional<std::string> m_key;
-		std::optional<bool> m_readOnly;
+		bool m_readOnly;
 	};
 }
