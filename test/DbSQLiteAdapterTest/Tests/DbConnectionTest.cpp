@@ -51,7 +51,6 @@ namespace systelab::db::sqlite::unit_test
 			systelab::db::sqlite::Connection connection;
 			auto database = connection.loadDatabase(configuration);
 			createTable(*database, "MY_TABLE"s, 10);
-			database.reset();
 		}
 	};
 
@@ -94,6 +93,8 @@ namespace systelab::db::sqlite::unit_test
 		ASSERT_NO_THROW(m_connection.loadDatabase(configuration));
 	}
 
+
+	// Read Only scenarios
 	TEST_F(DbConnectionTest, testLoadDatabaseAtReadOnlyMode)
 	{
 		systelab::db::sqlite::ConnectionConfiguration validConfiguration(m_dbFilePath.string(), ENCRYPTION_KEY);
@@ -101,6 +102,30 @@ namespace systelab::db::sqlite::unit_test
 
 		systelab::db::sqlite::ConnectionConfiguration readOnlyConfiguration(m_dbFilePath.string(), ENCRYPTION_KEY, true);
 		ASSERT_THAT(m_connection.loadDatabase(readOnlyConfiguration), NotNull());
+	}
+
+	TEST_F(DbConnectionTest, testLoadDatabaseAtReadOnlyModeCanPerformQueries)
+	{
+		systelab::db::sqlite::ConnectionConfiguration validConfiguration(m_dbFilePath.string(), ENCRYPTION_KEY);
+		createDatabaseContent(validConfiguration);
+
+		systelab::db::sqlite::ConnectionConfiguration readOnlyConfiguration(m_dbFilePath.string(), ENCRYPTION_KEY, true);
+		auto database = m_connection.loadDatabase(readOnlyConfiguration);
+		auto recordSet = database->executeQuery("SELECT COUNT(1) FROM MY_TABLE");
+		ASSERT_EQ(1u, recordSet->getRecordsCount());
+
+		ASSERT_THAT(database->executeQuery("SELECT * FROM not_existent_table"), IsNull());
+	}
+
+	TEST_F(DbConnectionTest, testLoadDatabaseAtReadOnlyModeCannotPerformModifications)
+	{
+		systelab::db::sqlite::ConnectionConfiguration validConfiguration(m_dbFilePath.string(), ENCRYPTION_KEY);
+		createDatabaseContent(validConfiguration);
+
+		systelab::db::sqlite::ConnectionConfiguration readOnlyConfiguration(m_dbFilePath.string(), ENCRYPTION_KEY, true);
+		auto database = m_connection.loadDatabase(readOnlyConfiguration);
+
+		ASSERT_THROW(database->executeOperation("DROP TABLE MY_TABLE"), std::runtime_error);
 	}
 
 	// Error cases
