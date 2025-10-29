@@ -1,4 +1,6 @@
 #include "stdafx.h"
+#include <windows.h>
+
 #include "Database.h"
 
 #include "Table.h"
@@ -6,18 +8,47 @@
 #include "RecordSet.h"
 #include "TableRecordSet.h"
 
+#include <thread>
+#include <chrono>
 #include <iostream>
 #include <sqleet/sqleet.h>
+
 
 namespace
 {
 	using namespace std::chrono_literals;
+
+	const auto MAX_TIMEOUT_WAIT_FOR_CLOSE_DB_FILE = 5s;
+	const auto CLOSE_DB_FILE_SLEEP_INTERVAL = 100ms;
+
+
+	bool waitForFileClose(const char* filepath, std::chrono::milliseconds sleepInterval, std::chrono::milliseconds timeout)
+	{
+		int maxIterations = timeout / sleepInterval;
+
+		for (int i = 0; i < maxIterations; ++i)
+		{
+			HANDLE hFile = CreateFile(filepath, GENERIC_READ, 0, // No sharing			
+									  nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
+
+			if (hFile != INVALID_HANDLE_VALUE)
+			{
+				CloseHandle(hFile);
+				return true;
+			}
+
+			std::this_thread::sleep_for(sleepInterval);
+		}
+		return false;
+	}
+
 }
 
 namespace systelab::db::sqlite 
 {
-	Database::Database(sqlite3* database)
+	Database::Database(sqlite3* database, const std::string& filepath)
 		:m_database(database)
+		,m_filepath(filepath)
 	{
 	}
 
@@ -32,6 +63,8 @@ namespace systelab::db::sqlite
 			sqlite3_close_v2(m_database);
 		}
 		m_database = nullptr;
+
+		waitForFileClose(m_filepath.c_str(), CLOSE_DB_FILE_SLEEP_INTERVAL, MAX_TIMEOUT_WAIT_FOR_CLOSE_DB_FILE);
 	}
 
 	Database::Lock::Lock(Database& db)

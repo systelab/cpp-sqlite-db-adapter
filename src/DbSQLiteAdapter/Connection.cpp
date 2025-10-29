@@ -39,7 +39,7 @@ namespace systelab::db::sqlite
 			}
 		}
 
-		auto db = std::make_unique<Database>(database);
+		auto db = std::make_unique<Database>(database, filepath);
 		db->executeOperation("PRAGMA foreign_keys = ON");
 
 		return db;
