@@ -13,10 +13,12 @@ namespace systelab::db::sqlite
 		sqlite3* database;
 		std::string filepath = configuration.getParameter("filepath");
 
-		int openStatusCode = configuration.getParameter("readOnly") == "true"
-						   ? sqlite3_open_v2(filepath.c_str(), &database, SQLITE_OPEN_READONLY | SQLITE_OPEN_PRIVATECACHE, nullptr)
-						   : sqlite3_open(filepath.c_str(), &database);
+		int openFlags = configuration.getParameter("readOnly") == "true"
+					  ? SQLITE_OPEN_READONLY | SQLITE_OPEN_PRIVATECACHE
+					  : SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE;
 
+
+		int openStatusCode = sqlite3_open_v2(filepath.c_str(), &database, openFlags, nullptr);
 		if (openStatusCode != SQLITE_OK)
 		{
 			std::string extendedMessage = sqlite3_errmsg(database);
