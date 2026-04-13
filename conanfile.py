@@ -25,7 +25,8 @@ class DbSQLiteAdapterConan(ConanFile):
 		cmake.build()
 		
 	def imports(self):
-		self.copy("sqlite3mc.dll", dst="bin", src="bin", root_package="sqlite3mc")
+		dest = "bin/{}".format(str(self.settings.build_type))
+		self.copy("sqlite3mc.dll", dst=dest, src="bin", root_package="sqlite3mc")
        
 	def package(self):
 		self.copy("*.h", dst="include/DbSQLiteAdapter", src="src/DbSQLiteAdapter")
