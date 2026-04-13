@@ -37,6 +37,13 @@ namespace systelab { namespace db { namespace sqlite {
 				sqlite3_close(database);
 				throw SQLiteException("Invalid encryption key", extendedMessage, keyStatusCode, extendedErrorCode);
 			}
+
+			auto rc = sqlite3_exec(database, "SELECT 1;", nullptr, nullptr, nullptr);
+			if (rc != SQLITE_OK)
+			{
+				sqlite3_close(database);
+				throw SQLiteException("Database access denied", sqlite3_errmsg(database), rc, sqlite3_extended_errcode(database));
+			}
 		}
 
 		auto db = std::make_unique<Database>(database);
