@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.2)
 
 # Find external dependencides
 find_package(DbAdapterInterface)
-find_package(sqleet)
+find_package(sqlite3mc)
 
 # Configure preprocessor definitions
 add_compile_options(-DSQLITE_HAS_CODEC)
@@ -15,7 +15,7 @@ set(DB_SQLITE_ADAPTER DbSQLiteAdapter)
 file(GLOB_RECURSE DB_SQLITE_ADAPTER_SRC "*.cpp")
 file(GLOB_RECURSE DB_SQLITE_ADAPTER_HDR "*.h")
 add_library(${DB_SQLITE_ADAPTER} STATIC ${DB_SQLITE_ADAPTER_SRC} ${DB_SQLITE_ADAPTER_HDR})
-target_link_libraries(${DB_SQLITE_ADAPTER} sqleet::sqleet DbAdapterInterface::DbAdapterInterface)
+target_link_libraries(${DB_SQLITE_ADAPTER} sqlite3mc::sqlite3mc DbAdapterInterface::DbAdapterInterface)
 
 #Configure source groups
 foreach(FILE ${DB_SQLITE_ADAPTER_SRC} ${DB_SQLITE_ADAPTER_HDR}) 
