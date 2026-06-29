@@ -9,24 +9,11 @@
 #include <algorithm>
 #include <cstring> 
 #include <iostream>
-#include <sqlite3mc/sqlite3mc.h>
+
+#include "sqlite3mc/sqlite3mc.h"
 
 
 namespace systelab { namespace db { namespace sqlite {
-
-	namespace
-	{
-		inline char* relaxSyntax(const std::string& sql) 
-		{
-			std::string res {sql};
-			std::ranges::replace(res, '"', '\'');
-			
-			char* out = new char[res.size() + 1];
-			std::memcpy(out, res.c_str(), res.size() + 1); 
-			return out; 
-		}
-	}
-
 
 	Database::Database(sqlite3* database)
 		:m_database(database)
@@ -64,7 +51,7 @@ namespace systelab { namespace db { namespace sqlite {
 	{
 		sqlite3_stmt* statement = 0;
 		Database::Lock databaseLock(*this);
-		if(sqlite3_prepare_v2(m_database, relaxSyntax(query), -1, &statement, 0) == SQLITE_OK)
+		if(sqlite3_prepare_v2(m_database, query.c_str(), -1, &statement, 0) == SQLITE_OK)
 		{
 			return std::unique_ptr<IRecordSet>( new RecordSet(statement, allFieldsAsStrings) );
 		}
@@ -83,7 +70,7 @@ namespace systelab { namespace db { namespace sqlite {
 	{
 		sqlite3_stmt* statement = 0;
 		Database::Lock databaseLock(*this);
-		if(sqlite3_prepare_v2(m_database, relaxSyntax(query), -1, &statement, 0) == SQLITE_OK)
+		if(sqlite3_prepare_v2(m_database, query.c_str(), -1, &statement, 0) == SQLITE_OK)
 		{
 			return std::unique_ptr<ITableRecordSet>( new TableRecordSet(table, statement) );
 		}
@@ -102,7 +89,7 @@ namespace systelab { namespace db { namespace sqlite {
 	{
 		sqlite3_stmt* statement = 0;
 		Database::Lock databaseLock(*this);
-		if(sqlite3_prepare_v2(m_database, relaxSyntax(operation), -1, &statement, 0) == SQLITE_OK)
+		if(sqlite3_prepare_v2(m_database, operation.c_str(), -1, &statement, 0) == SQLITE_OK)
 		{
 			int res = sqlite3_step(statement);
 			sqlite3_finalize(statement);
@@ -135,7 +122,7 @@ namespace systelab { namespace db { namespace sqlite {
 	{
 		char* errors = NULL;
 		Database::Lock databaseLock(*this);
-		if(sqlite3_exec(m_database, relaxSyntax(statements), NULL, NULL, &errors) != SQLITE_OK)
+		if(sqlite3_exec(m_database, statements.c_str(), NULL, NULL, &errors) != SQLITE_OK)
 		{
 			std::ostringstream exceptionStream;
 			std::string sqlError = sqlite3_errmsg(m_database);
