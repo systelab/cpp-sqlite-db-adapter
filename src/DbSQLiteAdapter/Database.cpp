@@ -23,6 +23,7 @@ namespace systelab { namespace db { namespace sqlite {
 	Database::~Database()
 	{
 		sqlite3_close(m_database);
+		sqlite3_shutdown();
 	}
 
 	Database::Lock::Lock(Database& db)
