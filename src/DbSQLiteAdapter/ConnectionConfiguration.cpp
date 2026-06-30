@@ -5,9 +5,11 @@
 namespace systelab { namespace db { namespace sqlite {
 
 	ConnectionConfiguration::ConnectionConfiguration(const std::string& filepath,
-													 const std::optional<std::string>& key)
+													 const std::optional<std::string>& key,
+													 const std::optional<std::string>& cipher)
 		:m_filepath(filepath)
 		,m_key(key)
+		,m_cipher(cipher)
 	{
 	}
 
@@ -22,6 +24,10 @@ namespace systelab { namespace db { namespace sqlite {
 		else if (parameterName == "key")
 		{
 			return m_key.has_value();
+		}
+		else if (parameterName == "cipher")
+		{
+			return m_cipher.has_value();
 		}
 		else
 		{
@@ -38,6 +44,10 @@ namespace systelab { namespace db { namespace sqlite {
 		else if (parameterName == "key" && m_key.has_value())
 		{
 			return *m_key;
+		}
+		else if (parameterName == "cipher" && m_cipher.has_value())
+		{
+			return *m_cipher;
 		}
 		else
 		{

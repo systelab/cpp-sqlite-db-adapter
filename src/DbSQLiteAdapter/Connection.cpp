@@ -26,6 +26,28 @@ namespace systelab { namespace db { namespace sqlite {
 			throw SQLiteException("Unable to open database file '" + filepath + "'", extendedMessage, openStatusCode, extendedErrorCode);
 		}
 
+		if (configuration.hasParameter("cipher"))
+		{
+			auto cipherName = configuration.getParameter("cipher");
+
+			// https://utelle.github.io/SQLite3MultipleCiphers/docs/configuration/config_capi/#description-of-configuration-functions
+			// Allowed cypher names: chacha20(default), aes128cbc, aes256cbc, sqlcipher, rc4, ascon128
+			int cipherIndex = sqlite3mc_cipher_index(cipherName.c_str());
+			if (cipherIndex == -1)
+			{
+				sqlite3_close(database);
+				throw SQLiteException("Invalid cipher '" + cipherName + "'", "", -1, -1);
+			}
+
+			// The return value always is the current parameter value on success, or -1 on failure.
+			int configCipherStatusCode = sqlite3mc_config(database, "cipher", cipherIndex);
+			if (configCipherStatusCode != cipherIndex)
+			{
+				sqlite3_close(database);
+				throw SQLiteException("Unable to configure cipher '" + cipherName + "'", sqlite3_errmsg(database), configCipherStatusCode, sqlite3_extended_errcode(database));
+			}
+		}
+
 		if (configuration.hasParameter("key"))
 		{
 			std::string key = configuration.getParameter("key");
