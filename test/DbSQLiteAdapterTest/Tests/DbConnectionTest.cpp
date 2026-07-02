@@ -99,6 +99,14 @@ namespace systelab { namespace db { namespace sqlite { namespace unit_test {
 		ASSERT_NO_THROW(connection.loadDatabase(configuration));
 	}
 
+	// Happy path with encryption and not default cipher
+	TEST_F(DbConnectionTest, testLoadDatabaseForHappyPathWithCipherCreatesDBFile)
+	{
+		systelab::db::sqlite::ConnectionConfiguration configuration(m_dbFilePath.string(), "MyEncryptionKey"s, "ascon128"s);
+		systelab::db::sqlite::Connection connection;
+		auto database = connection.loadDatabase(configuration);
+		ASSERT_TRUE(std::filesystem::exists(m_dbFilePath));
+	}
 
 	// Error cases
 #ifdef _WIN32
@@ -126,6 +134,13 @@ namespace systelab { namespace db { namespace sqlite { namespace unit_test {
 		std::string invalidEncryptionKey = "InvalidEncryptionKey";
 		systelab::db::sqlite::ConnectionConfiguration invalidConfiguration(dbFilepath, invalidEncryptionKey);
 		ASSERT_THROW(connection.loadDatabase(invalidConfiguration), systelab::db::IConnection::Exception);
+	}
+
+	TEST_F(DbConnectionTest, testLoadDatabaseWithInvalidCypherNameThrowsException)
+	{
+		systelab::db::sqlite::ConnectionConfiguration invalidCypherNameConfiguration(m_dbFilePath.string(), "MyEncryptionKey", "NotExistentCypherName");
+		systelab::db::sqlite::Connection connection;
+		ASSERT_THROW(connection.loadDatabase(invalidCypherNameConfiguration), systelab::db::IConnection::Exception);
 	}
 
 }}}}

@@ -14,7 +14,7 @@ class DbSQLiteAdapterConan(ConanFile):
 
 	def requirements(self):
 		self.requires("DbAdapterInterface/2.1.0@systelab/stable")
-		self.requires("sqleet/3.31.1-1@systelab/stable")
+		self.requires("sqlite3mc/2.3.0@systelab/testing")
 
 		self.requires("gtest/1.14.0#4372c5aed2b4018ed9f9da3e218d18b3", private=True)
 		self.requires("DbAdapterTestUtilities/2.1.0@systelab/stable", private=True)
@@ -23,7 +23,10 @@ class DbSQLiteAdapterConan(ConanFile):
 		cmake = CMake(self)
 		cmake.configure(source_folder=".")
 		cmake.build()
-
+		
+	def imports(self):
+		self.copy("sqlite3mc.dll", dst=f"bin/{self.settings.build_type}", src="bin", root_package="sqlite3mc")
+       
 	def package(self):
 		self.copy("*.h", dst="include/DbSQLiteAdapter", src="src/DbSQLiteAdapter")
 		self.copy("*DbSQLiteAdapter.lib", dst="lib", keep_path=False)

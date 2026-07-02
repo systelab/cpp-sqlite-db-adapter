@@ -6,8 +6,11 @@
 #include "RecordSet.h"
 #include "TableRecordSet.h"
 
+#include <algorithm>
+#include <cstring> 
 #include <iostream>
-#include <sqleet/sqleet.h>
+
+#include "sqlite3mc/sqlite3mc.h"
 
 
 namespace systelab { namespace db { namespace sqlite {
@@ -20,6 +23,7 @@ namespace systelab { namespace db { namespace sqlite {
 	Database::~Database()
 	{
 		sqlite3_close(m_database);
+		sqlite3_shutdown();
 	}
 
 	Database::Lock::Lock(Database& db)

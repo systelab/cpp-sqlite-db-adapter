@@ -4,10 +4,10 @@
 #include "DbSQLiteAdapter/ConnectionConfiguration.h"
 #include "DbSQLiteAdapter/DateTimeHelper.h"
 
-#include <DbAdapterInterface/IConnection.h>
-#include <DbAdapterTestUtilities/Mocks/MockConnection.h>
-#include <DbAdapterTestUtilities/Mocks/MockDatabase.h>
-#include <DbAdapterTestUtilities/Mocks/MockTable.h>
+#include "DbAdapterInterface/IConnection.h"
+#include "DbAdapterTestUtilities/Mocks/MockConnection.h"
+#include "DbAdapterTestUtilities/Mocks/MockDatabase.h"
+#include "DbAdapterTestUtilities/Mocks/MockTable.h"
 
 namespace systelab { namespace db { namespace sqlite { namespace unit_test {
 
@@ -70,8 +70,8 @@ namespace systelab { namespace db { namespace sqlite { namespace unit_test {
 					<< i 
 					<< ", " << i%7 
 					<< ", " << i%10 
-					<< ", \"STR" << i%9 << "\""
-					<< ", \"STR" << i%12 << "\""
+					<< ", 'STR" << i%9 << "'"
+					<< ", 'STR" << i%12 << "'"
 					<< ", '" << strDate << "'"
 					<< ")";
 				m_db->executeOperation(oss.str());

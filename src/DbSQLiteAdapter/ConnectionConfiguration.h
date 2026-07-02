@@ -11,7 +11,8 @@ namespace systelab { namespace db { namespace sqlite {
 	{
 	public:
 		explicit ConnectionConfiguration(const std::string& filepath,
-								const std::optional<std::string>& key = std::nullopt);
+								const std::optional<std::string>& key = std::nullopt,
+								const std::optional<std::string>& cipher = std::nullopt);
 		~ConnectionConfiguration();
 
 		bool hasParameter(const std::string& name) const override;
@@ -20,6 +21,7 @@ namespace systelab { namespace db { namespace sqlite {
 	private:
 		std::string m_filepath;
 		std::optional<std::string> m_key;
+		std::optional<std::string> m_cipher;
 	};
 
 }}}

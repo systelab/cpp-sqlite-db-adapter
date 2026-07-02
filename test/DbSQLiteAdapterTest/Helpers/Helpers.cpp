@@ -76,7 +76,7 @@ namespace systelab { namespace db { namespace sqlite { namespace unit_test {
 			oss << "INSERT INTO "+tableName_t1+" (ID, FIELD_INT, FIELD_STR) VALUES (" 
 				<< i 
 				<< ", " << i%4 
-				<< ", \"STR" << i%9 << "\""
+				<< ", 'STR" << i%9 << "'"
 				<< ")";
 			db.executeOperation(oss.str());
 		}
@@ -89,7 +89,7 @@ namespace systelab { namespace db { namespace sqlite { namespace unit_test {
 				<< i 
 				<< ", " << i%4 
 				<< ", " << i%20
-				<< ", \"STR" << i%9 << "\""
+				<< ", 'STR" << i%9 << "'"
 				<< ")";
 			db.executeOperation(oss.str());
 		}
