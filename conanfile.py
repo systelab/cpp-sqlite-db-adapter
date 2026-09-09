@@ -15,7 +15,7 @@ class DbSQLiteAdapterConan(ConanFile):
 
 	def requirements(self):
 		self.requires("DbAdapterInterface/2.1.0@systelab/stable")
-		self.requires("sqlite3mc/2.3.0")
+		self.requires("sqlite3mc/2.3.0#953aed02c6bec0953c04918e24a99299")
 
 		self.requires("gtest/1.14.0#4372c5aed2b4018ed9f9da3e218d18b3", private=True)
 		self.requires("DbAdapterTestUtilities/2.1.0@systelab/stable", private=True)
