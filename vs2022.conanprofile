@@ -1,6 +1,12 @@
 [settings]
 os=Windows
-os_build=Windows
-compiler=Visual Studio
-compiler.version=17
-compiler.toolset=v143
+arch=x86
+compiler=msvc
+compiler.version=194
+compiler.cppstd=20
+compiler.runtime=dynamic
+
+[options]
+sqlite3mc/*:build_shell=True
+sqlite3mc/*:shared=False
+sqlite3mc/*:use_sqleet_legacy=True
