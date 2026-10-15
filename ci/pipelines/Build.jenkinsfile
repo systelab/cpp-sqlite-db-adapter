@@ -15,7 +15,7 @@ pipeline
 
 	environment
 	{
-		PATH = "C:\\Users\\jenkins\\.venvs\\conan2\\Scripts;${env.PATH}"
+		PATH = "${env.USERPROFILE}\\.venvs\\conan2\\Scripts;${env.PATH}"
 	}
 
 	parameters
