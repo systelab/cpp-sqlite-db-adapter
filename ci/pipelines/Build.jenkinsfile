@@ -22,7 +22,8 @@ pipeline
 	{
 		string(	name: 'version',
 				description: 'Number of the version to build (must match the name of the tag that will be checked out), leave as 0.0.0 for checkout of current branch',
-				defaultValue: '0.0.0' )
+				defaultValue: '',
+				trim: true )
 
 		booleanParam( name: 'uploadPackage',
 					  description: 'Whether or not to upload conan package',
@@ -45,14 +46,14 @@ pipeline
 				deleteDir()
 				script 
 				{
-					if (params.version == '0.0.0')
+					if (params.version == '')
 					{
-						checkoutSourceCode()
+						checkoutFromGIT()
 					}
 					else
 					{
-						checkoutSourceCodeFromTag(version)
 						version = params.version
+						checkoutFromGIT(scm.userRemoteConfigs[0].url, "v${version}", true)
 					}
 				}
 			}
