@@ -20,5 +20,6 @@ include_directories(${CMAKE_SOURCE_DIR}/src)
 include_directories(${CMAKE_SOURCE_DIR}/test)
 
 # Add subprojects
+enable_testing()
 add_subdirectory(${CMAKE_SOURCE_DIR}/src/DbSQLiteAdapter)
 add_subdirectory(${CMAKE_SOURCE_DIR}/test/DbSQLiteAdapterTest)
