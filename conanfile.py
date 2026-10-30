@@ -17,12 +17,12 @@ class DbSQLiteAdapterConan(ConanFile):
 	exports_sources = "*", "!build*", "!*.yml", "!*.md", "!*.in", "!ci", "!.gitattributes", "!.gitignore", "!LICENSE"
 
 	def requirements(self):
-		self.requires("db-adapter-interface/2.1.0")
+		self.requires("db-adapter-interface/2.1.1")
 		self.requires("sqlite3mc/2.3.0")
 
 	def build_requirements(self):
 		self.test_requires("gtest/1.14.0")
-		self.test_requires("db-adapter-test-utilities/2.1.0")
+		self.test_requires("db-adapter-test-utilities/2.1.1")
 
 	def generate(self):
 		deps = CMakeDeps(self)
