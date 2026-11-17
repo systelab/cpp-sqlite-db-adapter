@@ -18,7 +18,7 @@ class DbSQLiteAdapterConan(ConanFile):
 	exports_sources = "*", "!build*", "!*.yml", "!*.md", "!*.in", "!ci", "!.gitattributes", "!.gitignore", "!LICENSE"
 
 	def requirements(self):
-		self.requires("db-adapter-interface/2.1.1, transitive_headers=True")
+		self.requires("db-adapter-interface/2.1.1", transitive_headers=True)
 		self.requires("sqlite3mc/2.3.2")
 
 	def build_requirements(self):
