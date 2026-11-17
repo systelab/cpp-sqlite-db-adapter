@@ -1,7 +1,12 @@
 enable_testing()
 
 # Find external dependencides
-find_package(DbAdapterTestUtilities)
+set(DB_ADAPTER_TEST_UTILITIES_PACKAGE_NAME DbAdapterTestUtilities)
+find_package(${DB_ADAPTER_TEST_UTILITIES_PACKAGE_NAME} QUIET)
+if (NOT TARGET ${DB_ADAPTER_TEST_UTILITIES_PACKAGE_NAME}::${DB_ADAPTER_TEST_UTILITIES_PACKAGE_NAME})
+    set(DB_ADAPTER_TEST_UTILITIES_PACKAGE_NAME db-adapter-test-utilities)
+    find_package(${DB_ADAPTER_TEST_UTILITIES_PACKAGE_NAME})
+endif()
 
 set(GTEST_PACKAGE_NAME gtest)
 find_package(${GTEST_PACKAGE_NAME})
@@ -23,7 +28,7 @@ file(GLOB_RECURSE DB_SQLITE_ADAPTER_TEST_PROJECT_HDR "*.h")
 add_executable(${DB_SQLITE_ADAPTER_TEST_PROJECT} ${DB_SQLITE_ADAPTER_TEST_PROJECT_SRC} ${DB_SQLITE_ADAPTER_TEST_PROJECT_HDR})
 target_link_libraries(${DB_SQLITE_ADAPTER_TEST_PROJECT}
 					  DbSQLiteAdapter
-					  DbAdapterTestUtilities::DbAdapterTestUtilities
+					  ${DB_ADAPTER_TEST_UTILITIES_PACKAGE_NAME}::${DB_ADAPTER_TEST_UTILITIES_PACKAGE_NAME}
 					  ${GTEST_PACKAGE_NAME}::${GTEST_PACKAGE_NAME})
 
 #Configure source groups
