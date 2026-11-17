@@ -13,7 +13,7 @@ class DbSQLiteAdapterConan(ConanFile):
 	author = "CSW <csw@werfen.com>"
 	topics = ("conan", "db", "sql", "sqlite", "adapter")
 	license = "MIT"
-	package_type = "static_library"
+	package_type = "static-library"
 	settings = "os", "compiler", "build_type", "arch"
 	exports_sources = "*", "!build*", "!*.yml", "!*.md", "!*.in", "!ci", "!.gitattributes", "!.gitignore", "!LICENSE"
 
