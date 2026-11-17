@@ -7,6 +7,4 @@ compiler.cppstd=20
 compiler.runtime=dynamic
 
 [options]
-sqlite3mc/*:build_shell=True
-sqlite3mc/*:shared=False
 sqlite3mc/*:use_sqleet_legacy=True
