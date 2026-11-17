@@ -13,12 +13,13 @@ class DbSQLiteAdapterConan(ConanFile):
 	author = "CSW <csw@werfen.com>"
 	topics = ("conan", "db", "sql", "sqlite", "adapter")
 	license = "MIT"
+	package_type = "static_library"
 	settings = "os", "compiler", "build_type", "arch"
 	exports_sources = "*", "!build*", "!*.yml", "!*.md", "!*.in", "!ci", "!.gitattributes", "!.gitignore", "!LICENSE"
 
 	def requirements(self):
-		self.requires("db-adapter-interface/2.1.1")
-		self.requires("sqlite3mc/2.3.0")
+		self.requires("db-adapter-interface/2.1.1, transitive_headers=True")
+		self.requires("sqlite3mc/2.3.2")
 
 	def build_requirements(self):
 		self.test_requires("gtest/1.14.0")
